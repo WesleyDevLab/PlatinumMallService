@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/PlatinumMall</property>
+        <property name="hibernate.connection.username">root</property>
+        <property name="hibernate.connection.password"></property>
+        <property name="hibernate.show_sql">true</property>
+
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+
+
+        <property name="hbm2ddl.auto">update</property>
+
+        <mapping class="Plat.Hibernate.Entities.Address"/>
+        <mapping class="Plat.Hibernate.Entities.Address"/>
+        <mapping class="Plat.Hibernate.Entities.Admins" />
+        <mapping class="Plat.Hibernate.Entities.Brand" />
+        <mapping class="Plat.Hibernate.Entities.Cart" />
+        <mapping class="Plat.Hibernate.Entities.Categories" />
+        <mapping class="Plat.Hibernate.Entities.Guests" />
+        <mapping class="Plat.Hibernate.Entities.ItemHits" />
+        <mapping class="Plat.Hibernate.Entities.Items" />
+        <mapping class="Plat.Hibernate.Entities.OrderItem" />
+        <mapping class="Plat.Hibernate.Entities.Orders" />
+        <mapping class="Plat.Hibernate.Entities.Photos" />
+        <mapping class="Plat.Hibernate.Entities.Privileges" />
+        <mapping class="Plat.Hibernate.Entities.Specifications" />
+        <mapping class="Plat.Hibernate.Entities.Store" />
+        <mapping class="Plat.Hibernate.Entities.Users" />
+        <mapping class="Plat.Hibernate.Entities.WishList" />
+
+    </session-factory>
+</hibernate-configuration>
