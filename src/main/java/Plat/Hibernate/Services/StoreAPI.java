@@ -18,7 +18,7 @@ public class StoreAPI {
     DataBaseManager manager = DataBaseManager.getInstance();
 
     @GET
-    public List<Store> getAllItems() {
+    public List<Store> getAllStores() {
         List<Store> result = new ArrayList<>();
         List<DataBaseObject> stores = manager.find(null, Store.class);
         if (stores != null && stores.size() > 0) {
@@ -33,7 +33,7 @@ public class StoreAPI {
 
     @GET
     @Path("/{storeId}")
-    public Store getItemById(@PathParam("storeId") int id) {
+    public Store getStoreById(@PathParam("storeId") int id) {
         RuleObject rule = new RuleObject("id", HibernateUtil.EQUAL, id);
         List<DataBaseObject> objects = manager.find(rule, Store.class);
         if (objects != null && objects.size() > 0) {
