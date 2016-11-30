@@ -43,6 +43,17 @@ public class UsersAPI {
         return null;
     }
 
+    @GET
+    @Path("/{email}/{userPassword}")
+    public String loginUser(@PathParam("email") String email, @PathParam("userPassword") String password) {
+        List<RuleObject> rules = new ArrayList<>();
+        rules.add(new RuleObject("email", HibernateUtil.EQUAL, email));
+        rules.add(new RuleObject("password", HibernateUtil.EQUAL, password));
+        List<DataBaseObject> objects = manager.findAll(rules, Users.class);
+        if (objects == null || objects.size() == 0) return "-1";
+        Users user = (Users) objects.get(0);
+        return user.getId() + "";
+    }
 
     @POST
     @Path("/{email}")
