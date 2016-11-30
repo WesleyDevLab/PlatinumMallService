@@ -1,0 +1,307 @@
+#body{
+	width:100%;
+	background:white;
+	font-family:Arial; 
+	display:-webkit-box; display:-moz-box;
+	-webkit-box-orient:vertical;
+  -moz-box-orient:vertical;
+  -webkit-box-flex:1; -moz-box-flex:1;
+  border-bottom:2px solid lightgray;
+}
+
+#top_title_bar{
+   border-bottom:2px solid rgb(77, 77, 77);
+   text-align:center;
+   width:100%;
+   background:rgb(235, 235, 224);
+   font-size:25px; font-weight:bold;
+   color:rgb(77, 77, 77);
+   padding:15px 0px 15px 0px;
+   margin-bottom:30px;
+}
+
+#customer_request_box{
+	display:-webkit-box; display:-moz-box;
+	-webkit-box-orient:vertical;
+  -moz-box-orient:vertical;
+  -webkit-box-flex:1; -moz-box-flex:1;
+  margin:5px 2px 5px 2px;
+   box-shadow:0px 0px 5px 1px rgb(230, 230, 230); 
+}
+
+#customer_request_box_top_bar{
+   background:rgb(242, 242, 242);
+   color:rgb(77, 77, 77);
+   border:1px solid lightgray;
+   text-align:center;
+   padding:10px 0px 10px 0px;
+   font-size:18px;
+   box-shadow:inset 0px 0px 10px 1px rgb(230, 230, 230);
+   cursor:pointer;
+}
+
+#crcb_bottom_section{
+	padding:5px;
+	display:none;
+	-webkit-box-orient:vertical;
+  -moz-box-orient:vertical;
+  -webkit-box-flex:1; -moz-box-flex:1;
+   border-bottom:1px solid lightgray;
+    border-left:1px solid lightgray;
+     border-right:1px solid lightgray;
+}
+
+#customer_data_table{
+	width:100%;
+	border:1px solid lightgray;
+	margin:5px 0px 10px 0px;
+	font-size:18px;
+	color:rgb(77, 77, 77);
+}
+
+
+#customer_data_table tr:nth-child(1) th{
+	text-align: center;
+    font-weight:bolder;
+    border-bottom:1px solid lightgray;
+    padding:10px 0px 10px 0px;
+    background:rgb(230, 230, 230);
+}
+#customer_data_table tr:nth-child(2) th{
+	text-align: center;
+	font-size:17px;
+    border:1px solid lightgray;
+    padding:10px 0px 10px 0px;
+}
+
+#customer_data_table tr td{
+	padding:10px 2px 10px 2px;
+	 border:1px solid lightgray;
+	 text-align: center;
+}
+
+#customer_data_table tr:nth-child(odd){
+	background:	rgb(248, 248, 248);
+}
+
+#cutsomer_requested_items_table_bottom{
+	
+}
+
+#critb_top_bar{
+	background:rgb(242, 242, 242);
+   color:rgb(77, 77, 77);
+   text-align:center;
+   padding:10px 0px 10px 0px;
+   font-size:18px;
+   box-shadow:inset 0px 0px 10px 1px rgb(230, 230, 230);
+   cursor:pointer;
+   border:1px solid lightgray;
+}
+
+#requested_items_table_container{
+	display:none;
+}
+
+#requested_items_table{
+	width:100%;
+	font-size:18px;
+	color:rgb(77, 77, 77);
+}
+
+#requested_items_table tr th{
+	font-size:17px;
+	padding:8px 0px 8px 0px;
+	border:1px solid lightgray;
+	color:rgb(77, 77, 77);
+}
+
+#requested_items_table tr td{
+	font-size:17px;
+	border:1px solid lightgray;
+	text-align:center;
+	padding:10px;
+}
+
+#requested_items_table tr td img{
+	height:100px;
+	width:150px;
+}
+
+#requested_items_table tr:nth-child(even){
+	background:	rgb(248, 248, 248);
+}
+
+
+#requested_items_table tr td i{
+	font-size:28px;
+	cursor:pointer;
+}
+
+#requested_items_table tr td #confirm{
+	color:rgb(128, 255, 128);
+}
+
+#requested_items_table tr td #refuse{
+	color:rgb(255, 77, 77);
+}
+
+
+/*
+#item_request_box{
+  display:block;
+  padding:20px;
+  background:rgb(235, 235, 224);
+  display:-webkit-box; display:-moz-box;
+  -webkit-box-orient:vertical;
+  -moz-box-orient:vertical;
+  -webkit-box-flex:1; -moz-box-flex:1;
+}
+
+
+#table_box{
+   
+   border-collapse:collapse;
+}
+#table_box:hover{
+	cursor: pointer;
+}
+
+#table_box td{
+   padding:12px 20px;
+   font-size:15pt;
+   border:1.8px solid rgb(214, 214, 194);
+   border-bottom:none;
+} 
+
+#table_box tr{
+   background:rgb(204, 255, 204);
+   border-top-left-radius: 5px;
+   transition: background 0.8s;
+}
+
+#table_box tr:hover{
+	background:rgb(179, 255, 179);
+}
+
+
+#Content_Box{
+	border-top:1.8px solid rgb(214, 214, 194);
+	padding:0px 8px 8px 8px;
+	background:white;
+	border-bottom-right-radius:5px;
+	border-bottom-left-radius:5px;
+	display:-webkit-box; display:-moz-box;
+  -webkit-box-orient:vertical;
+  -moz-box-orient:vertical;
+  -webkit-box-flex:1; -moz-box-flex:1;
+}
+
+#Content_Box #top_bar{
+	height:5px;
+    width:650px;
+	background:rgb(153, 255, 153);
+	border-bottom-right-radius:5px;
+	border-bottom-left-radius:5px;
+
+}
+
+#Customer_Request_Box_Background{
+	 background:rgb(204, 255, 204);
+	 position:relative;
+	 right:7.9px;
+	 width:100.8%;
+	 height:225px;
+	 margin-bottom:30px;
+	 border-top:1.8px solid rgb(214, 214, 194);
+	 border-bottom:1.8px solid rgb(214, 214, 194);
+	 padding:5px;
+	 transition: background 0.8s;
+}
+
+#Customer_Request_Box_Background:hover{
+	background:rgb(179, 255, 179);
+}
+
+#Customer_Request_inner_Box{
+	height:215px; width:90%;
+	background:white;
+	position:relative;
+    left:35px; top:4.7px;
+    border-radius:4px;
+    transition:box-shadow 0.8s;
+}
+
+#Customer_Request_inner_Box:hover{
+	box-shadow:0px 0px 7px 2px rgb(224, 224, 209);
+}
+
+#Customer_Request_inner_Box img{
+	border:rgb(179, 255, 179) 2px solid;
+	width:170px;height:160px;
+	position:relative;
+	top:5px; left:15px;
+	border-radius:3px;
+}
+
+#img_bottom_table{
+  font-size:15pt;
+  position:relative;
+  left:15px; top:3px;
+  text-align:center;
+}
+
+#img_bottom_table tr #Quantity{
+	border-radius:200px;
+    background:rgb(204, 255, 204);
+    height:35px; width:35px;
+}
+
+#img_bottom_table tr #item_name{
+	padding-right:15px;
+}
+
+#Customer_Request_inner_Box #request_date{
+	font-size:15pt;
+	padding:5px;
+	position:relative;
+	right: 20px;
+	bottom:201.4px;
+	float:right;
+	border:1.8px solid rgb(204, 255, 204);
+	border-right:none;
+	border-top-left-radius:5px;
+	border-bottom-left-radius:5px;
+	transition: color 0.5s , background 0.5s;
+}
+#Customer_Request_inner_Box #request_date:hover{
+    
+}
+
+
+#Customer_Request_inner_Box i{
+	display:inline-block;
+	height:40px; width:100px;
+	text-align: center;
+	font-size:36px;
+	border-radius:3px;
+	position:relative;
+	bottom:42px; left:180px;
+	transition: background 0.8s;
+}
+
+#Customer_Request_inner_Box #confirm{
+	float:right;
+	color:rgb(128, 255, 128);
+}
+
+#Customer_Request_inner_Box #refuse{
+	float:right;
+	color:rgb(255, 77, 77);
+}
+
+#Customer_Request_inner_Box #confirm:hover , #Customer_Request_inner_Box #refuse:hover{
+    background:rgb(204, 255, 204);
+    cursor: pointer;
+}
+*/

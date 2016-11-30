@@ -1,0 +1,212 @@
+@font-face {
+    font-family: f;
+    src: url(../fonts/MYRIAATI.ttf);
+}
+#adder{
+
+}
+#adder p{
+position: relative;
+  	font-size: 85%;
+    letter-spacing: 1px;
+    color: #bbb;
+    font-size: 16px;
+    font-family: "Lucida Grande", Verdana, Helvetica, Arial, sans-serif;
+    font-weight: 110;	
+    color: rgb(35,39,45);
+    margin-left: 30px;
+}
+#paragraph_box{
+	border:1px solid rgba(0,0,0,0.1);
+	margin: 15px;
+	margin-left: 0px;
+	border-left: 0px;
+	border-right: 0px;
+	height: 45px;
+	padding: 4px;
+	width:calc(100% - 7px);
+	padding-bottom: 10px;
+	background-color: rgba(140,140,140,0.2);
+	margin-bottom: 50px;
+}
+#paragraph_box:hover{
+-webkit-box-shadow: inset 14px -28px 37px -48px rgba(0,0,0,0.75);
+-moz-box-shadow: inset 14px -28px 37px -48px rgba(0,0,0,0.75);
+box-shadow: inset 14px -28px 37px -48px rgba(0,0,0,0.75);
+}
+#image_token{
+	width:280px;
+	height: 200px;
+	display: inline;
+	margin-top:50px;
+	border:1px solid rgba(0,0,0,0.5);
+	border-radius: 5px;
+}
+#image_token:hover{
+border:1px solid rgba(0,0,0,1);
+}
+#token{
+	margin:20px;
+	display: inline;
+	text-align: center;
+	position: relative;
+	background-color: rgba(255,255,255,0.5);
+}
+#token:hover{
+background-color: rgba(255,255,255,1);
+}
+#upload{
+	position: relative;
+	float: right;
+	margin-right: 15px;
+	margin-top: 100px;
+	background-color: rgb(244,244,244);
+}
+#delete{
+	visibility: hidden;
+	position:absolute;
+  	left:50%;
+  	bottom:20%;
+  	transform: translateX(-50%);
+  	-webkit-transform: translateX(-50%);
+    transition: box-shadow 1s;
+}
+#token:hover #delete{
+	visibility: visible;
+	width:279px;
+	height: 200px;
+	background-color: rgba(255,255,255,0.5);
+	-webkit-box-shadow: 2px -1px 44px 0px rgba(235,221,235,1);
+	-moz-box-shadow: 2px -1px 44px 0px rgba(235,221,235,1);
+	box-shadow: 2px -1px 44px 0px rgba(235,221,235,1);
+}
+#delete img{
+	cursor: pointer;
+	width:50px;
+	margin-top:70px;
+}
+#upload img{
+	background-color: rgb(244,244,244);
+	width: 50px;
+
+}
+#upload img:hover{
+	cursor: pointer;
+	border:1px solid green;
+	border-radius: 50px;
+}
+#upload_box{
+	display: none;
+	position: absolute;
+	border:1px solid black;
+	width:500px;
+	height: 100px;
+	left:20%;
+	top:0px;
+	z-index: 1001;
+	background-color:white;
+}
+#window {
+position: absolute;
+top:0px;
+left: 0%;
+color: #3d464d; 
+display: none;
+z-index: 1001;
+}
+#top_div {
+            background: white;
+            width: 38em;
+            height: 2em;
+            border-bottom: 1px solid lightgray;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+            padding: 20px 32px;
+}
+
+#top_div #title {
+font-size: 23px;
+}
+
+        #bottom_div {
+            background: white;
+            width: 38em;
+            height: 9em;
+            background: #e6ffe6;
+            border-bottom-left-radius: 5px;
+            border-bottom-right-radius: 5px;
+            padding: 32px;
+            padding-bottom: 45px;
+        }
+
+        #line {
+            font-size: 9pt;
+            float: left;
+            position: relative;
+            top: 14px;
+        }
+
+            #line a {
+                color: #33cc33;
+                text-decoration: none;
+            }
+
+                #line a:hover {
+                    text-decoration: underline;
+                }
+
+        .myLabel {
+            position: relative;
+            background-color: #5cd65c;
+            float: left;
+            left: 12em;
+            height: 1.4em;
+            width: 12em;
+            padding: 10px 15px;
+            padding-bottom: 15px;
+            text-align: center;
+            color: white;
+            border-radius: 5px;
+            
+        }
+
+            .myLabel:hover {
+                background-color: #47d147;
+                
+            }
+
+            .myLabel span {
+                font-size: 14pt;
+                
+            }
+
+            .myLabel  input[type="file"] {
+                position: absolute;
+                left: 0em;
+                top: 2pt;
+                z-index: 2;
+                opacity: 0;
+                height: 2.5em;
+                width: 14em;
+                color:red;
+            }
+
+        input[type="submit"] {
+            left: 12em;
+            position: relative;
+            height: 2.5em;
+            width: 7em;
+            color: #3d464d;
+            padding: 8px 15px;
+            text-align: center;
+            border: none;
+            border-radius: 4px;
+            background: white;
+            font-size: 13pt;
+            border: 1px solid lightgray;
+            cursor: pointer;
+        }
+input{
+cursor: pointer;
+ }
+
