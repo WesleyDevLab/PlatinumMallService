@@ -145,7 +145,7 @@ public class Users implements DataBaseObject {
         this.activate = activate;
     }
 
-    @Column(name="date",length = 45,nullable = false)
+    @Column(name="date",length = 100,nullable = false)
     @Basic
     public String getDate() {
         return date;

@@ -50,19 +50,11 @@ public class CategoriesAPI {
     @GET
     @Path("/{storeId}/{categoryId}")
     public Categories getCategoryByIdAndStoreId(@PathParam("storeId") int storeId, @PathParam("categoryId") int catId) {
-        RuleObject rule = new RuleObject("id", HibernateUtil.EQUAL, storeId);
-        List<DataBaseObject> objects = manager.find(rule, Store.class);
-        if (objects != null && objects.size() > 0) {
-            objects = EntityCleaner.clean(objects, Store.class);
-            Store store = (Store) objects.get(0);
-            Iterator it = store.getCategories().iterator();
-            while (it.hasNext()) {
-                Categories node = (Categories) it.next();
-                if (node.getId() == catId)
-                    return node;
-            }
-
-        }
+        List<Categories> allCategories =getAllCategories();
+        if(allCategories==null || allCategories.size()==0)return null;
+        for(int i=0;i<allCategories.size();i++)
+            if(allCategories.get(i).getId()==catId && allCategories.get(i).getStore().getId()==storeId)
+                return allCategories.get(i);
         return null;
     }
 

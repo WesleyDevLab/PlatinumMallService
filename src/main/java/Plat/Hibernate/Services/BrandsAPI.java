@@ -1,12 +1,13 @@
 package Plat.Hibernate.Services;
 
 import Plat.Hibernate.Entities.Brand;
+import Plat.Hibernate.Entities.Categories;
+import Plat.Hibernate.Entities.Store;
 import Plat.Hibernate.Util.*;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by MontaserQasem on 11/22/16.
@@ -57,6 +58,30 @@ public class BrandsAPI {
             }
         }
         return brands;
+    }
+
+    @POST
+    @Path("/{operation}/{storeId}")
+    public List<Brand> getBrandsByOperation(@PathParam("operation") String operation, @PathParam("storeId") int storeId) {
+        if (operation.equalsIgnoreCase("getBrandsBystoreId")) {
+            List<Brand> result = new ArrayList<>();
+            Set<Brand> resultSet = new HashSet<>();
+            CategoriesAPI categoriesAPI = new CategoriesAPI();
+            Iterator catIt = categoriesAPI.getAllCategories().iterator();
+            while (catIt.hasNext()) {
+                Categories category = (Categories) catIt.next();
+                if (category.getStore().getId() == storeId) {
+                    if (category.getBrands() != null) {
+                        Iterator brandIt = category.getBrands().iterator();
+                        while (brandIt.hasNext())
+                            resultSet.add(((Brand) brandIt.next()));
+                    }
+                }
+            }
+            result.addAll(resultSet);
+            return result;
+        }
+        return null;
     }
 
     @POST
