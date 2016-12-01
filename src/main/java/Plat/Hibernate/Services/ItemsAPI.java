@@ -2,6 +2,7 @@ package Plat.Hibernate.Services;
 
 import Plat.Hibernate.Entities.Categories;
 import Plat.Hibernate.Entities.Items;
+import Plat.Hibernate.Entities.Specifications;
 import Plat.Hibernate.Entities.Store;
 import Plat.Hibernate.Util.*;
 
@@ -70,16 +71,23 @@ public class ItemsAPI {
             object = EntityCleaner.clean(object, Store.class);
             Store store = (Store) object.get(0);
             List<Items> result = new ArrayList<>();
-            Iterator catIt = store.getCategories().iterator();
-            if (catIt != null) {
-                while (catIt.hasNext()) {
-                    Categories category = (Categories) catIt.next();
-                    Iterator itemIt = category.getItems().iterator();
-                    while (itemIt.hasNext())
-                        result.add(((Items) itemIt.next()));
-
+            if (store.getCategories() != null) {
+                Iterator catIt = store.getCategories().iterator();
+                if (catIt != null) {
+                    while (catIt.hasNext()) {
+                        Categories category = (Categories) catIt.next();
+                        Iterator itemIt = category.getItems().iterator();
+                        while (itemIt.hasNext())
+                            result.add(((Items) itemIt.next()));
+                    }
                 }
             }
+            Collections.sort(result, new Comparator<Items>() {
+                @Override
+                public int compare(Items o1, Items o2) {
+                    return (int) (o2.getId() - o1.getId());
+                }
+            });
             return result;
         }
         return null;

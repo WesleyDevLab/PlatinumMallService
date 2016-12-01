@@ -57,7 +57,7 @@ public class UsersAPI {
 
     @POST
     @Path("/{email}")
-    public List<Users> getUsersByName(@PathParam("email") String email) {
+    public List<Users> getUsersByEmail(@PathParam("email") String email) {
         RuleObject rule = new RuleObject("email", HibernateUtil.LIKE, email);
         List<DataBaseObject> objects = manager.find(rule, Users.class);
         List<Users> result = new ArrayList<>();
