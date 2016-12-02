@@ -52,6 +52,43 @@ public class PhotosAPI {
         return result;
     }
 
+    @POST
+    public String getPhotoNextValue() {
+        List<Photos> photos = getAllPhotos();
+        int maxi = -1;
+        if (photos != null) {
+            for (int i = 0; i < photos.size(); i++) {
+                Photos photo = photos.get(i);
+                String value = photo.getPath(), newValue = "";
+                for (int j = 0; j < value.length(); j++) {
+                    if (value.charAt(j) == '.') break;
+                    else newValue += value.charAt(j);
+                }
+                int s = Integer.parseInt(newValue);
+                maxi = s > maxi ? s : maxi;
+            }
+        }
+        maxi++;
+        return maxi + "";
+    }
+
+    @POST
+    @Path("/{itemId}/{photoPath}")
+    public String addNewItemPhoto(@PathParam("itemId") int itemId, @PathParam("photoPath") String photoPath) {
+        Photos photo = new Photos();
+        photo.setPath(photoPath);
+        photo.setPrimary(false);
+        RuleObject rule = new RuleObject("id", HibernateUtil.EQUAL, itemId);
+        List<DataBaseObject> object = manager.find(rule, Items.class);
+        if (object == null || object.size() == 0) return "There's a problem with the item id";
+        object = EntityCleaner.clean(object, Items.class);
+        Items item = (Items) object.get(0);
+        item.getPhotos().add(photo);
+        photo.setItem(item);
+        manager.merge(photo);
+        return "1";
+    }
+
     @PUT
     @Path("/{itemId}/{photoId}")
     public String makePhotoPrimary(@PathParam("itemId") int itemId, @PathParam("photoId") int photoId) {

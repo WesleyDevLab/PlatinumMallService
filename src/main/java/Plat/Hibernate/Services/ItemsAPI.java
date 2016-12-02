@@ -330,7 +330,7 @@ public class ItemsAPI {
     @Consumes(MediaType.APPLICATION_JSON)
     public String addItem(Items item) {
         manager.merge(item);
-        return "Item (" + item.getName() + ") has been added";
+        return "1";
     }
 
     @PUT
