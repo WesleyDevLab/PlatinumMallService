@@ -36,17 +36,11 @@ public class WishListAPI {
     @GET
     @Path("/{userId}")
     public List<WishList> getWishListByUserId(@PathParam("userId") int id) {
-        RuleObject rule = new RuleObject("id", HibernateUtil.EQUAL, id);
-        List<DataBaseObject> object = manager.find(rule, Users.class);
         List<WishList> result = new ArrayList<>();
-        if (object != null && object.size() > 0) {
-            object = EntityCleaner.clean(object, Users.class);
-            Iterator it = ((Users) object.get(0)).getWishLists().iterator();
-            while (it.hasNext()) {
-                WishList node = (WishList) it.next();
-                result.add(node);
-            }
-        }
+        List<WishList> allWishLists = getAllWishLists();
+        for (int i = 0; i < allWishLists.size(); i++)
+            if(allWishLists.get(i).getUser().getId()==id)
+                result.add(allWishLists.get(i));
         return result;
     }
 
@@ -62,7 +56,7 @@ public class WishListAPI {
     public String deleteWishListById(@PathParam("wishListId") int id) {
         RuleObject rule = new RuleObject("id", HibernateUtil.EQUAL, id);
         List<DataBaseObject> objects = manager.find(rule, WishList.class);
-        if (objects == null || objects.size()==0) return "There's a problem with the wishList id";
+        if (objects == null || objects.size() == 0) return "There's a problem with the wishList id";
         WishList wishList = (WishList) objects.get(0);
         manager.delete(wishList);
         return "WishList record deleted";
