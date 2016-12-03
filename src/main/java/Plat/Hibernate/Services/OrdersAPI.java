@@ -44,6 +44,21 @@ public class OrdersAPI {
     }
 
     @POST
+    @Path("/{userId}")
+    public List<Orders> getOrdersByUserId(@PathParam("userId") int userId) {
+        List<Orders> result = new ArrayList<>();
+        List<Orders> objects = getAllOrders();
+        for (int i = 0; i < objects.size(); i++) {
+            Orders order = objects.get(i);
+            if (order.getUser() != null) {
+                if (order.getUser().getId() == userId)
+                    result.add(order);
+            }
+        }
+        return result;
+    }
+
+    @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public String addOrder(Orders order) {
         manager.merge(order);
