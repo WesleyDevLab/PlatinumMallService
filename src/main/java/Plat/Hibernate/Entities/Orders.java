@@ -19,6 +19,7 @@ public class Orders implements DataBaseObject {
     private String additionalNote;
     private double total;
     private boolean deviceInput;
+    private String deliveryDate;
     private Users user;
     private Set<OrderItem> orderItems = null;
 
@@ -86,7 +87,7 @@ public class Orders implements DataBaseObject {
         this.total = total;
     }
 
-    @Column(name = "device_input",nullable = false)
+    @Column(name = "device_input", nullable = false)
     @Basic
     public boolean isDeviceInput() {
         return deviceInput;
@@ -96,6 +97,15 @@ public class Orders implements DataBaseObject {
         this.deviceInput = deviceInput;
     }
 
+    @Column(name = "delivery_date", nullable = false)
+    @Basic
+    public String getDeliveryDate() {
+        return deliveryDate;
+    }
+
+    public void setDeliveryDate(String deliveryDate) {
+        this.deliveryDate = deliveryDate;
+    }
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     public Set<OrderItem> getOrderItems() {

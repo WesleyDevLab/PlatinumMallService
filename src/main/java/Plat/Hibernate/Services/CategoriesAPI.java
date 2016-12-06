@@ -6,9 +6,7 @@ import Plat.Hibernate.Util.*;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by MontaserQasem on 11/20/16.
@@ -27,6 +25,12 @@ public class CategoriesAPI {
             Categories category = (Categories) objects.get(i);
             categories.add(category);
         }
+        Collections.sort(categories, new Comparator<Categories>() {
+            @Override
+            public int compare(Categories o1, Categories o2) {
+                return o1.getId()-o2.getId();
+            }
+        });
         return categories;
     }
 
@@ -44,18 +48,34 @@ public class CategoriesAPI {
             while (it.hasNext())
                 result.add(((Categories) it.next()));
         }
+        Collections.sort(result, new Comparator<Categories>() {
+            @Override
+            public int compare(Categories o1, Categories o2) {
+                return o1.getId()-o2.getId();
+            }
+        });
         return result;
     }
 
     @GET
     @Path("/{storeId}/{categoryId}")
     public Categories getCategoryByIdAndStoreId(@PathParam("storeId") int storeId, @PathParam("categoryId") int catId) {
-        List<Categories> allCategories =getAllCategories();
-        if(allCategories==null || allCategories.size()==0)return null;
-        for(int i=0;i<allCategories.size();i++)
-            if(allCategories.get(i).getId()==catId && allCategories.get(i).getStore().getId()==storeId)
+        List<Categories> allCategories = getAllCategories();
+        if (allCategories == null || allCategories.size() == 0) return null;
+        for (int i = 0; i < allCategories.size(); i++)
+            if (allCategories.get(i).getId() == catId && allCategories.get(i).getStore().getId() == storeId)
                 return allCategories.get(i);
         return null;
+    }
+
+    @POST
+    @Path("/{catId}")
+    public Categories getCategoryById(@PathParam("catId") int catId) {
+        RuleObject rule = new RuleObject("id", HibernateUtil.EQUAL, catId);
+        List<DataBaseObject> objects = manager.find(rule, Categories.class);
+        if (objects == null || objects.size() == 0) return null;
+        objects = EntityCleaner.clean(objects, Categories.class);
+        return ((Categories) objects.get(0));
     }
 
     @POST

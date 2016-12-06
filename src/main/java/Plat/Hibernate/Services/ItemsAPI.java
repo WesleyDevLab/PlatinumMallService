@@ -45,6 +45,21 @@ public class ItemsAPI {
         return null;
     }
 
+    @GET
+    @Path("/{storeId}/{itemName}")
+    public List<Items> getItemsByNameAndStoreId(@PathParam("storeId") int storeId, @PathParam("itemName") String name) {
+        List<Items> items = getItemsByName(name);
+        List<Items> result = new ArrayList<>();
+        for (int i = 0; i < items.size(); i++) {
+            RuleObject rule = new RuleObject("id", HibernateUtil.EQUAL, items.get(i).getCategory().getId());
+            List<DataBaseObject> object = manager.find(rule, Categories.class);
+            Categories category = (Categories) object.get(0);
+            if (category.getStore().getId() == storeId)
+                result.add(items.get(i));
+        }
+        return result;
+    }
+
     @POST
     @Path("/{itemName}")
     public List<Items> getItemsByName(@PathParam("itemName") String name) {
@@ -65,22 +80,15 @@ public class ItemsAPI {
     @Path("/{operation}/{storeId}")
     public List<Items> getItemsByStoreId(@PathParam("operation") String operation, @PathParam("storeId") int storeId) {
         if (operation.equalsIgnoreCase("getitemsbystoreid")) {
-            RuleObject rule = new RuleObject("id", HibernateUtil.EQUAL, storeId);
-            List<DataBaseObject> object = manager.find(rule, Store.class);
-            if (object == null || object.size() == 0) return null;
-            object = EntityCleaner.clean(object, Store.class);
-            Store store = (Store) object.get(0);
             List<Items> result = new ArrayList<>();
-            if (store.getCategories() != null) {
-                Iterator catIt = store.getCategories().iterator();
-                if (catIt != null) {
-                    while (catIt.hasNext()) {
-                        Categories category = (Categories) catIt.next();
-                        Iterator itemIt = category.getItems().iterator();
-                        while (itemIt.hasNext())
-                            result.add(((Items) itemIt.next()));
-                    }
-                }
+            List<Items> objects = getAllItems();
+            for(int i = 0;i<objects.size();i++){
+                RuleObject rule = new RuleObject("id",HibernateUtil.EQUAL,objects.get(i).getCategory().getId());
+                List<DataBaseObject> plainObject = manager.find(rule,Categories.class);
+                plainObject = EntityCleaner.clean(plainObject,Categories.class);
+                Categories category = (Categories) plainObject.get(0);
+                if(category.getStore().getId()==storeId)
+                    result.add(objects.get(i));
             }
             Collections.sort(result, new Comparator<Items>() {
                 @Override
