@@ -2,8 +2,11 @@ package Plat.Hibernate.Entities;
 
 import Plat.Hibernate.Util.DataBaseObject;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,7 +15,7 @@ import java.util.Set;
  */
 @Entity(name = "orders")
 public class Orders implements DataBaseObject {
-    private int id;
+    private long id;
     private String description;
     private int status;
     private int payment;
@@ -25,16 +28,16 @@ public class Orders implements DataBaseObject {
 
     public Orders() {
         orderItems = new HashSet<OrderItem>();
+        id =  Calendar.getInstance().getTimeInMillis();
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setId(long id) {
+        this.id =id;
     }
 
     @Column(name = "description", length = 300, nullable = true)

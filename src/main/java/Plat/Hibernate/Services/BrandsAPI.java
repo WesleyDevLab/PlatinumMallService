@@ -79,8 +79,15 @@ public class BrandsAPI {
                 }
             }
             result.addAll(resultSet);
+            Collections.sort(result, new Comparator<Brand>() {
+                @Override
+                public int compare(Brand o1, Brand o2) {
+                    return o1.getId() - o2.getId();
+                }
+            });
             return result;
         }
+
         return null;
     }
 

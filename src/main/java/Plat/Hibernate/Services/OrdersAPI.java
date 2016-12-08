@@ -1,12 +1,14 @@
 package Plat.Hibernate.Services;
 
-import Plat.Hibernate.Entities.Orders;
+import Plat.Hibernate.Entities.*;
 import Plat.Hibernate.Util.*;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by MontaserQasem on 11/23/16.
@@ -41,6 +43,45 @@ public class OrdersAPI {
             return order;
         }
         return null;
+    }
+
+    @GET
+    @Path("/{operation}/{storeId}")
+    public List<Orders> getOrdersByOperation(@PathParam("operation") String operation, @PathParam("storeId") int storeId) {
+        if (operation.equalsIgnoreCase("getordersbystoreid")) {
+            List<Orders> orders = getAllOrders();
+            List<Orders> result = new ArrayList<>();
+            for (int i = 0; i < orders.size(); i++) {
+                Set<OrderItem> orderItems = orders.get(i).getOrderItems();
+                Iterator it = orderItems.iterator();
+                boolean flag = false;
+                while (it.hasNext()) {
+                    OrderItem orderitem = (OrderItem) it.next();
+                    int itemId = orderitem.getItem().getId();
+                    if (getItemsStoreId(itemId) == storeId) {
+                        flag = true;
+                        break;
+                    }
+                }
+                if (flag)
+                    result.add(orders.get(i));
+            }
+            return result;
+        }
+        return null;
+    }
+
+    public  int getItemsStoreId(int itemId) {
+        RuleObject rule = new RuleObject("id", HibernateUtil.EQUAL, itemId);
+        List<DataBaseObject> object = manager.find(rule, Items.class);
+        if (object == null || object.size() == 0) return -1;
+        Items item = (Items) object.get(0);
+        int catId = item.getCategory().getId();
+        RuleObject rule2 = new RuleObject("id", HibernateUtil.EQUAL, catId);
+        List<DataBaseObject> object2 = manager.find(rule2, Categories.class);
+        if (object2 == null || object2.size() == 0) return -1;
+        Categories category = (Categories) object2.get(0);
+        return category.getStore().getId();
     }
 
     @POST

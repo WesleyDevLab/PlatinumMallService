@@ -200,33 +200,39 @@ public class EntityCleaner {
     }
 
     private static Brand cleanBrand(Brand brand) {
-        Iterator it = brand.getCategories().iterator();
-        if (it != null) {
-            Set<Categories> newCat = new HashSet<>();
-            while (it.hasNext()) {
-                Categories category = (Categories) it.next();
-                category.setStore(null);
-                category.setBrands(null);
-                newCat.add(category);
+        Iterator it =null;
+        if(brand.getCategories()!=null) {
+             it = brand.getCategories().iterator();
+            if (it != null) {
+                Set<Categories> newCat = new HashSet<>();
+                while (it.hasNext()) {
+                    Categories category = (Categories) it.next();
+                    category.setStore(null);
+                    category.setBrands(null);
+                    category.setItems(null);
+                    newCat.add(category);
+                }
+                brand.setCategories(newCat);
             }
-            brand.setCategories(newCat);
         }
-        it = brand.getItems().iterator();
-        if (it != null) {
-            Set<Items> newItems = new HashSet<>();
-            while (it.hasNext()) {
-                Items node = (Items) it.next();
-                node.setBrand(null);
-                node.setPhotos(null);
-                node.setOrderedItems(null);
-                node.setSpecifications(null);
-                node.setItemHitses(null);
-                node.setWishLists(null);
-                node.setCart(null);
-                node.setCategory(null);
-                newItems.add(node);
+        if(brand.getItems()!=null) {
+            it = brand.getItems().iterator();
+            if (it != null) {
+                Set<Items> newItems = new HashSet<>();
+                while (it.hasNext()) {
+                    Items node = (Items) it.next();
+                    node.setBrand(null);
+                    node.setPhotos(null);
+                    node.setOrderedItems(null);
+                    node.setSpecifications(null);
+                    node.setItemHitses(null);
+                    node.setWishLists(null);
+                    node.setCart(null);
+                    node.setCategory(null);
+                    newItems.add(node);
+                }
+                brand.setItems(newItems);
             }
-            brand.setItems(newItems);
         }
         return brand;
     }
@@ -454,7 +460,21 @@ public class EntityCleaner {
             Set<OrderItem> newOrderItem = new HashSet<>();
             while (it.hasNext()) {
                 OrderItem node = (OrderItem) it.next();
-                node.setItem(null);
+                Items item =node.getItem();
+                item.setBrand(null);
+                item.setCart(null);
+                item.setCategory(null);
+                item.setDescription(null);
+                item.setDiscount(0);
+                item.setItemHitses(null);
+                item.setOrderedItems(null);
+                item.setPhotos(null);
+                item.setPrice(0);
+                item.setSpecifications(null);
+                item.setWishLists(null);
+                item.setQuantity(0);
+
+                node.setItem(item);
                 node.setOrder(null);
                 newOrderItem.add(node);
             }
