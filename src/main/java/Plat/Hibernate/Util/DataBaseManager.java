@@ -51,6 +51,7 @@ public class DataBaseManager {
         configuration.addAnnotatedClass(Guests.class);
         configuration.addAnnotatedClass(ItemHits.class);
         configuration.addAnnotatedClass(Specifications.class);
+        configuration.addAnnotatedClass(Log.class);
         configuration.configure();
 
         ServiceRegistry factory = new StandardServiceRegistryBuilder()

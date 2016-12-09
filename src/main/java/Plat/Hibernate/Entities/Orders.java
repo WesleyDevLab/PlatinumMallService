@@ -1,9 +1,6 @@
 package Plat.Hibernate.Entities;
 
 import Plat.Hibernate.Util.DataBaseObject;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 import java.util.Calendar;
 import java.util.Date;
@@ -25,7 +22,7 @@ public class Orders implements DataBaseObject {
     private String deliveryDate;
     private Users user;
     private Set<OrderItem> orderItems = null;
-
+    private Log log;
     public Orders() {
         orderItems = new HashSet<OrderItem>();
         id =  Calendar.getInstance().getTimeInMillis();
@@ -72,11 +69,11 @@ public class Orders implements DataBaseObject {
 
     @Column(name = "additionalNote", nullable = true, length = 45)
     @Basic
-    public String getAditionalNote() {
+    public String getAdditionalNote() {
         return additionalNote;
     }
 
-    public void setAditionalNote(String aditionalNote) {
+    public void setAdditionalNote(String aditionalNote) {
         this.additionalNote = aditionalNote;
     }
 
@@ -128,5 +125,14 @@ public class Orders implements DataBaseObject {
 
     public void setUser(Users user) {
         this.user = user;
+    }
+
+    @OneToOne(mappedBy = "order",cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
+    public Log getLog() {
+        return log;
+    }
+
+    public void setLog(Log log) {
+        this.log = log;
     }
 }

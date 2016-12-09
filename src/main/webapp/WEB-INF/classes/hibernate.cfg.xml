@@ -32,6 +32,7 @@
         <mapping class="Plat.Hibernate.Entities.Store" />
         <mapping class="Plat.Hibernate.Entities.Users" />
         <mapping class="Plat.Hibernate.Entities.WishList" />
+        <mapping class="Plat.Hibernate.Entities.Log" />
 
     </session-factory>
 </hibernate-configuration>

@@ -31,7 +31,7 @@ public class Privileges implements DataBaseObject {
         this.id = id;
     }
 
-    @Column(name="name")
+    @Column(name="name",length = 50)
     @Basic
     public String getName() {
         return name;

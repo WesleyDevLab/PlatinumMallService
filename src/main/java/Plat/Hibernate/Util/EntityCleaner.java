@@ -115,6 +115,12 @@ public class EntityCleaner {
                 result.add(cleanWishList(wishList));
             }
         }
+        if (cls == Log.class) {
+            for (int i = 0; i < objects.size(); i++) {
+                Log log = (Log) objects.get(i);
+                result.add(cleanLogs(log));
+            }
+        }
 
         return result;
     }
@@ -165,6 +171,7 @@ public class EntityCleaner {
                 Admins node = (Admins) it.next();
                 node.setPrivilege(null);
                 node.setStore(null);
+                node.setLogs(null);
                 newAdmins.add(node);
             }
             store.setAdmins(newAdmins);
@@ -196,13 +203,14 @@ public class EntityCleaner {
             store.setCategories(null);
             admin.setStore(store);
         }
+        admin.setLogs(null);
         return admin;
     }
 
     private static Brand cleanBrand(Brand brand) {
-        Iterator it =null;
-        if(brand.getCategories()!=null) {
-             it = brand.getCategories().iterator();
+        Iterator it = null;
+        if (brand.getCategories() != null) {
+            it = brand.getCategories().iterator();
             if (it != null) {
                 Set<Categories> newCat = new HashSet<>();
                 while (it.hasNext()) {
@@ -215,7 +223,7 @@ public class EntityCleaner {
                 brand.setCategories(newCat);
             }
         }
-        if(brand.getItems()!=null) {
+        if (brand.getItems() != null) {
             it = brand.getItems().iterator();
             if (it != null) {
                 Set<Items> newItems = new HashSet<>();
@@ -284,6 +292,7 @@ public class EntityCleaner {
                 Admins node = (Admins) it.next();
                 node.setPrivilege(null);
                 node.setStore(null);
+                node.setLogs(null);
                 newadmins.add(node);
             }
             privilege.setAdmins(newadmins);
@@ -449,6 +458,7 @@ public class EntityCleaner {
         if (order != null) {
             order.setOrderItems(null);
             order.setUser(null);
+            order.setLog(null);
             orderItem.setOrder(order);
         }
         return orderItem;
@@ -460,7 +470,7 @@ public class EntityCleaner {
             Set<OrderItem> newOrderItem = new HashSet<>();
             while (it.hasNext()) {
                 OrderItem node = (OrderItem) it.next();
-                Items item =node.getItem();
+                Items item = node.getItem();
                 item.setBrand(null);
                 item.setCart(null);
                 item.setCategory(null);
@@ -487,6 +497,7 @@ public class EntityCleaner {
             user.setOrders(null);
         }
         order.setUser(user);
+        order.setLog(null);
         return order;
     }
 
@@ -553,6 +564,7 @@ public class EntityCleaner {
                 Orders node = (Orders) it.next();
                 node.setOrderItems(null);
                 node.setUser(null);
+                node.setLog(null);
                 newOrder.add(node);
             }
             user.setOrders(newOrder);
@@ -579,5 +591,54 @@ public class EntityCleaner {
         wishList.setUser(user);
 
         return wishList;
+    }
+
+    private static Log cleanLogs(Log log) {
+        if (log.getAdmin() != null) {
+            Admins admin = log.getAdmin();
+            admin.setPrivilege(null);
+            admin.setLogs(null);
+            Store store = admin.getStore();
+            store.setAddresses(null);
+            store.setAdmins(null);
+            store.setCategories(null);
+            admin.setStore(store);
+            admin.setLogs(null);
+            log.setAdmin(admin);
+        }
+        if (log.getOrder() != null) {
+            Orders order = log.getOrder();
+            Users user = order.getUser();
+            user.setCart(null);
+            user.setOrders(null);
+            user.setWishLists(null);
+
+            order.setUser(user);
+            Iterator it = order.getOrderItems().iterator();
+            Set<OrderItem> newOrderItems = new HashSet<>();
+            while (it.hasNext()) {
+                OrderItem orderItem = (OrderItem) it.next();
+
+                orderItem.setOrder(null);
+
+                Items item = orderItem.getItem();
+
+                item.setWishLists(null);
+                item.setCart(null);
+                item.setSpecifications(null);
+                item.setPhotos(null);
+                item.setBrand(null);
+                item.setCategory(null);
+                item.setItemHitses(null);
+                item.setOrderedItems(null);
+
+                orderItem.setItem(item);
+                newOrderItems.add(orderItem);
+            }
+            order.setLog(null);
+            order.setOrderItems(newOrderItems);
+            log.setOrder(order);
+        }
+        return log;
     }
 }

@@ -181,4 +181,5 @@ public class Users implements DataBaseObject {
     public void setWishLists(Set<WishList> wishLists) {
         this.wishLists = wishLists;
     }
+
 }

@@ -9,6 +9,6 @@ import Plat.Hibernate.Util.DataBaseManager;
 public class Main {
     public static void main(String args[]) {
         DataBaseManager manager = DataBaseManager.getInstance();
-        manager.find(null, Store.class);
+
     }
 }

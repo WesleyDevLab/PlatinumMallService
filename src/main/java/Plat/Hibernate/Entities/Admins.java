@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by MontaserQasem on 11/12/16.
@@ -21,9 +23,11 @@ public class Admins implements DataBaseObject {
     private String contactNumber;
     private Store store;
     private Privileges privilege;
+    private Set<Log> logs;
 
-
-    public Admins(){}
+    public Admins(){
+        logs =  new HashSet<>();
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -113,5 +117,14 @@ public class Admins implements DataBaseObject {
 
     public void setPrivilege(Privileges privilege) {
         this.privilege = privilege;
+    }
+
+    @OneToMany(mappedBy = "admin",cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
+    public Set<Log> getLogs() {
+        return logs;
+    }
+
+    public void setLogs(Set<Log> logs) {
+        this.logs = logs;
     }
 }

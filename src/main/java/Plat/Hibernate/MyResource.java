@@ -18,7 +18,6 @@ public class MyResource {
     @Produces(MediaType.TEXT_PLAIN)
     public String getIt() {
         DataBaseManager manager = DataBaseManager.getInstance();
-        manager.find(null,Store.class);
         return "Got it!";
     }
 }

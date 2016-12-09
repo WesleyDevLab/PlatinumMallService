@@ -104,8 +104,12 @@ public class OrdersAPI {
     }
 
     @POST
+    @Path("/{email}/{password}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public String addOrder(Orders order) {
+    public String addOrder(Orders order, @PathParam("email") String email, @PathParam("password") String password) {
+        UsersAPI usersAPI = new UsersAPI();
+        if (usersAPI.loginUser(email, password) == "-1")
+            return "Passoword or Email is incorrect";
         manager.merge(order);
         return "Added";
     }
@@ -126,15 +130,28 @@ public class OrdersAPI {
         Orders order = (Orders) object.get(0);
         if (operation.equalsIgnoreCase("accept")) {
             order.setStatus(3);
+            order.setDeliveryDate(Calendar.getInstance().getTimeInMillis() + "");
             manager.update(order);
+            migrateOrderToLog(order, adminId);
             return "Request Accepted";
         }
         if (operation.equalsIgnoreCase("reject")) {
             order.setStatus(2);
             manager.update(order);
+            migrateOrderToLog(order, adminId);
             return "Request Rejected";
         }
         return null;
+    }
+
+    public void migrateOrderToLog(Orders order, int adminId) {
+        Log log = new Log();
+        log.setOrder(order);
+        RuleObject rule = new RuleObject("id", HibernateUtil.EQUAL, adminId);
+        List<DataBaseObject> object = manager.find(rule, Admins.class);
+        Admins admin = (Admins) object.get(0);
+        log.setAdmin(admin);
+        manager.merge(log);
     }
 
     @DELETE
