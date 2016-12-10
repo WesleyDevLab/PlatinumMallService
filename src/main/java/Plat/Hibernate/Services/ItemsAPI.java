@@ -82,12 +82,12 @@ public class ItemsAPI {
         if (operation.equalsIgnoreCase("getitemsbystoreid")) {
             List<Items> result = new ArrayList<>();
             List<Items> objects = getAllItems();
-            for(int i = 0;i<objects.size();i++){
-                RuleObject rule = new RuleObject("id",HibernateUtil.EQUAL,objects.get(i).getCategory().getId());
-                List<DataBaseObject> plainObject = manager.find(rule,Categories.class);
-                plainObject = EntityCleaner.clean(plainObject,Categories.class);
+            for (int i = 0; i < objects.size(); i++) {
+                RuleObject rule = new RuleObject("id", HibernateUtil.EQUAL, objects.get(i).getCategory().getId());
+                List<DataBaseObject> plainObject = manager.find(rule, Categories.class);
+                plainObject = EntityCleaner.clean(plainObject, Categories.class);
                 Categories category = (Categories) plainObject.get(0);
-                if(category.getStore().getId()==storeId)
+                if (category.getStore().getId() == storeId)
                     result.add(objects.get(i));
             }
             Collections.sort(result, new Comparator<Items>() {
@@ -96,6 +96,21 @@ public class ItemsAPI {
                     return (int) (o2.getId() - o1.getId());
                 }
             });
+            return result;
+        }
+        if (operation.equalsIgnoreCase("getmostwantedtenitemsbystoreid")) {
+            List<Items> objects = getAllItems();
+            Collections.sort(objects, new Comparator<Items>() {
+                @Override
+                public int compare(Items o1, Items o2) {
+                    return o2.getItemHitses().size() - o1.getItemHitses().size();
+                }
+            });
+            OrdersAPI ordersAPI = new OrdersAPI();
+            List<Items> result = new ArrayList<>();
+            for (int i = 0; i < (objects.size() < 10 ? objects.size() : 10); i++)
+                if (ordersAPI.getItemsStoreId(objects.get(i).getId()) == storeId)
+                    result.add(objects.get(i));
             return result;
         }
         return null;
