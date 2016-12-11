@@ -203,7 +203,7 @@ public class ItemsAPI {
                         return (int) (o1.getPrice() - o2.getPrice());
                     }
                 });
-        } else if (sortValue.equalsIgnoreCase("asc"))
+        } else
             Collections.sort(result, new Comparator<Items>() {
                 @Override
                 public int compare(Items o1, Items o2) {
@@ -211,7 +211,7 @@ public class ItemsAPI {
                 }
             });
         List<Items> cut = new ArrayList<>();
-        for (int i = itemsView.getOffset(); i < result.size(); i++)
+        for (int i = itemsView.getOffset(); i < (result.size() < 10 ? result.size() : 10); i++)
             cut.add(result.get(i));
 
         return cut;

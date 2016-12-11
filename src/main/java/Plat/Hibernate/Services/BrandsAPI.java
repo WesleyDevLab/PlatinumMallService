@@ -64,27 +64,21 @@ public class BrandsAPI {
     @Path("/{operation}/{storeId}")
     public List<Brand> getBrandsByOperation(@PathParam("operation") String operation, @PathParam("storeId") int storeId) {
         if (operation.equalsIgnoreCase("getBrandsBystoreId")) {
+            List<Brand> objects = getAllBrands();
             List<Brand> result = new ArrayList<>();
-            Set<Brand> resultSet = new HashSet<>();
             CategoriesAPI categoriesAPI = new CategoriesAPI();
-            Iterator catIt = categoriesAPI.getAllCategories().iterator();
-            while (catIt.hasNext()) {
-                Categories category = (Categories) catIt.next();
-                if (category.getStore().getId() == storeId) {
-                    if (category.getBrands() != null) {
-                        Iterator brandIt = category.getBrands().iterator();
-                        while (brandIt.hasNext())
-                            resultSet.add(((Brand) brandIt.next()));
-                    }
+            for (int i = 0; i < objects.size(); i++) {
+                Iterator it = objects.get(i).getCategories().iterator();
+                boolean flag = false;
+                while (it.hasNext()) {
+                    Categories category = (Categories) it.next();
+                    category = categoriesAPI.getCategoryById(category.getId());
+                    if (category.getStore().getId() == storeId)
+                        flag = true;
                 }
+                if (!flag) continue;
+                result.add(objects.get(i));
             }
-            result.addAll(resultSet);
-            Collections.sort(result, new Comparator<Brand>() {
-                @Override
-                public int compare(Brand o1, Brand o2) {
-                    return o1.getId() - o2.getId();
-                }
-            });
             return result;
         }
 
