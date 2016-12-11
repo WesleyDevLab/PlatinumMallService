@@ -101,7 +101,6 @@ public class AdminsAPI {
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     public String updateAdmin(Admins admin) {
-        System.out.println(admin.getPrivilege().getName());
         manager.update(admin);
         return "Admin information has been updated successfully";
     }
