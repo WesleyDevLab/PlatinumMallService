@@ -109,7 +109,7 @@ public class Admins implements DataBaseObject {
         this.store = store;
     }
 
-    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
     @JoinColumn(name="privilege_id")
     public Privileges getPrivilege() {
         return privilege;

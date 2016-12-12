@@ -37,16 +37,11 @@ public class AdminsAPI {
     @GET
     @Path("/{storeId}")
     public List<Admins> getAdminsByStoreId(@PathParam("storeId") int storeId) {
-        RuleObject rule = new RuleObject("id", HibernateUtil.EQUAL, storeId);
-        List<DataBaseObject> objects = manager.find(rule, Store.class);
-        objects = EntityCleaner.clean(objects, Store.class);
-        List<Admins> result = new ArrayList<>();
-        if (objects != null && objects.size() > 0) {
-            Store store = (Store) objects.get(0);
-            Set<Admins> setAdmins = store.getAdmins();
-            Iterator it = setAdmins.iterator();
-            while (it.hasNext())
-                result.add(((Admins) it.next()));
+       List<Admins> result = new ArrayList<>();
+       List<Admins> object = getAllAdmins();
+        for(int i=0;i<object.size();i++){
+            if(object.get(i).getStore().getId()!=storeId)continue;
+            result.add(object.get(i));
         }
         return result;
     }
