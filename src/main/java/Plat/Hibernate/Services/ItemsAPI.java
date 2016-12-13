@@ -211,7 +211,7 @@ public class ItemsAPI {
                 }
             });
         List<Items> cut = new ArrayList<>();
-        for (int i = itemsView.getOffset(); i < (result.size() < 10 ? result.size() : 10); i++)
+        for (int i = itemsView.getOffset(); i < ((result.size() - itemsView.getOffset()) > 10 ? 10 : result.size()); i++)
             cut.add(result.get(i));
 
         return cut;
@@ -239,6 +239,42 @@ public class ItemsAPI {
         List<DataBaseObject> object = manager.find(rule, Items.class);
         if (object == null || object.size() == 0) return "There's a problem with the item id";
         Items item = (Items) object.get(0);
+        List<DataBaseObject> objects = manager.find(null, Specifications.class);
+        List<DataBaseObject> target = new ArrayList<>();
+        for (int i = 0; i < objects.size(); i++)
+            if (((Specifications) objects.get(i)).getItem().getId() == itemId)
+                target.add(objects.get(i));
+        manager.deleteList(target);
+        objects = manager.find(null, Photos.class);
+        List<DataBaseObject> photoTarget = new ArrayList<>();
+        for (int i = 0; i < objects.size(); i++)
+            if (((Photos) objects.get(i)).getItem().getId() == itemId)
+                photoTarget.add(objects.get(i));
+        manager.deleteList(photoTarget);
+        objects = manager.find(null, Cart.class);
+        List<DataBaseObject> cartTarget = new ArrayList<>();
+        for (int i = 0; i < objects.size(); i++)
+            if (((Cart) objects.get(i)).getItem().getId() == itemId)
+                cartTarget.add(objects.get(i));
+        objects = manager.find(null, WishList.class);
+        List<DataBaseObject> wishlistTarget = new ArrayList<>();
+        for (int i = 0; i < objects.size(); i++)
+            if (((WishList) objects.get(i)).getItem().getId() == itemId)
+                wishlistTarget.add(objects.get(i));
+        manager.deleteList(wishlistTarget);
+        objects = manager.find(null, OrderItem.class);
+        List<DataBaseObject> orderItemsTarget = new ArrayList<>();
+        for (int i = 0; i < objects.size(); i++)
+            if (((OrderItem) objects.get(i)).getItem().getId() == itemId)
+                orderItemsTarget.add(objects.get(i));
+        manager.deleteList(orderItemsTarget);
+        objects = manager.find(null,ItemHits.class);
+        List<DataBaseObject> itemHitsTarget = new ArrayList<>();
+        for(int i=0;i<objects.size();i++)
+            if (((ItemHits) objects.get(i)).getItem().getId() == itemId)
+                itemHitsTarget.add(objects.get(i));
+        manager.deleteList(itemHitsTarget);
+
         manager.delete(item);
         return "item (" + item.getName() + ") deleted";
     }

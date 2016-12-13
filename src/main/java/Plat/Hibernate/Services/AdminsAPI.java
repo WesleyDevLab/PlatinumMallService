@@ -1,6 +1,7 @@
 package Plat.Hibernate.Services;
 
 import Plat.Hibernate.Entities.Admins;
+import Plat.Hibernate.Entities.Log;
 import Plat.Hibernate.Entities.Store;
 import Plat.Hibernate.Util.*;
 
@@ -37,10 +38,10 @@ public class AdminsAPI {
     @GET
     @Path("/{storeId}")
     public List<Admins> getAdminsByStoreId(@PathParam("storeId") int storeId) {
-       List<Admins> result = new ArrayList<>();
-       List<Admins> object = getAllAdmins();
-        for(int i=0;i<object.size();i++){
-            if(object.get(i).getStore().getId()!=storeId)continue;
+        List<Admins> result = new ArrayList<>();
+        List<Admins> object = getAllAdmins();
+        for (int i = 0; i < object.size(); i++) {
+            if (object.get(i).getStore().getId() != storeId) continue;
             result.add(object.get(i));
         }
         return result;
@@ -70,7 +71,7 @@ public class AdminsAPI {
         for (int i = 0; i < admins.size(); i++) {
             Admins admin = (Admins) admins.get(i);
             if (admin.getUsername().equals(userName) && admin.getPassword().equals(password))
-                return "1&"+admin.getId();
+                return "1&" + admin.getId();
         }
         return "0";
     }
@@ -107,6 +108,16 @@ public class AdminsAPI {
         List<DataBaseObject> result = manager.find(rule, Admins.class);
         if (result == null || result.size() == 0)
             return "Admin record  is not exist to delete";
+        List<DataBaseObject> objects = manager.find(null, Log.class);
+        if (objects != null && objects.size() > 0) {
+            List<DataBaseObject> rubbish = new ArrayList<>();
+            for (int i = 0; i < objects.size(); i++) {
+                Log log = (Log) objects.get(i);
+                if (log.getAdmin().getId() == id)
+                    rubbish.add(log);
+            }
+            manager.deleteList(rubbish);
+        }
 
         manager.delete(result.get(0));
         return "admin record deleted";
