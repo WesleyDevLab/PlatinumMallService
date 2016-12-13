@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="30b21543-d130-4f4d-9791-dc50337eb504" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/AdminsAPI.java" afterPath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/AdminsAPI.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/ItemsAPI.java" afterPath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/ItemsAPI.java" />
     </list>
     <ignored path="PLatinumAPI.iws" />
@@ -29,8 +28,8 @@
       <file leaf-file-name="ItemsAPI.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/ItemsAPI.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="541">
-              <caret line="277" column="29" selection-start-line="277" selection-start-column="29" selection-end-line="277" selection-end-column="29" />
+            <state relative-caret-position="406">
+              <caret line="268" column="44" selection-start-line="268" selection-start-column="44" selection-end-line="268" selection-end-column="44" />
               <folding>
                 <element signature="method#getItemsByStoreId#0;class#ItemsAPI#0" expanded="false" />
               </folding>
@@ -1075,12 +1074,12 @@
       <workItem from="1480995087700" duration="8709000" />
       <workItem from="1481176083023" duration="48252000" />
       <workItem from="1481465901344" duration="162000" />
-      <workItem from="1481471502095" duration="14603000" />
+      <workItem from="1481471502095" duration="15228000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="117327000" />
+    <option name="totallyTimeSpent" value="117952000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1280" y="23" width="1680" height="1027" extended-state="0" />
@@ -1466,7 +1465,7 @@
         <state relative-caret-position="210">
           <caret line="14" column="34" selection-start-line="14" selection-start-column="34" selection-end-line="14" selection-end-column="34" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1548,8 +1547,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/ItemsAPI.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="541">
-          <caret line="277" column="29" selection-start-line="277" selection-start-column="29" selection-end-line="277" selection-end-column="29" />
+        <state relative-caret-position="406">
+          <caret line="268" column="44" selection-start-line="268" selection-start-column="44" selection-end-line="268" selection-end-column="44" />
           <folding>
             <element signature="method#getItemsByStoreId#0;class#ItemsAPI#0" expanded="false" />
           </folding>

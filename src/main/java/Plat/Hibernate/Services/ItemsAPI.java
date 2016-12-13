@@ -268,9 +268,9 @@ public class ItemsAPI {
             if (((OrderItem) objects.get(i)).getItem().getId() == itemId)
                 orderItemsTarget.add(objects.get(i));
         manager.deleteList(orderItemsTarget);
-        objects = manager.find(null,ItemHits.class);
+        objects = manager.find(null, ItemHits.class);
         List<DataBaseObject> itemHitsTarget = new ArrayList<>();
-        for(int i=0;i<objects.size();i++)
+        for (int i = 0; i < objects.size(); i++)
             if (((ItemHits) objects.get(i)).getItem().getId() == itemId)
                 itemHitsTarget.add(objects.get(i));
         manager.deleteList(itemHitsTarget);
