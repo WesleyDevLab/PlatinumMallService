@@ -45,6 +45,17 @@ public class CartAPI {
     }
 
     @POST
+    @Path("/{cartId}/{quantity}")
+    public String updateCartQuantity(@PathParam("cartId") int id, @PathParam("quantity") String quantity) {
+        RuleObject rule = new RuleObject("id", HibernateUtil.EQUAL, id);
+        List<DataBaseObject> object = manager.find(rule, Cart.class);
+        Cart cart = (Cart) object.get(0);
+        cart.setQuantity(Integer.parseInt(quantity));
+        manager.update(cart);
+        return "Cart updated";
+    }
+
+    @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public String addCartRecord(Cart cart) {
         manager.merge(cart);

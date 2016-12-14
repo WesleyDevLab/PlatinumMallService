@@ -6,6 +6,8 @@ import Plat.Hibernate.Util.*;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -27,20 +29,23 @@ public class GuestAPI {
                 guests.add(node);
             }
         }
+        Collections.sort(guests, new Comparator<Guests>() {
+            @Override
+            public int compare(Guests o1, Guests o2) {
+                return o2.getId() - o1.getId();
+            }
+        });
         return guests;
     }
 
     @GET
-    @Path("/{guestId}")
-    public Guests getlGuestById(@PathParam("guestId") int id) {
-        RuleObject rule = new RuleObject("id", HibernateUtil.EQUAL, id);
-        List<DataBaseObject> objects = manager.find(rule, Guests.class);
-        if (objects != null && objects.size() != 0) {
-            objects = EntityCleaner.clean(objects, Guests.class);
-            Guests guest = (Guests) objects.get(0);
-            return guest;
+    @Path("/{getMax}")
+    public String getlGuestById(@PathParam("getMax") String getMax) {
+        if (getMax.equalsIgnoreCase("getmax")) {
+            List<Guests> guests = getlAllGuests();
+            return guests.get(0).getId() + "";
         }
-        return null;
+        return -1 + "";
     }
 
     @POST
