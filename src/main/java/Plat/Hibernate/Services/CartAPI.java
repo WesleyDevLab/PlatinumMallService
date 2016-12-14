@@ -35,18 +35,12 @@ public class CartAPI {
     @GET
     @Path("/{userId}")
     public List<Cart> getCartsByUserId(@PathParam("userId") int userId) {
-        RuleObject rule = new RuleObject("id", HibernateUtil.EQUAL, userId);
-        List<DataBaseObject> objects = manager.find(rule, Users.class);
         List<Cart> result = new ArrayList<>();
-        if (objects != null && objects.size() > 0) {
-            objects = EntityCleaner.clean(objects, Users.class);
-            Users user = (Users) objects.get(0);
-            Iterator it = user.getCart().iterator();
-            while (it.hasNext()) {
-                Cart cart = (Cart) it.next();
-                result.add(cart);
-            }
-        }
+        List<Cart> objects = getAllCarts();
+        for (int i = 0; i < objects.size(); i++)
+            if (objects.get(i).getUser().getId() == userId)
+                result.add(objects.get(i));
+
         return result;
     }
 
