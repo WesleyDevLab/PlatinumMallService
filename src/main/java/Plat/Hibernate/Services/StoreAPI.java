@@ -62,6 +62,19 @@ public class StoreAPI {
     }
 
     @POST
+    @Path("/{operation}/{itemId}")
+    public Store getStoreByOperation(@PathParam("operation") String operation, @PathParam("itemId") int itemId) {
+        if (operation.equalsIgnoreCase("getitemstore")) {
+            int key = new OrdersAPI().getItemsStoreId(itemId);
+            RuleObject rule = new RuleObject("id", HibernateUtil.EQUAL, key);
+            List<DataBaseObject> objects = manager.find(rule, Store.class);
+            objects = EntityCleaner.clean(objects, Store.class);
+            return ((Store) objects.get(0));
+        }
+        return null;
+    }
+
+    @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public String addStore(Store store) {
         manager.save(store);

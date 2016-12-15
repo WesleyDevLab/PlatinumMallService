@@ -63,13 +63,14 @@ public class CartAPI {
     }
 
     @DELETE
-    @Path("/{cartId}")
-    public String deleteCartRecord(@PathParam("cartId") int cartId) {
-        RuleObject rule = new RuleObject("id", HibernateUtil.EQUAL, cartId);
-        List<DataBaseObject> object = manager.find(rule, Cart.class);
-        if (object == null || object.size() == 0) return "There's a problem with the cart id";
-        Cart cart = (Cart) object.get(0);
-        manager.delete(cart);
-        return "Cart record deleted";
+    @Path("/{userId}")
+    public String deleteCartRecord(@PathParam("userId") int userId) {
+        List<Cart> carts = getAllCarts();
+        List<DataBaseObject> cut = new ArrayList<>();
+        for (int i = 0; i < carts.size(); i++)
+            if (carts.get(i).getUser().getId() == userId)
+                cut.add(carts.get(i));
+        manager.deleteList(cut);
+        return "ok";
     }
 }

@@ -27,11 +27,11 @@ public class Cart implements DataBaseObject {
 
     @Column(name = "quantity")
     @Basic
-    public int getQuantity() {
+    public Integer getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
 

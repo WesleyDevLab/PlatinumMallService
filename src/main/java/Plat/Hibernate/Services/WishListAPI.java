@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Created by MontaserQasem on 11/22/16.
  */
-@Path("/wishLists")
+@Path("/wishlists")
 @Produces(MediaType.APPLICATION_JSON)
 public class WishListAPI {
     DataBaseManager manager = DataBaseManager.getInstance();

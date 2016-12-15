@@ -111,7 +111,13 @@ public class OrdersAPI {
         if (usersAPI.loginUser(email, password) == "-1")
             return "Passoword or Email is incorrect";
         manager.merge(order);
-        return "Added";
+        Iterator it = order.getOrderItems().iterator();
+        while (it.hasNext()) {
+            OrderItem orderItem = (OrderItem) it.next();
+            orderItem.setOrder(order);
+            manager.merge(orderItem);
+        }
+        return "Your Request has been sent";
     }
 
     @PUT

@@ -66,6 +66,13 @@ public class ItemsAPI {
     @POST
     @Path("/{itemName}")
     public List<Items> getItemsByName(@PathParam("itemName") String name) {
+        if (name.equalsIgnoreCase("getfeturedcollections")) {
+            List<Items> items = getAllItems();
+            List<Items> objects = new ArrayList<>();
+            for (int i = 0; i < (items.size() >= 6 ? 6 : items.size()); i++)
+                objects.add(items.get(i));
+            return objects;
+        }
         RuleObject rule = new RuleObject("name", HibernateUtil.LIKE, name);
         List<DataBaseObject> objects = manager.find(rule, Items.class);
         List<Items> result = new ArrayList<>();
@@ -129,6 +136,35 @@ public class ItemsAPI {
             for (int i = 0; i < (objects.size() < 10 ? objects.size() : 10); i++)
                 if (ordersAPI.getItemsStoreId(objects.get(i).getId()) == storeId)
                     result.add(objects.get(i));
+            return result;
+        }
+
+        if (operation.equalsIgnoreCase("getpopularfromall")) {
+            List<Items> items = getAllItems();
+            List<Items> result = new ArrayList<>();
+            Collections.sort(items, new Comparator<Items>() {
+                @Override
+                public int compare(Items o1, Items o2) {
+                    return o2.getItemHitses().size() - o1.getItemHitses().size();
+                }
+            });
+            for (int i = 0; i < 3; i++)
+                result.add(items.get(i));
+            return result;
+        }
+        if (operation.equalsIgnoreCase("getdiscountfromall")) {
+            List<Items> items = getAllItems();
+            List<Items> result = new ArrayList<>();
+            Collections.sort(items, new Comparator<Items>() {
+                @Override
+                public int compare(Items o1, Items o2) {
+                    if (o1.getDiscount() < o2.getDiscount()) return 1;
+                    if (o1.getDiscount() < o2.getDiscount()) return -1;
+                    return 0;
+                }
+            });
+            for (int i = 0; i < 3; i++)
+                result.add(items.get(i));
             return result;
         }
         return null;
