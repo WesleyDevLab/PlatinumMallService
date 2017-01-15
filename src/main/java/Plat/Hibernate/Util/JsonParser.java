@@ -12,6 +12,7 @@ public class JsonParser {
     private static ObjectMapper mapper = new ObjectMapper();
 
     public static String parse(List<DataBaseObject> objects) {
+        if (objects == null || objects.size() == 0) return "[ ]";
         String result = "[";
         try {
             for (int i = 0; i < objects.size(); i++) {

@@ -27,7 +27,7 @@ public class AddressAPI {
     @GET
     public String getAllAddresses() {
         List<DataBaseObject> objects = manager.find(null, Address.class);
-        return JsonParser.parse(objects);
+        return JsonParser.parse(null);
     }
 
     @GET
