@@ -23,7 +23,7 @@ public class PhotosAPI {
         List<DataBaseObject> objects = manager.find(null, Photos.class);
         List<Photos> result = new ArrayList<>();
         if (objects != null && objects.size() > 0) {
-            objects = EntityCleaner.clean(objects, Photos.class);
+           // objects = EntityCleaner.clean(objects, Photos.class);
             for (int i = 0; i < objects.size(); i++) {
                 Photos photo = (Photos) objects.get(i);
                 result.add(photo);
@@ -39,7 +39,7 @@ public class PhotosAPI {
         List<DataBaseObject> object = manager.find(rule, Items.class);
         List<Photos> result = new ArrayList<>();
         if (object != null && object.size() > 0) {
-            object = EntityCleaner.clean(object, Items.class);
+           // object = EntityCleaner.clean(object, Items.class);
             Items item = (Items) object.get(0);
             Iterator it = item.getPhotos().iterator();
             if (it != null) {
@@ -81,7 +81,7 @@ public class PhotosAPI {
         RuleObject rule = new RuleObject("id", HibernateUtil.EQUAL, itemId);
         List<DataBaseObject> object = manager.find(rule, Items.class);
         if (object == null || object.size() == 0) return "There's a problem with the item id";
-        object = EntityCleaner.clean(object, Items.class);
+        //object = EntityCleaner.clean(object, Items.class);
         Items item = (Items) object.get(0);
         item.getPhotos().add(photo);
         photo.setItem(item);
@@ -116,7 +116,7 @@ public class PhotosAPI {
             else node.setPrimary(true);
             newListPhoto.add(node);
         }
-        item.setPhotos(newPhoto);
+        //item.setPhotos(newPhoto);
         manager.updateList(newListPhoto);
         manager.update(item);
         return "photo primary updated";

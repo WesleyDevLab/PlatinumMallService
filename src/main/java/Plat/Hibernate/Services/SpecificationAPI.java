@@ -24,7 +24,7 @@ public class SpecificationAPI {
         List<DataBaseObject> objects = manager.find(null, Specifications.class);
         List<Specifications> result = new ArrayList<>();
         if (objects != null && objects.size() > 0) {
-            objects = EntityCleaner.clean(objects, Specifications.class);
+        //    objects = EntityCleaner.clean(objects, Specifications.class);
             for (int i = 0; i < objects.size(); i++) {
                 Specifications node = (Specifications) objects.get(i);
                 result.add(node);
@@ -40,7 +40,7 @@ public class SpecificationAPI {
         List<DataBaseObject> object = manager.find(rule, Items.class);
         List<Specifications> result = new ArrayList<>();
         if (object != null && object.size() > 0) {
-            object = EntityCleaner.clean(object, Items.class);
+         //   object = EntityCleaner.clean(object, Items.class);
             Items item = (Items) object.get(0);
             Iterator it = item.getSpecifications().iterator();
             while (it.hasNext()) {

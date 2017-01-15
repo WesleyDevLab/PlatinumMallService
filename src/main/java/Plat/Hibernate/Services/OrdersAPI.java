@@ -20,7 +20,7 @@ public class OrdersAPI {
         List<DataBaseObject> objects = manager.find(null, Orders.class);
         List<Orders> result = new ArrayList<>();
         if (objects != null && objects.size() > 0) {
-            objects = EntityCleaner.clean(objects, Orders.class);
+           // objects = EntityCleaner.clean(objects, Orders.class);
             for (int i = 0; i < objects.size(); i++) {
                 Orders order = (Orders) objects.get(i);
                 result.add(order);
@@ -35,7 +35,7 @@ public class OrdersAPI {
         RuleObject rule = new RuleObject("id", HibernateUtil.EQUAL, id);
         List<DataBaseObject> objects = manager.find(rule, Orders.class);
         if (objects != null && objects.size() > 0) {
-            objects = EntityCleaner.clean(objects, Orders.class);
+          //  objects = EntityCleaner.clean(objects, Orders.class);
             Orders order = (Orders) objects.get(0);
             return order;
         }
@@ -45,32 +45,32 @@ public class OrdersAPI {
     @GET
     @Path("/{operation}/{id}")
     public List<Orders> getOrdersByOperation(@PathParam("operation") String operation, @PathParam("id") int id) {
-        if (operation.equalsIgnoreCase("getordersbystoreid")) {//gets new requests
-            List<Orders> orders = getAllOrders();
-            List<Orders> result = new ArrayList<>();
-            for (int i = 0; i < orders.size(); i++) {
-                Set<OrderItem> orderItems = orders.get(i).getOrderItems();
-                Iterator it = orderItems.iterator();
-                boolean flag = false;
-                while (it.hasNext()) {
-                    OrderItem orderitem = (OrderItem) it.next();
-                    int itemId = orderitem.getItem().getId();
-                    if (getItemsStoreId(itemId) == id) {// id here is equal to storeId
-                        flag = true;
-                        break;
-                    }
-                }
-                if (flag && orders.get(i).getStatus() == 1)
-                    result.add(orders.get(i));
-            }
-            Collections.sort(result, new Comparator<Orders>() {
-                @Override
-                public int compare(Orders o1, Orders o2) {
-                    return (int) (o1.getId() - o2.getId());
-                }
-            });
-            return result;
-        }
+//        if (operation.equalsIgnoreCase("getordersbystoreid")) {//gets new requests
+//            List<Orders> orders = getAllOrders();
+//            List<Orders> result = new ArrayList<>();
+//            for (int i = 0; i < orders.size(); i++) {
+//            //    Set<OrderItem> orderItems = orders.get(i).getOrderItems();
+//                //Iterator it = orderItems.iterator();
+//                boolean flag = false;
+//                while (it.hasNext()) {
+//                    OrderItem orderitem = (OrderItem) it.next();
+//                    int itemId = orderitem.getItem().getId();
+//                    if (getItemsStoreId(itemId) == id) {// id here is equal to storeId
+//                        flag = true;
+//                        break;
+//                    }
+//                }
+//                if (flag && orders.get(i).getStatus() == 1)
+//                    result.add(orders.get(i));
+//            }
+//            Collections.sort(result, new Comparator<Orders>() {
+//                @Override
+//                public int compare(Orders o1, Orders o2) {
+//                    return (int) (o1.getId() - o2.getId());
+//                }
+//            });
+//            return result;
+//        }
 
         return null;
     }
@@ -156,7 +156,7 @@ public class OrdersAPI {
         RuleObject rule = new RuleObject("id", HibernateUtil.EQUAL, adminId);
         List<DataBaseObject> object = manager.find(rule, Admins.class);
         Admins admin = (Admins) object.get(0);
-        log.setAdmin(admin);
+        //log.setAdmin(admin);
         manager.merge(log);
     }
 

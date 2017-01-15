@@ -12,6 +12,9 @@
 
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
 
+        <property name="hibernate.connection.CharSet">utf8</property>
+        <property name="hibernate.connection.characterEncoding">utf8</property>
+        <property name="hibernate.connection.useUnicode">true</property>
 
         <property name="hbm2ddl.auto">update</property>
 
@@ -33,6 +36,7 @@
         <mapping class="Plat.Hibernate.Entities.Users" />
         <mapping class="Plat.Hibernate.Entities.WishList" />
         <mapping class="Plat.Hibernate.Entities.Log" />
+
 
     </session-factory>
 </hibernate-configuration>

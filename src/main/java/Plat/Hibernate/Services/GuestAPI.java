@@ -23,7 +23,7 @@ public class GuestAPI {
         List<DataBaseObject> objects = manager.find(null, Guests.class);
         List<Guests> guests = new ArrayList<>();
         if (objects != null && objects.size() > 0) {
-            objects = EntityCleaner.clean(objects, Guests.class);
+           // objects = EntityCleaner.clean(objects, Guests.class);
             for (int i = 0; i < objects.size(); i++) {
                 Guests node = (Guests) objects.get(i);
                 guests.add(node);

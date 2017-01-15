@@ -20,7 +20,7 @@ public class PrivilegesAPI {
     @GET
     public List<Privileges> getAllPrivileges() {
         List<DataBaseObject> objects = manager.find(null, Privileges.class);
-        objects = EntityCleaner.clean(objects, Privileges.class);
+        //objects = EntityCleaner.clean(objects, Privileges.class);
         List<Privileges> privileges = new ArrayList<>();
         for (int i = 0; i < objects.size(); i++) {
             Privileges prv = (Privileges) objects.get(i);
@@ -35,7 +35,7 @@ public class PrivilegesAPI {
         RuleObject rule = new RuleObject("id", HibernateUtil.EQUAL, prvId);
         List<DataBaseObject> objects = manager.find(rule, Privileges.class);
         if (objects != null && objects.size() > 0) {
-            objects = EntityCleaner.clean(objects, Privileges.class);
+         //   objects = EntityCleaner.clean(objects, Privileges.class);
             Privileges privilege = (Privileges) objects.get(0);
             return privilege;
         }

@@ -1,6 +1,7 @@
 package Plat.Hibernate.Services;
 
 import Plat.Hibernate.Entities.*;
+import Plat.Hibernate.RestricationObjects.ItemsView;
 import Plat.Hibernate.Util.*;
 
 import javax.ws.rs.*;
@@ -20,7 +21,7 @@ public class ItemsAPI {
         List<DataBaseObject> objects = manager.find(null, Items.class);
         List<Items> result = new ArrayList<>();
         if (objects != null && objects.size() > 0) {
-            objects = EntityCleaner.clean(objects, Items.class);
+          //  objects = EntityCleaner.clean(objects, Items.class);
             for (int i = 0; i < objects.size(); i++) {
                 Items node = (Items) objects.get(i);
                 result.add(node);
@@ -41,7 +42,7 @@ public class ItemsAPI {
         RuleObject rule = new RuleObject("id", HibernateUtil.EQUAL, id);
         List<DataBaseObject> objects = manager.find(rule, Items.class);
         if (objects != null && objects.size() > 0) {
-            objects = EntityCleaner.clean(objects, Items.class);
+          //  objects = EntityCleaner.clean(objects, Items.class);
             Items item = (Items) objects.get(0);
             return item;
         }
@@ -77,7 +78,7 @@ public class ItemsAPI {
         List<DataBaseObject> objects = manager.find(rule, Items.class);
         List<Items> result = new ArrayList<>();
         if (objects != null && objects.size() > 0) {
-            objects = EntityCleaner.clean(objects, Items.class);
+          //  objects = EntityCleaner.clean(objects, Items.class);
             for (int i = 0; i < objects.size(); i++) {
                 Items node = (Items) objects.get(i);
                 result.add(node);
@@ -95,7 +96,7 @@ public class ItemsAPI {
             for (int i = 0; i < objects.size(); i++) {
                 RuleObject rule = new RuleObject("id", HibernateUtil.EQUAL, objects.get(i).getCategory().getId());
                 List<DataBaseObject> plainObject = manager.find(rule, Categories.class);
-                plainObject = EntityCleaner.clean(plainObject, Categories.class);
+              //  plainObject = EntityCleaner.clean(plainObject, Categories.class);
                 Categories category = (Categories) plainObject.get(0);
                 if (category.getStore().getId() == storeId)
                     result.add(objects.get(i));

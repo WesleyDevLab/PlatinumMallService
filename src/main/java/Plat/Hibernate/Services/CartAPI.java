@@ -23,7 +23,7 @@ public class CartAPI {
         List<DataBaseObject> objects = manager.find(null, Cart.class);
         List<Cart> result = new ArrayList<>();
         if (objects != null && objects.size() > 0) {
-            objects = EntityCleaner.clean(objects, Cart.class);
+          //  objects = EntityCleaner.clean(objects, Cart.class);
             for (int i = 0; i < objects.size(); i++) {
                 Cart node = (Cart) objects.get(i);
                 result.add(node);

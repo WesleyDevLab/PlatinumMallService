@@ -1,10 +1,14 @@
 package Plat.Hibernate.Entities;
 
 import Plat.Hibernate.Util.DataBaseObject;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -12,6 +16,7 @@ import java.util.Set;
  */
 
 @Entity(name = "items")
+@JsonIgnoreProperties(value = {"categories", "cart", "orderitem"})
 public class Items implements DataBaseObject {
     private int id;
     private String name;
@@ -20,21 +25,21 @@ public class Items implements DataBaseObject {
     private int quantity;
     private String description;
     private Categories category;
-    private Brand brand=null;
-    private Set<Cart> cart=null;
-    private Set<Photos> photos = null;
-    private Set<OrderItem> orderedItems = null;
-    private Set<WishList> wishLists = null;
-    private Set<ItemHits> itemHitses = null;
-    private Set<Specifications> specifications = null;
+    private Brand brand = null;
+    private List<Cart> cart = null;
+    private List<Photos> photos = null;
+    private List<OrderItem> orderedItems = null;
+    private List<WishList> wishLists = null;
+    private List<ItemHits> itemHits = null;
+    private List<Specifications> specifications = null;
 
     public Items() {
-        cart = new HashSet<>();
-        photos = new HashSet<Photos>();
-        orderedItems = new HashSet<OrderItem>();
-        wishLists = new HashSet<WishList>();
-        itemHitses = new HashSet<ItemHits>();
-        specifications = new HashSet<Specifications>();
+        cart = new ArrayList<>();
+        photos = new ArrayList<Photos>();
+        orderedItems = new ArrayList<OrderItem>();
+        wishLists = new ArrayList<WishList>();
+        itemHits = new ArrayList<ItemHits>();
+        specifications = new ArrayList<Specifications>();
     }
 
     @Id
@@ -98,7 +103,7 @@ public class Items implements DataBaseObject {
     }
 
 
-    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.PERSIST ,fetch = FetchType.LAZY)
     @JoinColumn(name = "brand_id")
     public Brand getBrand() {
         return brand;
@@ -108,61 +113,65 @@ public class Items implements DataBaseObject {
         this.brand = brand;
     }
 
-    @OneToMany(mappedBy = "item", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-    public Set<Photos> getPhotos() {
+    @OneToMany(mappedBy = "item", cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
+    public List<Photos> getPhotos() {
         return photos;
     }
 
-    public void setPhotos(Set<Photos> photos) {
+    public void setPhotos(List<Photos> photos) {
         this.photos = photos;
     }
 
-    @OneToMany(mappedBy = "item",cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-    public Set<Cart> getCart() {
+    @OneToMany(mappedBy = "item", cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
+    public List<Cart> getCart() {
         return cart;
     }
 
-    public void setCart(Set<Cart> cart) {
+    public void setCart(List<Cart> cart) {
         this.cart = cart;
     }
 
-    @OneToMany(mappedBy = "item", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-    public Set<OrderItem> getOrderedItems() {
+    @OneToMany(mappedBy = "item", cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
+    @JsonIgnore
+    public List<OrderItem> getOrderedItems() {
         return orderedItems;
     }
 
-    public void setOrderedItems(Set<OrderItem> orderedItems) {
+    public void setOrderedItems(List<OrderItem> orderedItems) {
         this.orderedItems = orderedItems;
     }
 
-    @OneToMany(mappedBy = "item", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-    public Set<WishList> getWishLists() {
+    @OneToMany(mappedBy = "item", cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
+    @JsonIgnore
+    public List<WishList> getWishLists() {
         return wishLists;
     }
 
-    public void setWishLists(Set<WishList> wishLists) {
+    public void setWishLists(List<WishList> wishLists) {
         this.wishLists = wishLists;
     }
 
-    @OneToMany(mappedBy = "item", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-    public Set<ItemHits> getItemHitses() {
-        return itemHitses;
+    @OneToMany(mappedBy = "item", cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
+    @JsonIgnore
+    public List<ItemHits> getItemHitses() {
+        return itemHits;
     }
 
-    public void setItemHitses(Set<ItemHits> itemHitses) {
-        this.itemHitses = itemHitses;
+    public void setItemHitses(List<ItemHits> itemHitses) {
+        this.itemHits = itemHitses;
     }
 
-    @OneToMany(mappedBy = "item", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-    public Set<Specifications> getSpecifications() {
+    @OneToMany(mappedBy = "item", cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
+    public List<Specifications> getSpecifications() {
         return specifications;
     }
 
-    public void setSpecifications(Set<Specifications> specifications) {
+    public void setSpecifications(List<Specifications> specifications) {
         this.specifications = specifications;
     }
 
-    @ManyToOne(cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
+
+    @ManyToOne(cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     public Categories getCategory() {
         return category;
@@ -172,9 +181,4 @@ public class Items implements DataBaseObject {
         this.category = category;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if(this==obj)return true;
-        return false;
-    }
 }

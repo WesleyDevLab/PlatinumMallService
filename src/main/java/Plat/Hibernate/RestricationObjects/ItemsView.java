@@ -1,4 +1,4 @@
-package Plat.Hibernate.Util;
+package Plat.Hibernate.RestricationObjects;
 
 import Plat.Hibernate.Entities.Brand;
 import Plat.Hibernate.Entities.Categories;

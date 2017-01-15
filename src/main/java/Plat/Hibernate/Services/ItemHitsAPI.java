@@ -23,7 +23,7 @@ public class ItemHitsAPI {
         List<DataBaseObject> objects = manager.find(null, ItemHits.class);
         List<ItemHits> result = new ArrayList<>();
         if (objects != null && objects.size() > 0) {
-            objects = EntityCleaner.clean(objects, ItemHits.class);
+            //objects = EntityCleaner.clean(objects, ItemHits.class);
             for (int i = 0; i < objects.size(); i++) {
                 ItemHits node = (ItemHits) objects.get(i);
                 result.add(node);

@@ -23,7 +23,7 @@ public class AdminsAPI {
     @GET
     public List<Admins> getAllAdmins() {
         List<DataBaseObject> result = manager.find(null, Admins.class);
-        result = EntityCleaner.clean(result, Admins.class);
+       // result = EntityCleaner.clean(result, Admins.class);
         List<Admins> admins = new ArrayList<>();
         if (result != null && result.size() > 0) {
             for (int i = 0; i < result.size(); i++) {
@@ -52,7 +52,7 @@ public class AdminsAPI {
     public Admins getAdminByAdminIdAndStoreId(@PathParam("storeId") int storeId, @PathParam("adminId") int adminId) {
         RuleObject rule = new RuleObject("id", HibernateUtil.EQUAL, storeId);
         List<DataBaseObject> storeObjects = manager.find(rule, Store.class);
-        storeObjects = EntityCleaner.clean(storeObjects, Store.class);
+        //storeObjects = EntityCleaner.clean(storeObjects, Store.class);
         if (storeObjects != null && storeObjects.size() > 0) {
             Store store = (Store) storeObjects.get(0);
             Iterator it = store.getAdmins().iterator();
@@ -113,7 +113,7 @@ public class AdminsAPI {
             List<DataBaseObject> rubbish = new ArrayList<>();
             for (int i = 0; i < objects.size(); i++) {
                 Log log = (Log) objects.get(i);
-                if (log.getAdmin().getId() == id)
+               // if (log.getAdmin().getId() == id)
                     rubbish.add(log);
             }
             manager.deleteList(rubbish);

@@ -1,16 +1,20 @@
 package Plat.Hibernate.Entities;
 
 import Plat.Hibernate.Util.DataBaseObject;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
  * Created by MontaserQasem on 11/12/16.
  */
-@Entity(name="users")
+@Entity(name = "users")
+@JsonIgnoreProperties(value = {"cart", "orders", "wishlist"})
 public class Users implements DataBaseObject {
     private int id;
     private String firstName;
@@ -24,14 +28,14 @@ public class Users implements DataBaseObject {
     private String password;
     private boolean activate;
     private String date;
-    private Set<Cart> cart=null;
-    private Set<Orders> orders=null;
-    private Set<WishList> wishLists=null;
+    private List<Cart> cart = null;
+    private List<Orders> orders = null;
+    private List<WishList> wishLists = null;
 
-    public Users(){
-        cart = new HashSet<Cart>();
-        orders = new HashSet<Orders>();
-        wishLists= new HashSet<WishList>();
+    public Users() {
+        cart = new ArrayList<>();
+        orders = new ArrayList<Orders>();
+        wishLists = new ArrayList<WishList>();
     }
 
     @Id
@@ -44,7 +48,7 @@ public class Users implements DataBaseObject {
         this.id = id;
     }
 
-    @Column(name="first_name",length = 45,nullable = false)
+    @Column(name = "first_name", length = 45, nullable = false)
     @Basic
     public String getFirstName() {
         return firstName;
@@ -54,7 +58,7 @@ public class Users implements DataBaseObject {
         this.firstName = firstName;
     }
 
-    @Column(name="last_name",length = 45,nullable =false )
+    @Column(name = "last_name", length = 45, nullable = false)
     @Basic
     public String getLastName() {
         return lastName;
@@ -64,7 +68,7 @@ public class Users implements DataBaseObject {
         this.lastName = lastName;
     }
 
-    @Column(name="email",length = 30,nullable =false )
+    @Column(name = "email", length = 30, nullable = false)
     @Basic
     public String getEmail() {
         return email;
@@ -75,7 +79,7 @@ public class Users implements DataBaseObject {
     }
 
 
-    @Column(name="cellphone",length = 20,nullable = false)
+    @Column(name = "cellphone", length = 20, nullable = false)
     @Basic
     public String getCellPhone() {
         return cellPhone;
@@ -85,7 +89,7 @@ public class Users implements DataBaseObject {
         this.cellPhone = cellPhone;
     }
 
-    @Column(name="address1",length =30 ,nullable = true)
+    @Column(name = "address1", length = 30, nullable = true)
     @Basic
     public String getAddress1() {
         return address1;
@@ -95,7 +99,7 @@ public class Users implements DataBaseObject {
         this.address1 = address1;
     }
 
-    @Column(name="address2",length = 45,nullable =true )
+    @Column(name = "address2", length = 45, nullable = true)
     @Basic
     public String getAddress2() {
         return address2;
@@ -105,7 +109,7 @@ public class Users implements DataBaseObject {
         this.address2 = address2;
     }
 
-    @Column(name="city",nullable = false)
+    @Column(name = "city", nullable = false)
     @Basic
     public String getCity() {
         return city;
@@ -115,7 +119,7 @@ public class Users implements DataBaseObject {
         this.city = city;
     }
 
-    @Column(name="subscribe",nullable = true)
+    @Column(name = "subscribe", nullable = true)
     @Basic
     public boolean getSubscribe() {
         return subscribe;
@@ -125,7 +129,7 @@ public class Users implements DataBaseObject {
         this.subscribe = subscribe;
     }
 
-    @Column(name="password",length = 500,nullable = false)
+    @Column(name = "password", length = 500, nullable = false)
     @Basic
     public String getPassword() {
         return password;
@@ -135,7 +139,7 @@ public class Users implements DataBaseObject {
         this.password = password;
     }
 
-    @Column(name="activate",nullable = true)
+    @Column(name = "activate", nullable = true)
     @Basic
     public boolean getActivate() {
         return activate;
@@ -145,7 +149,7 @@ public class Users implements DataBaseObject {
         this.activate = activate;
     }
 
-    @Column(name="date",length = 100,nullable = false)
+    @Column(name = "date", length = 100, nullable = false)
     @Basic
     public String getDate() {
         return date;
@@ -155,31 +159,31 @@ public class Users implements DataBaseObject {
         this.date = date;
     }
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
-    public Set<Cart> getCart() {
+    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
+    public List<Cart> getCart() {
         return cart;
     }
 
-    public void setCart(Set<Cart> cart) {
+    public void setCart(List<Cart> cart) {
         this.cart = cart;
     }
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
-    public Set<Orders> getOrders() {
+    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
+    public List<Orders> getOrders() {
         return orders;
     }
 
-    public void setOrders(Set<Orders> orders) {
+    public void setOrders(List<Orders> orders) {
         this.orders = orders;
     }
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
-    public Set<WishList> getWishLists() {
+    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
+    @JsonIgnore
+    public List<WishList> getWishLists() {
         return wishLists;
     }
 
-    public void setWishLists(Set<WishList> wishLists) {
+    public void setWishLists(List<WishList> wishLists) {
         this.wishLists = wishLists;
     }
-
 }

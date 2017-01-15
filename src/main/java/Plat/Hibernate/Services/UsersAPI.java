@@ -21,7 +21,7 @@ public class UsersAPI {
         List<DataBaseObject> objects = manager.find(null, Users.class);
         List<Users> result = new ArrayList<>();
         if (objects != null && objects.size() > 0) {
-            objects = EntityCleaner.clean(objects, Users.class);
+           // objects = EntityCleaner.clean(objects, Users.class);
             for (int i = 0; i < objects.size(); i++) {
                 Users user = (Users) objects.get(i);
                 result.add(user);
@@ -36,7 +36,7 @@ public class UsersAPI {
         RuleObject rule = new RuleObject("id", HibernateUtil.EQUAL, userId);
         List<DataBaseObject> objects = manager.find(rule, Users.class);
         if (objects != null && objects.size() > 0) {
-            objects = EntityCleaner.clean(objects, Users.class);
+          //  objects = EntityCleaner.clean(objects, Users.class);
             Users user = (Users) objects.get(0);
             return user;
         }
@@ -62,7 +62,7 @@ public class UsersAPI {
         List<DataBaseObject> objects = manager.find(rule, Users.class);
         List<Users> result = new ArrayList<>();
         if (objects != null && objects.size() > 0) {
-            objects = EntityCleaner.clean(objects, Users.class);
+         //   objects = EntityCleaner.clean(objects, Users.class);
             for (int i = 0; i < objects.size(); i++) {
                 Users node = (Users) objects.get(i);
                 result.add(node);

@@ -1,10 +1,11 @@
 package Plat.Hibernate.Entities;
 
 import Plat.Hibernate.Util.DataBaseObject;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -13,9 +14,10 @@ import java.util.Set;
 @Entity(name = "guests")
 public class Guests implements DataBaseObject {
     private int id;
-    private Set<ItemHits> itemsHits;
+    private List<ItemHits> itemsHits;
+
     public Guests(){
-        itemsHits = new HashSet<>();
+        itemsHits = new ArrayList<>();
     }
 
     @Id
@@ -28,12 +30,12 @@ public class Guests implements DataBaseObject {
         this.id = id;
     }
 
-    @OneToMany(mappedBy = "guest",cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
-    public Set<ItemHits> getItemsHits() {
+    @OneToMany(mappedBy = "guest",cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
+    public List<ItemHits> getItemsHits() {
         return itemsHits;
     }
 
-    public void setItemsHits(Set<ItemHits> itemsHits) {
+    public void setItemsHits(List<ItemHits> itemsHits) {
         this.itemsHits = itemsHits;
     }
 }

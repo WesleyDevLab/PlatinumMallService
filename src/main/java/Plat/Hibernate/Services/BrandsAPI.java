@@ -22,7 +22,7 @@ public class BrandsAPI {
         List<DataBaseObject> objects = manager.find(null, Brand.class);
         List<Brand> brands = new ArrayList<>();
         if (objects != null && objects.size() > 0) {
-            objects = EntityCleaner.clean(objects, Brand.class);
+          //  objects = EntityCleaner.clean(objects, Brand.class);
             for (int i = 0; i < objects.size(); i++) {
                 Brand brand = (Brand) objects.get(i);
                 brands.add(brand);
@@ -37,7 +37,7 @@ public class BrandsAPI {
         RuleObject ruleObject = new RuleObject("id", HibernateUtil.EQUAL, brandId);
         List<DataBaseObject> objects = manager.find(ruleObject, Brand.class);
         if (objects != null && objects.size() > 0) {
-            objects = EntityCleaner.clean(objects, Brand.class);
+           // objects = EntityCleaner.clean(objects, Brand.class);
             Brand brand = (Brand) objects.get(0);
             return brand;
         }
@@ -51,7 +51,7 @@ public class BrandsAPI {
         List<DataBaseObject> objects = manager.find(ruleObject, Brand.class);
         List<Brand> brands = new ArrayList<>();
         if (objects != null && objects.size() > 0) {
-            objects = EntityCleaner.clean(objects, Brand.class);
+          //  objects = EntityCleaner.clean(objects, Brand.class);
             for (int i = 0; i < objects.size(); i++) {
                 Brand node = (Brand) objects.get(i);
                 brands.add(node);

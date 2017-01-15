@@ -19,7 +19,7 @@ public class CategoriesAPI {
     @GET
     public List<Categories> getAllCategories() {
         List<DataBaseObject> objects = manager.find(null, Categories.class);
-        objects = EntityCleaner.clean(objects, Categories.class);
+        //objects = EntityCleaner.clean(objects, Categories.class);
         List<Categories> categories = new ArrayList<>();
         for (int i = 0; i < objects.size(); i++) {
             Categories category = (Categories) objects.get(i);
@@ -42,7 +42,7 @@ public class CategoriesAPI {
         List<DataBaseObject> objects = manager.find(rule, Store.class);
         List<Categories> result = new ArrayList<>();
         if (objects != null && objects.size() > 0) {
-            objects = EntityCleaner.clean(objects, Store.class);
+           // objects = EntityCleaner.clean(objects, Store.class);
             Store store = (Store) objects.get(0);
             Iterator it = store.getCategories().iterator();
             while (it.hasNext())
@@ -74,7 +74,7 @@ public class CategoriesAPI {
         RuleObject rule = new RuleObject("id", HibernateUtil.EQUAL, catId);
         List<DataBaseObject> objects = manager.find(rule, Categories.class);
         if (objects == null || objects.size() == 0) return null;
-        objects = EntityCleaner.clean(objects, Categories.class);
+       // objects = EntityCleaner.clean(objects, Categories.class);
         return ((Categories) objects.get(0));
     }
 

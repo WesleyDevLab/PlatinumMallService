@@ -2,7 +2,8 @@ package Plat.Hibernate.Entities;
 
 
 import Plat.Hibernate.Util.DataBaseObject;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 
 import javax.persistence.*;
 
@@ -10,6 +11,7 @@ import javax.persistence.*;
  * Created by MontaserQasem on 11/12/16.
  */
 @Entity(name = "item_hits")
+@JsonIgnoreProperties(value = {"guest"})
 public class ItemHits implements DataBaseObject {
     private int id;
     private String date;
@@ -39,7 +41,7 @@ public class ItemHits implements DataBaseObject {
     }
 
 
-    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
     @JoinColumn(name = "item_id")
     public Items getItem() {
         return item;
@@ -49,7 +51,7 @@ public class ItemHits implements DataBaseObject {
         this.item = item;
     }
 
-    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
     @JoinColumn(name = "guest_id")
     public Guests getGuest() {
         return guest;

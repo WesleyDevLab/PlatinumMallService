@@ -3,8 +3,6 @@ package Plat.Hibernate.Services;
 import Plat.Hibernate.Entities.Log;
 import Plat.Hibernate.Util.DataBaseManager;
 import Plat.Hibernate.Util.DataBaseObject;
-import Plat.Hibernate.Util.EntityCleaner;
-import Plat.Hibernate.Util.HibernateUtil;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -20,7 +18,7 @@ public class LogAPI {
     @GET
     public List<Log> getAllLogs() {
         List<DataBaseObject> objects = manager.find(null, Log.class);
-        objects = EntityCleaner.clean(objects, Log.class);
+      //  objects = EntityCleaner.clean(objects, Log.class);
         List<Log> result = new ArrayList<>();
         for (int i = 0; i < objects.size(); i++)
             result.add((Log) objects.get(i));
@@ -43,7 +41,7 @@ public class LogAPI {
         List<Log> objects = getAllLogs();
         List<Log> result = new ArrayList<>();
         for (int i = 0; i < objects.size(); i++)
-            if (objects.get(i).getAdmin().getStore().getId() == storeId)
+           // if (objects.get(i).getAdmin().getStore().getId() == storeId)
                 result.add(objects.get(i));
         return result;
     }

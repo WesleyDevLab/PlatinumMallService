@@ -9,14 +9,14 @@ import java.util.Calendar;
  * Created by MontaserQasem on 12/9/16.
  */
 @Entity(name = "log")
-public class Log implements DataBaseObject{
+public class Log implements DataBaseObject {
     private int id;
     private long deliveryData;
+    private String adminName;
     private Orders order;
-    private Admins admin;
 
-    public Log(){
-        deliveryData =  Calendar.getInstance().getTimeInMillis();
+    public Log() {
+        deliveryData = Calendar.getInstance().getTimeInMillis();
     }
 
     @Id
@@ -29,7 +29,7 @@ public class Log implements DataBaseObject{
         this.id = id;
     }
 
-    @Column(name="delivery_date",nullable = false)
+    @Column(name = "delivery_date", nullable = false)
     @Basic
     public long getDeliveryData() {
         return deliveryData;
@@ -39,8 +39,18 @@ public class Log implements DataBaseObject{
         this.deliveryData = deliveryData;
     }
 
+    @Column(name = "admin_name", nullable = false)
+    @Basic
+    public String getAdminName() {
+        return adminName;
+    }
 
-    @OneToOne(cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
+    public void setAdminName(String adminName) {
+        this.adminName = adminName;
+    }
+
+
+    @OneToOne(cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
     public Orders getOrder() {
         return order;
@@ -50,13 +60,5 @@ public class Log implements DataBaseObject{
         this.order = order;
     }
 
-    @ManyToOne(cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
-    @JoinColumn(name = "admin_id")
-    public Admins getAdmin() {
-        return admin;
-    }
 
-    public void setAdmin(Admins admin) {
-        this.admin = admin;
-    }
 }

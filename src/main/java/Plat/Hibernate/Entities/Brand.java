@@ -1,10 +1,12 @@
 package Plat.Hibernate.Entities;
 
 import Plat.Hibernate.Util.DataBaseObject;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -12,20 +14,22 @@ import java.util.Set;
  */
 
 @Entity(name = "brand")
+@JsonIgnoreProperties(value = {"items", "categories"})
 public class Brand implements DataBaseObject {
     private int id;
     private String name;
-    private Set<Items> items = null;
-    private Set<Categories> categories=null;
+    private String arabicName;
+    private List<Items> items = null;
+    private List<Categories> categories = null;
 
-    public Brand(){
-        items  = new HashSet<Items>();
-        categories = new HashSet<>();
+    public Brand() {
+        items = new ArrayList<>();
+        categories = new ArrayList<>();
     }
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
-    @Column(name="id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     public int getId() {
         return id;
     }
@@ -35,7 +39,7 @@ public class Brand implements DataBaseObject {
     }
 
     @Basic
-    @Column(name = "name")
+    @Column(name = "name",length = 50)
     public String getName() {
         return name;
     }
@@ -44,22 +48,32 @@ public class Brand implements DataBaseObject {
         this.name = name;
     }
 
+    @Basic
+    @Column(name = "arabic_name",length = 200)
+    public String getArabicName() {
+        return arabicName;
+    }
 
-    @OneToMany(mappedBy = "brand",cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
-    public Set<Items> getItems() {
+    public void setArabicName(String arabicName) {
+        this.arabicName = arabicName;
+    }
+
+    @OneToMany(mappedBy = "brand", cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
+    public List<Items> getItems() {
         return items;
     }
 
-    public void setItems(Set<Items> items) {
+    public void setItems(List<Items> items) {
         this.items = items;
     }
 
-    @ManyToMany(cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
-    public Set<Categories> getCategories() {
+
+    @ManyToMany(cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
+    public List<Categories> getCategories() {
         return categories;
     }
 
-    public void setCategories(Set<Categories> categories) {
+    public void setCategories(List<Categories> categories) {
         this.categories = categories;
     }
 }

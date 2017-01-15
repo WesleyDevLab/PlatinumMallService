@@ -8,6 +8,7 @@ import org.hibernate.criterion.Criterion;
 import org.hibernate.query.Query;
 import org.hibernate.service.ServiceRegistry;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -52,6 +53,7 @@ public class DataBaseManager {
         configuration.addAnnotatedClass(ItemHits.class);
         configuration.addAnnotatedClass(Specifications.class);
         configuration.addAnnotatedClass(Log.class);
+
         configuration.configure();
 
         ServiceRegistry factory = new StandardServiceRegistryBuilder()
@@ -201,5 +203,27 @@ public class DataBaseManager {
         List<DataBaseObject> objects = new ArrayList<DataBaseObject>();
         objects.add(object);
         deleteList(objects);
+    }
+
+    public DataBaseObject initialize(DataBaseObject detachedParent, String fieldName) {
+        Session session = null;
+        try {
+            session = sessionFactory.openSession();
+            DataBaseObject reattachedParent = (DataBaseObject) session.merge(detachedParent);
+
+            Field fieldToInitialize = detachedParent.getClass().getDeclaredField(fieldName);
+            fieldToInitialize.setAccessible(true);
+            Object objectToInitialize = fieldToInitialize.get(reattachedParent);
+
+            Hibernate.initialize(objectToInitialize);
+            return reattachedParent;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+        return null;
     }
 }

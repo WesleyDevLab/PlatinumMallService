@@ -23,7 +23,7 @@ public class OrderItemAPI {
         List<DataBaseObject> objects = manager.find(null, OrderItem.class);
         List<OrderItem> result = new ArrayList<>();
         if (objects != null && objects.size() > 0) {
-            objects = EntityCleaner.clean(objects, OrderItem.class);
+        //    objects = EntityCleaner.clean(objects, OrderItem.class);
             for (int i = 0; i < objects.size(); i++) {
                 OrderItem node = (OrderItem) objects.get(i);
                 result.add(node);
@@ -49,7 +49,7 @@ public class OrderItemAPI {
         List<DataBaseObject> objects = manager.find(ruleObject, Orders.class);
         List<OrderItem> result = new ArrayList<>();
         if (objects != null && objects.size() > 0) {
-            objects = EntityCleaner.clean(objects, Orders.class);
+           // objects = EntityCleaner.clean(objects, Orders.class);
             Orders order = (Orders) objects.get(0);
             Iterator it = order.getOrderItems().iterator();
             while (it.hasNext()) {

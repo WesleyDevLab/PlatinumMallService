@@ -10,27 +10,34 @@
         <property name="hibernate.connection.password"></property>
         <property name="hibernate.show_sql">true</property>
 
+        <property name="hibernate.connection.CharSet">utf8</property>
+        <property name="hibernate.connection.characterEncoding">utf8</property>
+        <property name="hibernate.connection.useUnicode">true</property>
+
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
 
 
         <property name="hbm2ddl.auto">update</property>
 
-        <mapping class="PlatinumMall.Hibernate.Entities.Address"/>
-        <mapping class="PlatinumMall.Hibernate.Entities.Admins" />
-        <mapping class="PlatinumMall.Hibernate.Entities.Brand" />
-        <mapping class="PlatinumMall.Hibernate.Entities.Cart" />
-        <mapping class="PlatinumMall.Hibernate.Entities.Categories" />
-        <mapping class="PlatinumMall.Hibernate.Entities.Guests" />
-        <mapping class="PlatinumMall.Hibernate.Entities.ItemHits" />
-        <mapping class="PlatinumMall.Hibernate.Entities.Items" />
-        <mapping class="PlatinumMall.Hibernate.Entities.OrderItem" />
-        <mapping class="PlatinumMall.Hibernate.Entities.Orders" />
-        <mapping class="PlatinumMall.Hibernate.Entities.Photos" />
-        <mapping class="PlatinumMall.Hibernate.Entities.Privileges" />
-        <mapping class="PlatinumMall.Hibernate.Entities.Specifications" />
-        <mapping class="PlatinumMall.Hibernate.Entities.Store" />
-        <mapping class="PlatinumMall.Hibernate.Entities.Users" />
-        <mapping class="PlatinumMall.Hibernate.Entities.WishList" />
+        <mapping class="Plat.Hibernate.Entities.Address"/>
+        <mapping class="Plat.Hibernate.Entities.Address"/>
+        <mapping class="Plat.Hibernate.Entities.Admins" />
+        <mapping class="Plat.Hibernate.Entities.Brand" />
+        <mapping class="Plat.Hibernate.Entities.Cart" />
+        <mapping class="Plat.Hibernate.Entities.Categories" />
+        <mapping class="Plat.Hibernate.Entities.Guests" />
+        <mapping class="Plat.Hibernate.Entities.ItemHits" />
+        <mapping class="Plat.Hibernate.Entities.Items" />
+        <mapping class="Plat.Hibernate.Entities.OrderItem" />
+        <mapping class="Plat.Hibernate.Entities.Orders" />
+        <mapping class="Plat.Hibernate.Entities.Photos" />
+        <mapping class="Plat.Hibernate.Entities.Privileges" />
+        <mapping class="Plat.Hibernate.Entities.Specifications" />
+        <mapping class="Plat.Hibernate.Entities.Store" />
+        <mapping class="Plat.Hibernate.Entities.Users" />
+        <mapping class="Plat.Hibernate.Entities.WishList" />
+        <mapping class="Plat.Hibernate.Entities.Log" />
+
 
     </session-factory>
 </hibernate-configuration>

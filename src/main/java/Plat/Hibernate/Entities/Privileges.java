@@ -1,24 +1,27 @@
 package Plat.Hibernate.Entities;
 
 import Plat.Hibernate.Util.DataBaseObject;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
  * Created by MontaserQasem on 11/12/16.
  */
-@Entity(name="privileges")
-
+@Entity(name = "privileges")
+@JsonIgnoreProperties(value = {"admins"})
 public class Privileges implements DataBaseObject {
     private int id;
     private String name;
-    private Set<Admins> admins = null;
+    private List<Admins> admins = null;
 
-    public Privileges(){
-        admins = new HashSet<Admins>();
+    public Privileges() {
+        admins = new ArrayList<>();
     }
 
     @Id
@@ -31,7 +34,7 @@ public class Privileges implements DataBaseObject {
         this.id = id;
     }
 
-    @Column(name="name",length = 50)
+    @Column(name = "name", length = 50)
     @Basic
     public String getName() {
         return name;
@@ -41,12 +44,12 @@ public class Privileges implements DataBaseObject {
         this.name = name;
     }
 
-    @OneToMany(mappedBy = "privilege" , cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
-    public Set<Admins> getAdmins() {
+    @OneToMany(mappedBy = "privilege", cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
+    public List<Admins> getAdmins() {
         return admins;
     }
 
-    public void setAdmins(Set<Admins> admins) {
+    public void setAdmins(List<Admins> admins) {
         this.admins = admins;
     }
 }

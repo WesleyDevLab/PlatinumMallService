@@ -1,18 +1,20 @@
 package Plat.Hibernate.Entities;
 
 import Plat.Hibernate.Util.DataBaseObject;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
  * Created by MontaserQasem on 11/12/16.
  */
 
-@Entity(name="admins")
+@Entity(name = "admins")
+@JsonIgnoreProperties(value = {"store"})
 public class Admins implements DataBaseObject {
     private int id;
     private String username;
@@ -23,10 +25,9 @@ public class Admins implements DataBaseObject {
     private String contactNumber;
     private Store store;
     private Privileges privilege;
-    private Set<Log> logs;
 
-    public Admins(){
-        logs =  new HashSet<>();
+    public Admins() {
+
     }
 
     @Id
@@ -39,7 +40,7 @@ public class Admins implements DataBaseObject {
         this.id = id;
     }
 
-    @Column(name = "username" ,nullable = false,length = 45)
+    @Column(name = "username", nullable = false, length = 45)
     @Basic
     public String getUsername() {
         return username;
@@ -49,7 +50,7 @@ public class Admins implements DataBaseObject {
         this.username = username;
     }
 
-    @Column(name = "password",nullable = false,length = 1000)
+    @Column(name = "password", nullable = false, length = 1000)
     @Basic
     public String getPassword() {
         return password;
@@ -59,7 +60,7 @@ public class Admins implements DataBaseObject {
         this.password = password;
     }
 
-    @Column(name="first_name",nullable = false,length = 45)
+    @Column(name = "first_name", nullable = false, length = 45)
     @Basic
     public String getFirstName() {
         return firstName;
@@ -69,7 +70,7 @@ public class Admins implements DataBaseObject {
         this.firstName = firstName;
     }
 
-    @Column(name="last_name" ,nullable = false,length = 45)
+    @Column(name = "last_name", nullable = false, length = 45)
     public String getLastName() {
         return lastName;
     }
@@ -78,7 +79,7 @@ public class Admins implements DataBaseObject {
         this.lastName = lastName;
     }
 
-    @Column(name="email",nullable = false,length = 45)
+    @Column(name = "email", nullable = false, length = 45)
     @Basic
     public String getEmail() {
         return email;
@@ -88,7 +89,7 @@ public class Admins implements DataBaseObject {
         this.email = email;
     }
 
-    @Column(name="contactnumber",length = 20,nullable = false)
+    @Column(name = "contactnumber", length = 20, nullable = false)
     @Basic
     public String getContactNumber() {
         return contactNumber;
@@ -99,8 +100,8 @@ public class Admins implements DataBaseObject {
     }
 
 
-    @ManyToOne(cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
-    @JoinColumn(name="store_id")
+    @ManyToOne(cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
+    @JoinColumn(name = "store_id")
     public Store getStore() {
         return store;
     }
@@ -109,8 +110,8 @@ public class Admins implements DataBaseObject {
         this.store = store;
     }
 
-    @ManyToOne(cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
-    @JoinColumn(name="privilege_id")
+    @ManyToOne(cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
+    @JoinColumn(name = "privilege_id")
     public Privileges getPrivilege() {
         return privilege;
     }
@@ -119,12 +120,4 @@ public class Admins implements DataBaseObject {
         this.privilege = privilege;
     }
 
-    @OneToMany(mappedBy = "admin",cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
-    public Set<Log> getLogs() {
-        return logs;
-    }
-
-    public void setLogs(Set<Log> logs) {
-        this.logs = logs;
-    }
 }

@@ -1,33 +1,34 @@
 package Plat.Hibernate.Entities;
 
 import Plat.Hibernate.Util.DataBaseObject;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
  * Created by MontaserQasem on 11/12/16.
  */
 @Entity(name = "store")
+@JsonIgnoreProperties(value = {"categories","admins"})
 public class Store implements DataBaseObject {
     private int id;
     private String name;
     private String owner;
     private String subdomain;
-    private Set<Categories> categories =null;
-    private Set<Admins> admins = null;
-    private Set<Address> addresses=null;
+    private List<Categories> categories = null;
+    private List<Admins> admins = null;
+    private List<Address> addresses = null;
 
 
     public Store() {
-        categories = new HashSet<Categories>();
-        admins = new HashSet<Admins>();
-        addresses = new HashSet<Address>();
+        categories = new ArrayList<>();
+        admins = new ArrayList<Admins>();
+        addresses = new ArrayList<Address>();
     }
 
     @Id
@@ -70,32 +71,30 @@ public class Store implements DataBaseObject {
         this.subdomain = subdomain;
     }
 
-
-    @OneToMany(mappedBy = "store",cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
-    public Set<Categories> getCategories() {
+    @OneToMany(mappedBy = "store", cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
+    public List<Categories> getCategories() {
         return categories;
     }
 
-    public void setCategories(Set<Categories> categories) {
+    public void setCategories(List<Categories> categories) {
         this.categories = categories;
     }
 
-    @OneToMany(mappedBy = "store",cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
-    public Set<Admins> getAdmins() {
+    @OneToMany(mappedBy = "store", cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
+    public List<Admins> getAdmins() {
         return admins;
     }
 
-    public void setAdmins(Set<Admins> admins) {
+    public void setAdmins(List<Admins> admins) {
         this.admins = admins;
     }
 
-
-    @OneToMany(mappedBy = "store",cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
-    public Set<Address> getAddresses() {
+    @OneToMany(mappedBy = "store", cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
+    public List<Address> getAddresses() {
         return addresses;
     }
 
-    public void setAddresses(Set<Address> addresses) {
+    public void setAddresses(List<Address> addresses) {
         this.addresses = addresses;
     }
 }

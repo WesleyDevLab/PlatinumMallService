@@ -2,7 +2,7 @@ package Plat.Hibernate.Entities;
 
 
 import Plat.Hibernate.Util.DataBaseObject;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 import javax.persistence.*;
 
@@ -27,7 +27,7 @@ public class WishList implements DataBaseObject {
         this.id = id;
     }
 
-    @ManyToOne(cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     public Users getUser() {
         return user;
@@ -37,7 +37,7 @@ public class WishList implements DataBaseObject {
         this.user = user;
     }
 
-    @ManyToOne(cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
     @JoinColumn(name = "item_id")
     public Items getItem() {
         return item;

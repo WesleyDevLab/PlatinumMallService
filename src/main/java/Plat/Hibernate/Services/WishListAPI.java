@@ -24,7 +24,7 @@ public class WishListAPI {
         List<DataBaseObject> objects = manager.find(null, WishList.class);
         List<WishList> result = new ArrayList<>();
         if (objects != null && objects.size() > 0) {
-            objects = EntityCleaner.clean(objects, WishList.class);
+           // objects = EntityCleaner.clean(objects, WishList.class);
             for (int i = 0; i < objects.size(); i++) {
                 WishList node = (WishList) objects.get(i);
                 result.add(node);

@@ -1,11 +1,14 @@
 package Plat.Hibernate.Services;
 
 import Plat.Hibernate.Entities.Address;
+import Plat.Hibernate.Entities.Admins;
 import Plat.Hibernate.Entities.Store;
 import Plat.Hibernate.Util.*;
+import org.codehaus.jackson.map.ObjectMapper;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -18,36 +21,47 @@ import java.util.Set;
 @Produces(MediaType.APPLICATION_JSON)
 public class AddressAPI {
     DataBaseManager manager = DataBaseManager.getInstance();
+    ObjectMapper mapper = new ObjectMapper();
+
 
     @GET
-    public List<Address> getAllAddresses() {
-        List<DataBaseObject> objects = manager.find(null, Address.class);
-        objects = EntityCleaner.clean(objects, Address.class);
-        List<Address> result = new ArrayList<>();
-        if (objects != null && objects.size() > 0) {
+    public String getAllAddresses() {
+        String result = "[";
+        try {
+            List<DataBaseObject> objects = manager.find(null, Store.class);
             for (int i = 0; i < objects.size(); i++) {
-                Address address = (Address) objects.get(i);
-                result.add(address);
+                Store store = (Store) objects.get(i);
+                store = (Store) manager.initialize(store, "addresses");
+                store = (Store) manager.initialize(store, "admins");
+                store = (Store) manager.initialize(store, "categories");
+                result += mapper.writeValueAsString(store);
+                if (i + 1 != objects.size())
+                    result += ",";
             }
+            return result;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            result += "]";
+            return result;
         }
-        return result;
     }
 
     @GET
     @Path("/{storeId}")
     public List<Address> getAddressesByStoreId(@PathParam("storeId") int storeId) {
-        RuleObject rule = new RuleObject("id", HibernateUtil.EQUAL, storeId);
-        List<DataBaseObject> objects = manager.find(rule, Store.class);
-        if (objects != null && objects.size() > 0) {
-            objects = EntityCleaner.clean(objects, Store.class);
-            Store store = (Store) objects.get(0);
-            Set<Address> res = store.getAddresses();
-            List<Address> result = new ArrayList<>();
-            Iterator it = res.iterator();
-            while (it.hasNext())
-                result.add(((Address) it.next()));
-            return result;
-        }
+//        RuleObject rule = new RuleObject("id", HibernateUtil.EQUAL, storeId);
+//        List<DataBaseObject> objects = manager.find(rule, Store.class);
+//        if (objects != null && objects.size() > 0) {
+//            //objects = EntityCleaner.clean(objects, Store.class);
+//            Store store = (Store) objects.get(0);
+//            Set<Address> res = store.getAddresses();
+//            List<Address> result = new ArrayList<>();
+//            Iterator it = res.iterator();
+//            while (it.hasNext())
+//                result.add(((Address) it.next()));
+//            return result;
+//        }
         return null;
     }
 

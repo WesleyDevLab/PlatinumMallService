@@ -22,7 +22,7 @@ public class StoreAPI {
         List<Store> result = new ArrayList<>();
         List<DataBaseObject> stores = manager.find(null, Store.class);
         if (stores != null && stores.size() > 0) {
-            stores = EntityCleaner.clean(stores, Store.class);
+         //  stores = EntityCleaner.clean(stores, Store.class);
             for (int i = 0; i < stores.size(); i++) {
                 Store store = (Store) stores.get(i);
                 result.add(store);
@@ -37,7 +37,7 @@ public class StoreAPI {
         RuleObject rule = new RuleObject("id", HibernateUtil.EQUAL, id);
         List<DataBaseObject> objects = manager.find(rule, Store.class);
         if (objects != null && objects.size() > 0) {
-            objects = EntityCleaner.clean(objects, Store.class);
+           // objects = EntityCleaner.clean(objects, Store.class);
             Store store = (Store) objects.get(0);
             return store;
         }
@@ -50,7 +50,7 @@ public class StoreAPI {
         RuleObject rule = new RuleObject("name", HibernateUtil.LIKE, name);
         List<Store> result = new ArrayList<>();
         List<DataBaseObject> stores = manager.find(rule, Store.class);
-        stores = EntityCleaner.clean(stores, Store.class);
+       // stores = EntityCleaner.clean(stores, Store.class);
         if (stores != null && stores.size() > 0) {
             for (int i = 0; i < stores.size(); i++) {
                 Store store = (Store) stores.get(i);
@@ -68,7 +68,7 @@ public class StoreAPI {
             int key = new OrdersAPI().getItemsStoreId(itemId);
             RuleObject rule = new RuleObject("id", HibernateUtil.EQUAL, key);
             List<DataBaseObject> objects = manager.find(rule, Store.class);
-            objects = EntityCleaner.clean(objects, Store.class);
+         //   objects = EntityCleaner.clean(objects, Store.class);
             return ((Store) objects.get(0));
         }
         return null;
