@@ -26,25 +26,8 @@ public class AddressAPI {
 
     @GET
     public String getAllAddresses() {
-        String result = "[";
-        try {
-            List<DataBaseObject> objects = manager.find(null, Store.class);
-            for (int i = 0; i < objects.size(); i++) {
-                Store store = (Store) objects.get(i);
-                store = (Store) manager.initialize(store, "addresses");
-                store = (Store) manager.initialize(store, "admins");
-                store = (Store) manager.initialize(store, "categories");
-                result += mapper.writeValueAsString(store);
-                if (i + 1 != objects.size())
-                    result += ",";
-            }
-            return result;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        } finally {
-            result += "]";
-            return result;
-        }
+        List<DataBaseObject> objects = manager.find(null, Address.class);
+        return JsonParser.parse(objects);
     }
 
     @GET

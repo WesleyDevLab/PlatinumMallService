@@ -7,9 +7,7 @@ import Plat.Hibernate.Entities.*;
  * Created by MontaserQasem on 1/15/17.
  */
 public class EntityInitializer {
-
     private static DataBaseManager manager = DataBaseManager.getInstance();
-
 
     public static DataBaseObject init(DataBaseObject object, Class cls) {
         if (cls == Address.class)
@@ -66,19 +64,16 @@ public class EntityInitializer {
         return null;
     }
 
-
     public static Admins initAdmin(Admins admin) {
         admin = (Admins) manager.initialize(admin, "privilege");
         return admin;
     }
-
 
     public static Cart initCart(Cart cart) {
         cart = (Cart) manager.initialize(cart, "item");
         cart = (Cart) manager.initialize(cart, "user");
         return cart;
     }
-
 
     public static Guests initGuest(Guests guest) {
         guest = (Guests) manager.initialize(guest, "itemsHits");
@@ -123,5 +118,4 @@ public class EntityInitializer {
         wishList = (WishList) manager.initialize(wishList, "item");
         return wishList;
     }
-
 }
