@@ -13,7 +13,7 @@ import java.util.Set;
  * Created by MontaserQasem on 11/12/16.
  */
 @Entity(name = "categories")
-@JsonIgnoreProperties(value = {"brand", "items","store"})
+@JsonIgnoreProperties(value = {"brand", "items","store","handler", "hibernateLazyInitializer"})
 public class Categories implements DataBaseObject {
     private int id;
     private String name;

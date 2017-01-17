@@ -2,6 +2,7 @@ package Plat.Hibernate.Entities;
 
 
 import Plat.Hibernate.Util.DataBaseObject;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 
 import javax.persistence.*;
@@ -9,13 +10,15 @@ import javax.persistence.*;
 /**
  * Created by MontaserQasem on 11/13/16.
  */
-@Entity(name="wishlist")
+@Entity(name = "wishlist")
+@JsonIgnoreProperties(value = {"handler", "hibernateLazyInitializer"})
 public class WishList implements DataBaseObject {
     private int id;
     private Users user;
     private Items item;
 
-    public WishList(){}
+    public WishList() {
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -27,7 +30,7 @@ public class WishList implements DataBaseObject {
         this.id = id;
     }
 
-    @ManyToOne(cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     public Users getUser() {
         return user;
@@ -37,7 +40,7 @@ public class WishList implements DataBaseObject {
         this.user = user;
     }
 
-    @ManyToOne(cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "item_id")
     public Items getItem() {
         return item;

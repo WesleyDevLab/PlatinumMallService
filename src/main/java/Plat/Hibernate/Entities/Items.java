@@ -16,7 +16,7 @@ import java.util.Set;
  */
 
 @Entity(name = "items")
-@JsonIgnoreProperties(value = {"categories", "cart", "orderitem"})
+@JsonIgnoreProperties(value = {"categories", "cart", "orderitem", "handler", "hibernateLazyInitializer"})
 public class Items implements DataBaseObject {
     private int id;
     private String name;
@@ -103,7 +103,7 @@ public class Items implements DataBaseObject {
     }
 
 
-    @ManyToOne(cascade = CascadeType.PERSIST ,fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "brand_id")
     public Brand getBrand() {
         return brand;
@@ -113,7 +113,7 @@ public class Items implements DataBaseObject {
         this.brand = brand;
     }
 
-    @OneToMany(mappedBy = "item", cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "item", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     public List<Photos> getPhotos() {
         return photos;
     }
@@ -122,7 +122,7 @@ public class Items implements DataBaseObject {
         this.photos = photos;
     }
 
-    @OneToMany(mappedBy = "item", cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "item", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     public List<Cart> getCart() {
         return cart;
     }
@@ -131,7 +131,7 @@ public class Items implements DataBaseObject {
         this.cart = cart;
     }
 
-    @OneToMany(mappedBy = "item", cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "item", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JsonIgnore
     public List<OrderItem> getOrderedItems() {
         return orderedItems;
@@ -141,7 +141,7 @@ public class Items implements DataBaseObject {
         this.orderedItems = orderedItems;
     }
 
-    @OneToMany(mappedBy = "item", cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "item", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JsonIgnore
     public List<WishList> getWishLists() {
         return wishLists;
@@ -151,7 +151,7 @@ public class Items implements DataBaseObject {
         this.wishLists = wishLists;
     }
 
-    @OneToMany(mappedBy = "item", cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "item", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JsonIgnore
     public List<ItemHits> getItemHitses() {
         return itemHits;
@@ -161,7 +161,7 @@ public class Items implements DataBaseObject {
         this.itemHits = itemHitses;
     }
 
-    @OneToMany(mappedBy = "item", cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "item", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     public List<Specifications> getSpecifications() {
         return specifications;
     }
@@ -171,7 +171,7 @@ public class Items implements DataBaseObject {
     }
 
 
-    @ManyToOne(cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     public Categories getCategory() {
         return category;

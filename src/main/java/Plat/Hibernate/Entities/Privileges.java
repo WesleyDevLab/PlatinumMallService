@@ -14,7 +14,7 @@ import java.util.Set;
  * Created by MontaserQasem on 11/12/16.
  */
 @Entity(name = "privileges")
-@JsonIgnoreProperties(value = {"admins"})
+@JsonIgnoreProperties(value = {"admins", "hibernateLazyInitializer", "handler"})
 public class Privileges implements DataBaseObject {
     private int id;
     private String name;
@@ -44,7 +44,7 @@ public class Privileges implements DataBaseObject {
         this.name = name;
     }
 
-    @OneToMany(mappedBy = "privilege", cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "privilege", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     public List<Admins> getAdmins() {
         return admins;
     }

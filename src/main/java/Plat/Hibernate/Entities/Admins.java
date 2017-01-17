@@ -14,7 +14,7 @@ import java.util.Set;
  */
 
 @Entity(name = "admins")
-@JsonIgnoreProperties(value = {"store"})
+@JsonIgnoreProperties(value = {"store", "password","handler", "hibernateLazyInitializer"})
 public class Admins implements DataBaseObject {
     private int id;
     private String username;
@@ -100,7 +100,7 @@ public class Admins implements DataBaseObject {
     }
 
 
-    @ManyToOne(cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "store_id")
     public Store getStore() {
         return store;
@@ -110,7 +110,7 @@ public class Admins implements DataBaseObject {
         this.store = store;
     }
 
-    @ManyToOne(cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "privilege_id")
     public Privileges getPrivilege() {
         return privilege;

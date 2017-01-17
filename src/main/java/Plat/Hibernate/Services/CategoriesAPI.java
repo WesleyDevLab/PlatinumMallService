@@ -17,77 +17,60 @@ public class CategoriesAPI {
     DataBaseManager manager = DataBaseManager.getInstance();
 
     @GET
-    public List<Categories> getAllCategories() {
+    public String getAllCategories() {
         List<DataBaseObject> objects = manager.find(null, Categories.class);
-        //objects = EntityCleaner.clean(objects, Categories.class);
-        List<Categories> categories = new ArrayList<>();
-        for (int i = 0; i < objects.size(); i++) {
-            Categories category = (Categories) objects.get(i);
-            categories.add(category);
-        }
-        Collections.sort(categories, new Comparator<Categories>() {
-            @Override
-            public int compare(Categories o1, Categories o2) {
-                return o1.getId()-o2.getId();
-            }
-        });
-        return categories;
+        return JsonParser.parse(EntityInitializer.init(objects, Categories.class));
     }
 
 
     @GET
     @Path("/{storeId}")
-    public List<Categories> getCategoriesByStoreId(@PathParam("storeId") int storeId) {
+    public String getCategoriesByStoreId(@PathParam("storeId") int storeId) {
         RuleObject rule = new RuleObject("id", HibernateUtil.EQUAL, storeId);
         List<DataBaseObject> objects = manager.find(rule, Store.class);
-        List<Categories> result = new ArrayList<>();
         if (objects != null && objects.size() > 0) {
-           // objects = EntityCleaner.clean(objects, Store.class);
             Store store = (Store) objects.get(0);
-            Iterator it = store.getCategories().iterator();
-            while (it.hasNext())
-                result.add(((Categories) it.next()));
+            store = (Store) manager.initialize(store, "categories");
+            List<DataBaseObject> target = new ArrayList<>();
+            for (Categories category : store.getCategories())
+                target.add((DataBaseObject) category);
+            return JsonParser.parse(EntityInitializer.init(target, Categories.class));
         }
-        Collections.sort(result, new Comparator<Categories>() {
-            @Override
-            public int compare(Categories o1, Categories o2) {
-                return o1.getId()-o2.getId();
-            }
-        });
-        return result;
+        return new ResponseMessage("There was an error with the store id").getResponseMessage();
     }
 
     @GET
     @Path("/{storeId}/{categoryId}")
-    public Categories getCategoryByIdAndStoreId(@PathParam("storeId") int storeId, @PathParam("categoryId") int catId) {
-        List<Categories> allCategories = getAllCategories();
-        if (allCategories == null || allCategories.size() == 0) return null;
-        for (int i = 0; i < allCategories.size(); i++)
-            if (allCategories.get(i).getId() == catId && allCategories.get(i).getStore().getId() == storeId)
-                return allCategories.get(i);
-        return null;
+    public String getCategoryByIdAndStoreId(@PathParam("storeId") int storeId, @PathParam("categoryId") int catId) {
+        List<DataBaseObject> objects = manager.find(new RuleObject("id", HibernateUtil.EQUAL, catId), Categories.class);
+        if (objects != null && objects.size() > 0) {
+            Categories category = (Categories) objects.get(0);
+            category = (Categories) manager.initialize(category, "store");
+            if (category.getStore().getId() == storeId) {
+                List<DataBaseObject> target = new ArrayList<>();
+                target.add((DataBaseObject) category);
+                return JsonParser.parse(target);
+            }
+            return new ResponseMessage("There was an error with the store id").getResponseMessage();
+        }
+        return new ResponseMessage("There was an error with the category id").getResponseMessage();
     }
 
     @POST
     @Path("/{catId}")
-    public Categories getCategoryById(@PathParam("catId") int catId) {
+    public String getCategoryById(@PathParam("catId") int catId) {
         RuleObject rule = new RuleObject("id", HibernateUtil.EQUAL, catId);
         List<DataBaseObject> objects = manager.find(rule, Categories.class);
-        if (objects == null || objects.size() == 0) return null;
-       // objects = EntityCleaner.clean(objects, Categories.class);
-        return ((Categories) objects.get(0));
+        if (objects == null || objects.size() == 0)
+            return new ResponseMessage("There was an error with the category id").getResponseMessage();
+        return JsonParser.parse(objects);
     }
 
     @POST
     @Path("/{storeId}/{categoryName}")
-    public Categories getCategoryByStoreIdAndName(@PathParam("storeId") int storeId, @PathParam("categoryName") String cateName) {
-        List<Categories> categories = getCategoriesByStoreId(storeId);
-        for (int i = 0; i < categories.size(); i++) {
-            Categories category = (Categories) categories.get(i);
-            if (category.getName().equalsIgnoreCase(cateName))
-                return category;
-        }
-        return null;
+    public String getCategoryByStoreIdAndName(@PathParam("storeId") int storeId, @PathParam("categoryName") String cateName) {
+        List<DataBaseObject> objects = manager.find(new RuleObject("name", HibernateUtil.LIKE, cateName), Categories.class);
+        return JsonParser.parse(objects);
     }
 
     @POST
@@ -96,25 +79,30 @@ public class CategoriesAPI {
         if (category.getStore() != null) {
             RuleObject rule = new RuleObject("id", HibernateUtil.EQUAL, category.getStore().getId());
             List<DataBaseObject> objects = manager.find(rule, Store.class);
-            if (objects == null || objects.size() == 0) return "There's a problem with the store id";
+            if (objects == null || objects.size() == 0)
+                return new ResponseMessage("There's a problem with the store id").getResponseMessage();
+
             Store store = (Store) objects.get(0);
-            Iterator it = store.getCategories().iterator();
-            while (it.hasNext()) {
-                Categories node = (Categories) it.next();
-                if (node.getName().equalsIgnoreCase(category.getName())) return "This name is already taken";
-            }
+            store = (Store) manager.initialize(store, "categories");
+            for (Categories node : store.getCategories())
+                if (node.getName().equalsIgnoreCase(category.getName()))
+                    return new ResponseMessage("This name is already exist please pick a different name to your category").getResponseMessage();
+
             manager.merge(category);
-            return "Category has been added successfully";
+            return new ResponseMessage("Category has been added successfully").getResponseMessage();
         }
-        manager.save(category);
-        return "Category has been added successfully";
+        return new ResponseMessage("Please provide a store object with the store id in your category object").getResponseMessage();
     }
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     public String updateCategory(Categories category) {
+        List<DataBaseObject> objects = manager.find(new RuleObject("id", HibernateUtil.EQUAL, category.getId()), Categories.class);
+        Categories node = (Categories) objects.get(0);
+        node = (Categories) manager.initialize(node, "store");
+        category.setStore(node.getStore());
         manager.update(category);
-        return "Category has been updated successfully";
+        return new ResponseMessage("Category has been updated successfully").getResponseMessage();
     }
 
     @DELETE
@@ -122,9 +110,10 @@ public class CategoriesAPI {
     public String deleteCategory(@PathParam("categoryId") int categoryId) {
         RuleObject rule = new RuleObject("id", HibernateUtil.EQUAL, categoryId);
         List<DataBaseObject> objects = manager.find(rule, Categories.class);
-        if (objects == null || objects.size() == 0) return "There's a problem with the category id";
+        if (objects == null || objects.size() == 0)
+            return new ResponseMessage("There's a problem with the category id").getResponseMessage();
         Categories category = (Categories) objects.get(0);
         manager.delete(category);
-        return "Category (" + category.getName() + ") has been deleted";
+        return new ResponseMessage("Category " + category.getName() + " has been deleted").getResponseMessage();
     }
 }

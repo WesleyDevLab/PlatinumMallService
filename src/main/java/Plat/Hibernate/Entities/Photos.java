@@ -10,7 +10,7 @@ import javax.persistence.*;
  * Created by MontaserQasem on 11/12/16.
  */
 @Entity(name="photos")
-@JsonIgnoreProperties(value = {"Items"})
+@JsonIgnoreProperties(value = {"Items","handler", "hibernateLazyInitializer"})
 public class Photos implements DataBaseObject {
     private int id;
     private String path;

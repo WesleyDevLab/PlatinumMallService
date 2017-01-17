@@ -14,7 +14,7 @@ import java.util.Set;
  */
 
 @Entity(name = "brand")
-@JsonIgnoreProperties(value = {"items", "categories"})
+@JsonIgnoreProperties(value = {"items", "categories","handler", "hibernateLazyInitializer"})
 public class Brand implements DataBaseObject {
     private int id;
     private String name;
@@ -39,7 +39,7 @@ public class Brand implements DataBaseObject {
     }
 
     @Basic
-    @Column(name = "name",length = 50)
+    @Column(name = "name", length = 50)
     public String getName() {
         return name;
     }
@@ -49,7 +49,7 @@ public class Brand implements DataBaseObject {
     }
 
     @Basic
-    @Column(name = "arabic_name",length = 200)
+    @Column(name = "arabic_name", length = 200)
     public String getArabicName() {
         return arabicName;
     }
@@ -58,7 +58,7 @@ public class Brand implements DataBaseObject {
         this.arabicName = arabicName;
     }
 
-    @OneToMany(mappedBy = "brand", cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "brand", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     public List<Items> getItems() {
         return items;
     }
@@ -68,7 +68,7 @@ public class Brand implements DataBaseObject {
     }
 
 
-    @ManyToMany(cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     public List<Categories> getCategories() {
         return categories;
     }
@@ -76,4 +76,25 @@ public class Brand implements DataBaseObject {
     public void setCategories(List<Categories> categories) {
         this.categories = categories;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Brand)) return false;
+
+        Brand brand = (Brand) o;
+
+        if (id != brand.id) return false;
+        if (name != null ? !name.equals(brand.name) : brand.name != null) return false;
+        if (arabicName != null ? !arabicName.equals(brand.arabicName) : brand.arabicName != null) return false;
+        if (items != null ? !items.equals(brand.items) : brand.items != null) return false;
+        return categories != null ? categories.equals(brand.categories) : brand.categories == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
+    }
+
 }

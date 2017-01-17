@@ -11,7 +11,7 @@ import javax.persistence.*;
  */
 
 @Entity(name ="specifications")
-@JsonIgnoreProperties(value = {"items"})
+@JsonIgnoreProperties(value = {"items","handler", "hibernateLazyInitializer"})
 public class Specifications implements DataBaseObject {
     private int id;
     private String specificationKey;

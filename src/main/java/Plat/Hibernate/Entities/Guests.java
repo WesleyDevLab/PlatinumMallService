@@ -1,6 +1,7 @@
 package Plat.Hibernate.Entities;
 
 import Plat.Hibernate.Util.DataBaseObject;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import java.util.Set;
  * Created by MontaserQasem on 11/14/16.
  */
 @Entity(name = "guests")
+@JsonIgnoreProperties(value = {"handler", "hibernateLazyInitializer"})
 public class Guests implements DataBaseObject {
     private int id;
     private List<ItemHits> itemsHits;

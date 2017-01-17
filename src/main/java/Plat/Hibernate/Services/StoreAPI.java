@@ -18,87 +18,20 @@ public class StoreAPI {
     DataBaseManager manager = DataBaseManager.getInstance();
 
     @GET
-    public List<Store> getAllStores() {
-        List<Store> result = new ArrayList<>();
-        List<DataBaseObject> stores = manager.find(null, Store.class);
-        if (stores != null && stores.size() > 0) {
-         //  stores = EntityCleaner.clean(stores, Store.class);
-            for (int i = 0; i < stores.size(); i++) {
-                Store store = (Store) stores.get(i);
-                result.add(store);
-            }
-        }
-        return result;
+    public String getAllStores() {
+        List<DataBaseObject> objects = manager.find(null, Store.class);
+        return JsonParser.parse(EntityInitializer.init(objects, Store.class));
     }
 
     @GET
     @Path("/{storeId}")
-    public Store getStoreById(@PathParam("storeId") int id) {
+    public String getStoreById(@PathParam("storeId") int id) {
         RuleObject rule = new RuleObject("id", HibernateUtil.EQUAL, id);
         List<DataBaseObject> objects = manager.find(rule, Store.class);
         if (objects != null && objects.size() > 0) {
-           // objects = EntityCleaner.clean(objects, Store.class);
-            Store store = (Store) objects.get(0);
-            return store;
+            objects = EntityInitializer.init(objects, Store.class);
+            return JsonParser.parse(objects);
         }
-        return null;
+        return new ResponseMessage("There was an error in the store id you provided").getResponseMessage();
     }
-
-    @POST
-    @Path("/{storeName}")
-    public List<Store> getStoresByName(@PathParam("storeName") String name) {
-        RuleObject rule = new RuleObject("name", HibernateUtil.LIKE, name);
-        List<Store> result = new ArrayList<>();
-        List<DataBaseObject> stores = manager.find(rule, Store.class);
-       // stores = EntityCleaner.clean(stores, Store.class);
-        if (stores != null && stores.size() > 0) {
-            for (int i = 0; i < stores.size(); i++) {
-                Store store = (Store) stores.get(i);
-                result.add(store);
-            }
-        }
-
-        return result;
-    }
-
-    @POST
-    @Path("/{operation}/{itemId}")
-    public Store getStoreByOperation(@PathParam("operation") String operation, @PathParam("itemId") int itemId) {
-        if (operation.equalsIgnoreCase("getitemstore")) {
-            int key = new OrdersAPI().getItemsStoreId(itemId);
-            RuleObject rule = new RuleObject("id", HibernateUtil.EQUAL, key);
-            List<DataBaseObject> objects = manager.find(rule, Store.class);
-         //   objects = EntityCleaner.clean(objects, Store.class);
-            return ((Store) objects.get(0));
-        }
-        return null;
-    }
-
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    public String addStore(Store store) {
-        manager.save(store);
-        return "Store Added Successfully";
-    }
-
-    @PUT
-    @Consumes(MediaType.APPLICATION_JSON)
-    public String updateStore(Store store) {
-        manager.update(store);
-        return "Store updated Successfully";
-    }
-
-    @DELETE
-    @Path("/{storeId}")
-    public String deleteStore(@PathParam("storeId") int id) {
-        RuleObject rule = new RuleObject("id", HibernateUtil.EQUAL, id);
-        List<DataBaseObject> result = manager.find(rule, Store.class);
-        if (result == null || result.size() == 0)
-            return "Store is not exist to delete";
-
-        manager.delete(result.get(0));
-        return "Store deleted";
-    }
-
-
 }

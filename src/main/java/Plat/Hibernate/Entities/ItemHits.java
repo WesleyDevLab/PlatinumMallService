@@ -11,7 +11,7 @@ import javax.persistence.*;
  * Created by MontaserQasem on 11/12/16.
  */
 @Entity(name = "item_hits")
-@JsonIgnoreProperties(value = {"guest"})
+@JsonIgnoreProperties(value = {"guest","handler", "hibernateLazyInitializer"})
 public class ItemHits implements DataBaseObject {
     private int id;
     private String date;

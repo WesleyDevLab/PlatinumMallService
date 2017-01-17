@@ -10,7 +10,7 @@ import java.util.*;
  * Created by MontaserQasem on 11/12/16.
  */
 @Entity(name = "orders")
-@JsonIgnoreProperties(value = {"log"})
+@JsonIgnoreProperties(value = {"log","handler", "hibernateLazyInitializer"})
 public class Orders implements DataBaseObject {
     private long id;
     private String description;

@@ -19,29 +19,26 @@ public class CartAPI {
     DataBaseManager manager = DataBaseManager.getInstance();
 
     @GET
-    public List<Cart> getAllCarts() {
+    public String getAllCarts() {
         List<DataBaseObject> objects = manager.find(null, Cart.class);
-        List<Cart> result = new ArrayList<>();
-        if (objects != null && objects.size() > 0) {
-          //  objects = EntityCleaner.clean(objects, Cart.class);
-            for (int i = 0; i < objects.size(); i++) {
-                Cart node = (Cart) objects.get(i);
-                result.add(node);
-            }
-        }
-        return result;
+        objects = EntityInitializer.init(objects, Cart.class);
+        return JsonParser.parse(objects);
     }
 
     @GET
     @Path("/{userId}")
-    public List<Cart> getCartsByUserId(@PathParam("userId") int userId) {
-        List<Cart> result = new ArrayList<>();
-        List<Cart> objects = getAllCarts();
-        for (int i = 0; i < objects.size(); i++)
-            if (objects.get(i).getUser().getId() == userId)
-                result.add(objects.get(i));
-
-        return result;
+    public String getCartsByUserId(@PathParam("userId") int userId) {
+        RuleObject ruleObject = new RuleObject("id", HibernateUtil.EQUAL, userId);
+        List<DataBaseObject> objects = manager.find(ruleObject, Users.class);
+        if (objects != null && objects.size() > 0) {
+            Users user = (Users) objects.get(0);
+            user = (Users) manager.initialize(user, "cart");
+            List<DataBaseObject> target = new ArrayList<>();
+            for (Cart cart : user.getCart())
+                target.add((DataBaseObject) cart);
+            return JsonParser.parse(EntityInitializer.init(target, Cart.class));
+        }
+        return new ResponseMessage("There was an error with the user id").getResponseMessage();
     }
 
     @POST
@@ -52,25 +49,45 @@ public class CartAPI {
         Cart cart = (Cart) object.get(0);
         cart.setQuantity(Integer.parseInt(quantity));
         manager.update(cart);
-        return "Cart updated";
+        return new ResponseMessage("your cart has been updated").getResponseMessage();
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public String addCartRecord(Cart cart) {
         manager.merge(cart);
-        return "Cart recorde added successfully";
+        return new ResponseMessage("This item has been added to your cart").getResponseMessage();
     }
 
     @DELETE
     @Path("/{userId}")
-    public String deleteCartRecord(@PathParam("userId") int userId) {
-        List<Cart> carts = getAllCarts();
-        List<DataBaseObject> cut = new ArrayList<>();
-        for (int i = 0; i < carts.size(); i++)
-            if (carts.get(i).getUser().getId() == userId)
-                cut.add(carts.get(i));
-        manager.deleteList(cut);
-        return "ok";
+    public String deleteAllCartItems(@PathParam("userId") int userId) {
+        List<DataBaseObject> objects = manager.find(new RuleObject("id", HibernateUtil.EQUAL, userId), Users.class);
+        if (objects != null && objects.size() > 0) {
+            Users user = (Users) objects.get(0);
+            user = (Users) manager.initialize(user, "cart");
+            List<DataBaseObject> targer = new ArrayList<>();
+            for (Cart cart : user.getCart())
+                targer.add((DataBaseObject) cart);
+            manager.deleteList(targer);
+
+            return new ResponseMessage("your cart has been cleared").getResponseMessage();
+        }
+        return new ResponseMessage("There was an error with the user id").getResponseMessage();
+    }
+
+    @DELETE
+    @Path("/{userId}/{cartId}")
+    public String deleteItemFromUserCart(@PathParam("userId") int userId, @PathParam("cartId") int cartId) {
+        List<DataBaseObject> validUser = manager.find(new RuleObject("id", HibernateUtil.EQUAL, userId), Users.class);
+        if (validUser != null && validUser.size() > 0) {
+            List<DataBaseObject> objects = manager.find(new RuleObject("id", HibernateUtil.EQUAL, cartId), Cart.class);
+            if (objects != null && objects.size() > 0) {
+                manager.deleteList(objects);
+                return new ResponseMessage("Item has been deleted from your cart").getResponseMessage();
+            }
+            return new ResponseMessage("There was an error with the cart id").getResponseMessage();
+        }
+        return new ResponseMessage("There was an error with the user id").getResponseMessage();
     }
 }

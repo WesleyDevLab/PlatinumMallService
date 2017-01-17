@@ -19,39 +19,32 @@ public class GuestAPI {
     DataBaseManager manager = DataBaseManager.getInstance();
 
     @GET
-    public List<Guests> getlAllGuests() {
+    public String getlAllGuests() {
         List<DataBaseObject> objects = manager.find(null, Guests.class);
-        List<Guests> guests = new ArrayList<>();
-        if (objects != null && objects.size() > 0) {
-           // objects = EntityCleaner.clean(objects, Guests.class);
-            for (int i = 0; i < objects.size(); i++) {
-                Guests node = (Guests) objects.get(i);
-                guests.add(node);
-            }
-        }
-        Collections.sort(guests, new Comparator<Guests>() {
-            @Override
-            public int compare(Guests o1, Guests o2) {
-                return o2.getId() - o1.getId();
-            }
-        });
-        return guests;
+        return JsonParser.parse(EntityInitializer.init(objects, Guests.class));
     }
 
     @GET
     @Path("/{getMax}")
-    public String getlGuestById(@PathParam("getMax") String getMax) {
-        if (getMax.equalsIgnoreCase("getmax")) {
-            List<Guests> guests = getlAllGuests();
-            return guests.get(0).getId() + "";
+    public String getGuestNextValue(@PathParam("getMax") String getMax) {
+        if (getMax.equalsIgnoreCase("getMax")) {
+            int max = 0;
+            List<DataBaseObject> objects = manager.find(null, Guests.class);
+            if (objects != null && objects.size() > 0) {
+                for (int i = 0; i < objects.size(); i++) {
+                    Guests guest = (Guests) objects.get(i);
+                    max = (guest.getId() > max) ? guest.getId() : max;
+                }
+            }
+            return ResponseMessage.createSimpleObject("nextValue", max + "");
         }
-        return -1 + "";
+        return null;
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public String addGuest(Guests guest) {
         manager.save(guest);
-        return "Guest added successfully";
+        return new ResponseMessage("Guest added successfully").getResponseMessage();
     }
 }

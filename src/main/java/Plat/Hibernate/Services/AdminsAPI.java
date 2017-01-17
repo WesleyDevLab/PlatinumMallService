@@ -1,16 +1,14 @@
 package Plat.Hibernate.Services;
 
 import Plat.Hibernate.Entities.Admins;
-import Plat.Hibernate.Entities.Log;
 import Plat.Hibernate.Entities.Store;
 import Plat.Hibernate.Util.*;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
+
 
 /**
  * Created by MontaserQasem on 11/19/16.
@@ -21,59 +19,62 @@ public class AdminsAPI {
     DataBaseManager manager = DataBaseManager.getInstance();
 
     @GET
-    public List<Admins> getAllAdmins() {
-        List<DataBaseObject> result = manager.find(null, Admins.class);
-       // result = EntityCleaner.clean(result, Admins.class);
-        List<Admins> admins = new ArrayList<>();
-        if (result != null && result.size() > 0) {
-            for (int i = 0; i < result.size(); i++) {
-                Admins admin = (Admins) result.get(i);
-                admins.add(admin);
-            }
+    public String getAllAdmins() {
+        List<DataBaseObject> objects = manager.find(null, Admins.class);
+        if (objects != null && objects.size() > 0) {
+            objects = EntityInitializer.init(objects, Admins.class);
+            return JsonParser.parse(objects);
         }
-
-        return admins;
+        return "[]";
     }
 
     @GET
     @Path("/{storeId}")
-    public List<Admins> getAdminsByStoreId(@PathParam("storeId") int storeId) {
-        List<Admins> result = new ArrayList<>();
-        List<Admins> object = getAllAdmins();
-        for (int i = 0; i < object.size(); i++) {
-            if (object.get(i).getStore().getId() != storeId) continue;
-            result.add(object.get(i));
+    public String getAdminsByStoreId(@PathParam("storeId") int storeId) {
+        RuleObject ruleObject = new RuleObject("id", HibernateUtil.EQUAL, storeId);
+        List<DataBaseObject> objects = manager.find(ruleObject, Admins.class);
+        if (objects != null && objects.size() > 0) {
+            objects = EntityInitializer.init(objects, Admins.class);
+            return JsonParser.parse(objects);
         }
-        return result;
+        return new ResponseMessage("There was an error with the store id").getResponseMessage();
     }
 
     @GET
     @Path("/{storeId}/{adminId}")
-    public Admins getAdminByAdminIdAndStoreId(@PathParam("storeId") int storeId, @PathParam("adminId") int adminId) {
-        RuleObject rule = new RuleObject("id", HibernateUtil.EQUAL, storeId);
-        List<DataBaseObject> storeObjects = manager.find(rule, Store.class);
-        //storeObjects = EntityCleaner.clean(storeObjects, Store.class);
-        if (storeObjects != null && storeObjects.size() > 0) {
-            Store store = (Store) storeObjects.get(0);
-            Iterator it = store.getAdmins().iterator();
-            while (it.hasNext()) {
-                Admins adminNode = (Admins) it.next();
-                if (adminNode.getId() == adminId) return adminNode;
+    public String getAdminByAdminIdAndStoreId(@PathParam("storeId") int storeId, @PathParam("adminId") int adminId) {
+        RuleObject ruleObject = new RuleObject("id", HibernateUtil.EQUAL, storeId);
+        List<DataBaseObject> storeObject = manager.find(ruleObject, Store.class);
+        if (storeObject != null && storeObject.size() > 0) {
+            Store store = (Store) storeObject.get(0);
+            store = (Store) manager.initialize(store, "admins");
+            for (int i = 0; i < store.getAdmins().size(); i++) {
+                Admins admin = store.getAdmins().get(i);
+                if (admin.getId() == adminId) {
+                    List<DataBaseObject> object = new ArrayList<>();
+                    object.add(((DataBaseObject) admin));
+                    object = EntityInitializer.init(object, Admins.class);
+                    return JsonParser.parse(object);
+                }
             }
         }
-        return null;
+        return new ResponseMessage("There was an error with id").getResponseMessage();
     }
 
     @POST
     @Path("/{storeId}/{userName}/{password}")
-    public String checkAdminInfo(@PathParam("storeId") int storeId, @PathParam("userName") String userName, @PathParam("password") String password) {
-        List<Admins> admins = getAdminsByStoreId(storeId);
-        for (int i = 0; i < admins.size(); i++) {
-            Admins admin = (Admins) admins.get(i);
-            if (admin.getUsername().equals(userName) && admin.getPassword().equals(password))
-                return "1&" + admin.getId();
+    public String doLoginAdmin(@PathParam("storeId") int storeId, @PathParam("userName") String userName, @PathParam("password") String password) {
+        List<DataBaseObject> storeObject = manager.find(new RuleObject("id", HibernateUtil.EQUAL, storeId), Store.class);
+        if (storeObject != null && storeObject.size() > 0) {
+            Store store = (Store) storeObject.get(0);
+            store = (Store) manager.initialize(store, "admins");
+            for (Admins admin : store.getAdmins())
+                if (admin.getUsername().equals(userName) && admin.getPassword().equals(password))
+                    return new ResponseMessage("Accepted").getResponseMessage();
+
+            return new ResponseMessage("Wrong password or username").getResponseMessage();
         }
-        return "0";
+        return new ResponseMessage("There was an error with the store id").getResponseMessage();
     }
 
     @POST
@@ -81,24 +82,32 @@ public class AdminsAPI {
     public String addAdmin(Admins admin) {
         RuleObject rule = new RuleObject("id", HibernateUtil.EQUAL, admin.getStore().getId());
         List<DataBaseObject> objects = manager.find(rule, Store.class);
-        if (objects == null || objects.size() == 0) return "There's a problem with the store id";
+        if (objects == null || objects.size() == 0)
+            return new ResponseMessage("There was a problem with the store id").getResponseMessage();
+
         Store store = (Store) objects.get(0);
-        Iterator it = store.getAdmins().iterator();
-        while (it.hasNext()) {
-            Admins node = (Admins) it.next();
+        store = (Store) manager.initialize(store, "admins");
+        for (Admins node : store.getAdmins())
             if (node.getUsername().equalsIgnoreCase(admin.getUsername()))
-                return "Username (" + admin.getUsername() + ") already exist";
-        }
+                return new ResponseMessage("username " + admin.getUsername() + " is already exist , please pick a different username").getResponseMessage();
+
         manager.merge(admin);
-        return "Admin (" + admin.getFirstName() + ") has been added successfully";
+        return new ResponseMessage("Admin " + admin.getFirstName() + " has been added successfully").getResponseMessage();
     }
 
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     public String updateAdmin(Admins admin) {
-        manager.update(admin);
-        return "Admin information has been updated successfully";
+        List<DataBaseObject> objects = manager.find(new RuleObject("id", HibernateUtil.EQUAL, admin.getId()), Admins.class);
+        if (objects != null && objects.size() > 0) {
+            Admins admins = (Admins) objects.get(0);
+            admin = (Admins) manager.initialize(admin, "store");
+            admin.setStore(admin.getStore());
+            manager.update(admin);
+            return new ResponseMessage("Admin information has been updated successfully").getResponseMessage();
+        }
+        return new ResponseMessage("There was an error with the id").getResponseMessage();
     }
 
     @DELETE
@@ -107,19 +116,9 @@ public class AdminsAPI {
         RuleObject rule = new RuleObject("id", HibernateUtil.EQUAL, id);
         List<DataBaseObject> result = manager.find(rule, Admins.class);
         if (result == null || result.size() == 0)
-            return "Admin record  is not exist to delete";
-        List<DataBaseObject> objects = manager.find(null, Log.class);
-        if (objects != null && objects.size() > 0) {
-            List<DataBaseObject> rubbish = new ArrayList<>();
-            for (int i = 0; i < objects.size(); i++) {
-                Log log = (Log) objects.get(i);
-               // if (log.getAdmin().getId() == id)
-                    rubbish.add(log);
-            }
-            manager.deleteList(rubbish);
-        }
-
-        manager.delete(result.get(0));
-        return "admin record deleted";
+            return new ResponseMessage("There was an error with id").getResponseMessage();
+        Admins admin = (Admins) result.get(0);
+        manager.delete(admin);
+        return new ResponseMessage("admin " + admin.getUsername() + " has been deleted").getResponseMessage();
     }
 }

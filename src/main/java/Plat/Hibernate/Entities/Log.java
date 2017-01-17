@@ -1,6 +1,7 @@
 package Plat.Hibernate.Entities;
 
 import Plat.Hibernate.Util.DataBaseObject;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.util.Calendar;
@@ -9,6 +10,7 @@ import java.util.Calendar;
  * Created by MontaserQasem on 12/9/16.
  */
 @Entity(name = "log")
+@JsonIgnoreProperties(value = {"handler", "hibernateLazyInitializer"})
 public class Log implements DataBaseObject {
     private int id;
     private long deliveryData;

@@ -5,9 +5,11 @@ import Plat.Hibernate.Entities.Categories;
 import Plat.Hibernate.Entities.Store;
 import Plat.Hibernate.Util.*;
 
+import javax.json.Json;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by MontaserQasem on 11/22/16.
@@ -18,68 +20,64 @@ public class BrandsAPI {
     DataBaseManager manager = DataBaseManager.getInstance();
 
     @GET
-    public List<Brand> getAllBrands() {
+    public String getAllBrands() {
         List<DataBaseObject> objects = manager.find(null, Brand.class);
-        List<Brand> brands = new ArrayList<>();
-        if (objects != null && objects.size() > 0) {
-          //  objects = EntityCleaner.clean(objects, Brand.class);
-            for (int i = 0; i < objects.size(); i++) {
-                Brand brand = (Brand) objects.get(i);
-                brands.add(brand);
-            }
-        }
-        return brands;
+        return JsonParser.parse(EntityInitializer.init(objects, Brand.class));
     }
 
     @GET
     @Path("/{brandId}")
-    public Brand getBrandById(@PathParam("brandId") int brandId) {
+    public String getBrandById(@PathParam("brandId") int brandId) {
         RuleObject ruleObject = new RuleObject("id", HibernateUtil.EQUAL, brandId);
         List<DataBaseObject> objects = manager.find(ruleObject, Brand.class);
         if (objects != null && objects.size() > 0) {
-           // objects = EntityCleaner.clean(objects, Brand.class);
-            Brand brand = (Brand) objects.get(0);
-            return brand;
+            objects = EntityInitializer.init(objects, Brand.class);
+            return JsonParser.parse(objects);
         }
-        return null;
+        return new ResponseMessage("There was an error with the id").getResponseMessage();
     }
 
     @POST
     @Path("/{brandName}")
-    public List<Brand> getBrandsByName(@PathParam("brandName") String brandName) {
+    public String getBrandsByName(@PathParam("brandName") String brandName) {
         RuleObject ruleObject = new RuleObject("name", HibernateUtil.LIKE, brandName);
         List<DataBaseObject> objects = manager.find(ruleObject, Brand.class);
-        List<Brand> brands = new ArrayList<>();
         if (objects != null && objects.size() > 0) {
-          //  objects = EntityCleaner.clean(objects, Brand.class);
-            for (int i = 0; i < objects.size(); i++) {
-                Brand node = (Brand) objects.get(i);
-                brands.add(node);
-            }
+            objects = EntityInitializer.init(objects, Brand.class);
+            return JsonParser.parse(objects);
         }
-        return brands;
+        return new ResponseMessage("No match found").getResponseMessage();
     }
 
     @POST
     @Path("/{operation}/{storeId}")
-    public List<Brand> getBrandsByOperation(@PathParam("operation") String operation, @PathParam("storeId") int storeId) {
-        if (operation.equalsIgnoreCase("getBrandsBystoreId")) {
-            List<Brand> objects = getAllBrands();
-            List<Brand> result = new ArrayList<>();
-            CategoriesAPI categoriesAPI = new CategoriesAPI();
-            for (int i = 0; i < objects.size(); i++) {
-                Iterator it = objects.get(i).getCategories().iterator();
-                boolean flag = false;
-                while (it.hasNext()) {
-                    Categories category = (Categories) it.next();
-                    category = categoriesAPI.getCategoryById(category.getId());
-                    if (category.getStore().getId() == storeId)
-                        flag = true;
+    public String getBrandsByOperation(@PathParam("operation") String operation, @PathParam("storeId") int storeId) {
+        if (operation.equalsIgnoreCase("getBrandsByStoreId")) {
+            List<DataBaseObject> objects = manager.find(new RuleObject("id", HibernateUtil.EQUAL, storeId), Store.class);
+            if (objects != null && objects.size() > 0) {
+                List<Brand> brands = new ArrayList<>();
+                Store store = (Store) objects.get(0);
+                store = (Store) manager.initialize(store, "categories");
+                for (Categories category : store.getCategories()) {
+                    category = (Categories) manager.initialize(category, "brands");
+                    for (Brand brand : category.getBrands()) {
+                        boolean flag = false;
+                        for (int i = 0; i < brands.size(); i++)
+                            if (brands.get(i).getId() == brand.getId()) {
+                                flag = true;
+                                break;
+                            }
+                        if (!flag)
+                            brands.add(brand);
+                    }
                 }
-                if (!flag) continue;
-                result.add(objects.get(i));
+                List<DataBaseObject> target = new ArrayList<>();
+                for (int i = 0; i < brands.size(); i++)
+                    target.add((DataBaseObject) brands.get(i));
+
+                return JsonParser.parse(EntityInitializer.init(target, Brand.class));
             }
-            return result;
+            return new ResponseMessage("There was an error with the store id").getResponseMessage();
         }
 
         return null;
@@ -89,14 +87,14 @@ public class BrandsAPI {
     @Consumes(MediaType.APPLICATION_JSON)
     public String addBrand(Brand brand) {
         manager.merge(brand);
-        return "Brand (" + brand.getName() + ") has been added successfully";
+        return new ResponseMessage("Brand " + brand.getName() + " has been added successfully").getResponseMessage();
     }
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     public String updateBrand(Brand brand) {
         manager.update(brand);
-        return "Brand (" + brand.getName() + ") has been updated";
+        return new ResponseMessage("Brand " + brand.getName() + " has been updated").getResponseMessage();
     }
 
     @DELETE
@@ -104,10 +102,11 @@ public class BrandsAPI {
     public String deleteBrand(@PathParam("brandId") int brandId) {
         RuleObject ruleObject = new RuleObject("id", HibernateUtil.EQUAL, brandId);
         List<DataBaseObject> objects = manager.find(ruleObject, Brand.class);
-        if (objects == null || objects.size() == 0) return "There's a problem with the brand id";
+        if (objects == null || objects.size() == 0)
+            return new ResponseMessage("There's a problem with the brand id").getResponseMessage();
         Brand brand = (Brand) objects.get(0);
         manager.delete(brand);
-        return "Brand (" + brand.getName() + ") has been deleted";
+        return new ResponseMessage("Brand " + brand.getName() + " has been deleted").getResponseMessage();
     }
 
 }

@@ -10,7 +10,7 @@ import javax.persistence.*;
  * Created by MontaserQasem on 11/12/16.
  */
 @Entity(name = "address")
-@JsonIgnoreProperties(value = {"store"})
+@JsonIgnoreProperties(value = {"store","handler", "hibernateLazyInitializer"})
 public class Address implements DataBaseObject {
     private int id;
     private String latitude;
@@ -61,7 +61,7 @@ public class Address implements DataBaseObject {
         this.description = description;
     }
 
-    @ManyToOne(cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "store_id")
     public Store getStore() {
         return store;

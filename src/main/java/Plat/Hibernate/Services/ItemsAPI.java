@@ -4,6 +4,7 @@ import Plat.Hibernate.Entities.*;
 import Plat.Hibernate.RestricationObjects.ItemsView;
 import Plat.Hibernate.Util.*;
 
+import javax.json.Json;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.*;
@@ -17,145 +18,139 @@ public class ItemsAPI {
     DataBaseManager manager = DataBaseManager.getInstance();
 
     @GET
-    public List<Items> getAllItems() {
+    public String getAllItems() {
         List<DataBaseObject> objects = manager.find(null, Items.class);
         List<Items> result = new ArrayList<>();
-        if (objects != null && objects.size() > 0) {
-          //  objects = EntityCleaner.clean(objects, Items.class);
-            for (int i = 0; i < objects.size(); i++) {
-                Items node = (Items) objects.get(i);
-                result.add(node);
-            }
-        }
+        for (int i = 0; i < objects.size(); i++)
+            result.add((Items) objects.get(i));
         Collections.sort(result, new Comparator<Items>() {
             @Override
             public int compare(Items o1, Items o2) {
                 return o2.getId() - o1.getId();
             }
         });
-        return result;
+        List<DataBaseObject> target = (List<DataBaseObject>) (List<?>) result;
+        return JsonParser.parse(EntityInitializer.init(target, Items.class));
     }
 
     @GET
     @Path("/{itemId}")
-    public Items getItemById(@PathParam("itemId") int id) {
+    public String getItemById(@PathParam("itemId") int id) {
         RuleObject rule = new RuleObject("id", HibernateUtil.EQUAL, id);
         List<DataBaseObject> objects = manager.find(rule, Items.class);
-        if (objects != null && objects.size() > 0) {
-          //  objects = EntityCleaner.clean(objects, Items.class);
-            Items item = (Items) objects.get(0);
-            return item;
-        }
-        return null;
+        if (objects != null && objects.size() > 0)
+            return JsonParser.parse(EntityInitializer.init(objects, Items.class));
+        return new ResponseMessage("There was an error with the item id").getResponseMessage();
     }
 
     @GET
     @Path("/{storeId}/{itemName}")
-    public List<Items> getItemsByNameAndStoreId(@PathParam("storeId") int storeId, @PathParam("itemName") String name) {
-        List<Items> items = getItemsByName(name);
-        List<Items> result = new ArrayList<>();
-        for (int i = 0; i < items.size(); i++) {
-            RuleObject rule = new RuleObject("id", HibernateUtil.EQUAL, items.get(i).getCategory().getId());
-            List<DataBaseObject> object = manager.find(rule, Categories.class);
-            Categories category = (Categories) object.get(0);
+    public String getItemsByNameAndStoreId(@PathParam("storeId") int storeId, @PathParam("itemName") String name) {
+        List<DataBaseObject> objects = manager.find(new RuleObject("name", HibernateUtil.LIKE, name), Items.class);
+        List<DataBaseObject> targer = new ArrayList<>();
+        for (int i = 0; i < objects.size(); i++) {
+            Items item = (Items) objects.get(i);
+            item = (Items) manager.initialize(item, "category");
+            Categories category = item.getCategory();
             if (category.getStore().getId() == storeId)
-                result.add(items.get(i));
+                targer.add((DataBaseObject) item);
         }
-        return result;
+        return JsonParser.parse(targer);
     }
 
     @POST
     @Path("/{itemName}")
-    public List<Items> getItemsByName(@PathParam("itemName") String name) {
-        if (name.equalsIgnoreCase("getfeturedcollections")) {
-            List<Items> items = getAllItems();
-            List<Items> objects = new ArrayList<>();
-            for (int i = 0; i < (items.size() >= 6 ? 6 : items.size()); i++)
-                objects.add(items.get(i));
-            return objects;
-        }
-        RuleObject rule = new RuleObject("name", HibernateUtil.LIKE, name);
-        List<DataBaseObject> objects = manager.find(rule, Items.class);
-        List<Items> result = new ArrayList<>();
-        if (objects != null && objects.size() > 0) {
-          //  objects = EntityCleaner.clean(objects, Items.class);
-            for (int i = 0; i < objects.size(); i++) {
-                Items node = (Items) objects.get(i);
-                result.add(node);
-            }
-        }
-        return result;
+    public String getItemsByName(@PathParam("itemName") String name) {
+        List<DataBaseObject> objects = manager.find(new RuleObject("name", HibernateUtil.LIKE, name), Items.class);
+        return JsonParser.parse(objects);
     }
 
     @POST
     @Path("/{operation}/{storeId}")
-    public List<Items> getItemsByStoreId(@PathParam("operation") String operation, @PathParam("storeId") int storeId) {
+    public String getItemsByOperationAndStoreId(@PathParam("operation") String operation, @PathParam("storeId") int storeId) {
         if (operation.equalsIgnoreCase("getitemsbystoreid")) {
-            List<Items> result = new ArrayList<>();
-            List<Items> objects = getAllItems();
-            for (int i = 0; i < objects.size(); i++) {
-                RuleObject rule = new RuleObject("id", HibernateUtil.EQUAL, objects.get(i).getCategory().getId());
-                List<DataBaseObject> plainObject = manager.find(rule, Categories.class);
-              //  plainObject = EntityCleaner.clean(plainObject, Categories.class);
-                Categories category = (Categories) plainObject.get(0);
-                if (category.getStore().getId() == storeId)
-                    result.add(objects.get(i));
-            }
-            Collections.sort(result, new Comparator<Items>() {
-                @Override
-                public int compare(Items o1, Items o2) {
-                    return (int) (o2.getId() - o1.getId());
-                }
-            });
-            return result;
+            List<Items> items = ItemsService.getItemsByStoreId(storeId);
+            if (items == null)
+                return new ResponseMessage("There was a problem in the store id").getResponseMessage();
+
+            List<DataBaseObject> target = (List<DataBaseObject>) (List<?>) items;
+            return JsonParser.parse(target);
         }
         if (operation.equalsIgnoreCase("getmostwantedtenitemsbystoreid")) {
-            List<Items> objects = getAllItems();
-            Collections.sort(objects, new Comparator<Items>() {
+            List<Items> items = ItemsService.getItemsByStoreId(storeId);
+            if (items == null)
+                return new ResponseMessage("There was a problem in the store id").getResponseMessage();
+            List<Items> orderedItems = new ArrayList<>();
+            for (int i = 0; i < items.size(); i++) {
+                Items item = items.get(i);
+                item = (Items) manager.initialize(item, "itemHits");
+                orderedItems.add(item);
+            }
+            Collections.sort(orderedItems, new Comparator<Items>() {
                 @Override
                 public int compare(Items o1, Items o2) {
                     return o2.getItemHitses().size() - o1.getItemHitses().size();
                 }
             });
-            OrdersAPI ordersAPI = new OrdersAPI();
-            List<Items> result = new ArrayList<>();
-            for (int i = 0; i < (objects.size() < 10 ? objects.size() : 10); i++)
-                if (ordersAPI.getItemsStoreId(objects.get(i).getId()) == storeId)
-                    result.add(objects.get(i));
-            return result;
+
+            List<DataBaseObject> target = (List<DataBaseObject>) (List<?>) orderedItems;
+            return JsonParser.parse(target);
         }
+
         if (operation.equalsIgnoreCase("getmostwantedtenitemsinwishlistbystoreid")) {
-            List<Items> objects = getAllItems();
-            Collections.sort(objects, new Comparator<Items>() {
+            List<Items> items = ItemsService.getItemsByStoreId(storeId);
+            if (items == null)
+                return new ResponseMessage("There was a problem in the store id").getResponseMessage();
+
+            Collections.sort(items, new Comparator<Items>() {
                 @Override
                 public int compare(Items o1, Items o2) {
                     return o2.getWishLists().size() - o1.getWishLists().size();
                 }
             });
-            OrdersAPI ordersAPI = new OrdersAPI();
-            List<Items> result = new ArrayList<>();
-            for (int i = 0; i < (objects.size() < 10 ? objects.size() : 10); i++)
-                if (ordersAPI.getItemsStoreId(objects.get(i).getId()) == storeId)
-                    result.add(objects.get(i));
-            return result;
+
+            List<DataBaseObject> target = (List<DataBaseObject>) (List<?>) items;
+            return JsonParser.parse(target);
         }
 
-        if (operation.equalsIgnoreCase("getpopularfromall")) {
-            List<Items> items = getAllItems();
-            List<Items> result = new ArrayList<>();
+        if (operation.equalsIgnoreCase("getpopularfromall")) {// returns most three popular items
+            List<DataBaseObject> objects = manager.find(null, Items.class);
+            if (objects == null || objects.size() == 0)
+                return new ResponseMessage("There is no items").getResponseMessage();
+
+            List<Items> items = (List<Items>) (List<?>) objects;
             Collections.sort(items, new Comparator<Items>() {
                 @Override
                 public int compare(Items o1, Items o2) {
                     return o2.getItemHitses().size() - o1.getItemHitses().size();
                 }
             });
-            for (int i = 0; i < 3; i++)
-                result.add(items.get(i));
-            return result;
+
+            List<DataBaseObject> target = new ArrayList<>();
+            for (int i = 0; i < items.size() && i <= 3; i++)
+                target.add((DataBaseObject) items.get(i));
+
+            return JsonParser.parse(target);
         }
+        if (operation.equalsIgnoreCase("getpopularfromstore")) {// returns most three popular items
+            List<Items> items = ItemsService.getItemsByStoreId(storeId);
+            if (items == null || items.size() == 0)
+                return new ResponseMessage("There is no items").getResponseMessage();
+            Collections.sort(items, new Comparator<Items>() {
+                @Override
+                public int compare(Items o1, Items o2) {
+                    return o2.getItemHitses().size() - o1.getItemHitses().size();
+                }
+            });
+
+            List<DataBaseObject> target = new ArrayList<>();
+            for (int i = 0; i < items.size() && i <= 3; i++)
+                target.add((DataBaseObject) items.get(i));
+            return JsonParser.parse(target);
+        }
+
         if (operation.equalsIgnoreCase("getdiscountfromall")) {
-            List<Items> items = getAllItems();
-            List<Items> result = new ArrayList<>();
+            List<Items> items = (List<Items>) (List<?>) manager.find(null, Items.class);
             Collections.sort(items, new Comparator<Items>() {
                 @Override
                 public int compare(Items o1, Items o2) {
@@ -164,10 +159,30 @@ public class ItemsAPI {
                     return 0;
                 }
             });
-            for (int i = 0; i < 3; i++)
-                result.add(items.get(i));
-            return result;
+
+            List<DataBaseObject> target = new ArrayList<>();
+            for (int i = 0; i < items.size(); i++)
+                target.add((DataBaseObject) items.get(i));
+            return JsonParser.parse(target);
         }
+
+        if (operation.equalsIgnoreCase("getdiscountfromall")) {
+            List<Items> items = ItemsService.getItemsByStoreId(storeId);
+            Collections.sort(items, new Comparator<Items>() {
+                @Override
+                public int compare(Items o1, Items o2) {
+                    if (o1.getDiscount() < o2.getDiscount()) return 1;
+                    if (o1.getDiscount() < o2.getDiscount()) return -1;
+                    return 0;
+                }
+            });
+
+            List<DataBaseObject> target = new ArrayList<>();
+            for (int i = 0; i < items.size(); i++)
+                target.add((DataBaseObject) items.get(i));
+            return JsonParser.parse(target);
+        }
+
         return null;
     }
 
@@ -175,9 +190,10 @@ public class ItemsAPI {
     @POST
     @Path("{storeId}/{sort}/{sortValue}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public List<Items> getItemsByObjectView(ItemsView itemsView, @PathParam("storeId") int storeId, @PathParam("sort") boolean sort, @PathParam("sortValue") String sortValue) {
-        List<Items> objects = getItemsByStoreId("getitemsbystoreid", storeId);
+    public String getItemsByObjectView(ItemsView itemsView, @PathParam("storeId") int storeId, @PathParam("sort") boolean sort, @PathParam("sortValue") String sortValue) {
+        List<Items> objects = ItemsService.getItemsByStoreId(storeId);
         List<Items> result = new ArrayList<>();
+
         for (int i = 0; i < objects.size(); i++) {
             if (itemsView.getCategories() != null) {
                 boolean categoryFlag = false;
@@ -190,6 +206,7 @@ public class ItemsAPI {
 
                 if (!categoryFlag) continue;
             }
+
             if (itemsView.getBrands() != null) {
                 List<Brand> brands = itemsView.getBrands();
                 boolean brandFlag = false;
@@ -247,11 +264,13 @@ public class ItemsAPI {
                     return o2.getId() - o1.getId();
                 }
             });
+
         List<Items> cut = new ArrayList<>();
         for (int i = itemsView.getOffset(); i < ((result.size() - itemsView.getOffset()) > 10 ? 10 : result.size()); i++)
             cut.add(result.get(i));
 
-        return cut;
+        List<DataBaseObject> target = (List<DataBaseObject>) (List<?>) cut;
+        return JsonParser.parse(target);
     }
 
 
@@ -259,14 +278,14 @@ public class ItemsAPI {
     @Consumes(MediaType.APPLICATION_JSON)
     public String addItem(Items item) {
         manager.merge(item);
-        return "1";
+        return new ResponseMessage("1").getResponseMessage();
     }
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     public String updateItem(Items item) {
         manager.update(item);
-        return "item (" + item.getName() + ") has been updated";
+        return new ResponseMessage("item " + item.getName() + " has been updated").getResponseMessage();
     }
 
     @DELETE
@@ -274,13 +293,16 @@ public class ItemsAPI {
     public String deleteItem(@PathParam("itemId") int itemId) {
         RuleObject rule = new RuleObject("id", HibernateUtil.EQUAL, itemId);
         List<DataBaseObject> object = manager.find(rule, Items.class);
-        if (object == null || object.size() == 0) return "There's a problem with the item id";
+        if (object == null || object.size() == 0)
+            return new ResponseMessage("There was a problem with the item id").getResponseMessage();
+
         Items item = (Items) object.get(0);
         List<DataBaseObject> objects = manager.find(null, Specifications.class);
         List<DataBaseObject> target = new ArrayList<>();
         for (int i = 0; i < objects.size(); i++)
             if (((Specifications) objects.get(i)).getItem().getId() == itemId)
                 target.add(objects.get(i));
+
         manager.deleteList(target);
         objects = manager.find(null, Photos.class);
         List<DataBaseObject> photoTarget = new ArrayList<>();
@@ -313,6 +335,7 @@ public class ItemsAPI {
         manager.deleteList(itemHitsTarget);
 
         manager.delete(item);
-        return "item (" + item.getName() + ") deleted";
+
+        return new ResponseMessage("item " + item.getName() + " deleted").getResponseMessage();
     }
 }

@@ -2,46 +2,51 @@ package Plat.Hibernate.Util;
 
 import Plat.Hibernate.Entities.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * Created by MontaserQasem on 1/15/17.
  */
 public class EntityInitializer {
     private static DataBaseManager manager = DataBaseManager.getInstance();
+    private static List<DataBaseObject> data;
 
-    public static DataBaseObject init(DataBaseObject object, Class cls) {
+    public static List<DataBaseObject> init(List<DataBaseObject> object, Class cls) {
+        data = object;
         if (cls == Address.class)
             return object;
 
         if (cls == Admins.class)
-            return initAdmin((Admins) object);
+            return initAdmin();
 
         if (cls == Brand.class)
             return object;
 
         if (cls == Cart.class)
-            return initCart((Cart) object);
+            return initCart();
 
         if (cls == Categories.class)
             return object;
 
         if (cls == Guests.class)
-            return initGuest((Guests) object);
+            return initGuest();
 
         if (cls == ItemHits.class)
-            return initItemHit((ItemHits) object);
+            return initItemHit();
 
         if (cls == Items.class)
-            return initItem((Items) object);
+            return initItem();
 
         if (cls == Log.class)
-            return initLog((Log) object);
+            return initLog();
 
         if (cls == OrderItem.class)
-            return initOrderItem((OrderItem) object);
+            return initOrderItem();
 
         if (cls == Orders.class)
-            return initOrder((Orders) object);
+            return initOrder();
 
         if (cls == Photos.class)
             return object;
@@ -53,69 +58,118 @@ public class EntityInitializer {
             return object;
 
         if (cls == Store.class)
-            return initStore((Store) object);
+            return initStore();
 
         if (cls == Users.class)
             return object;
 
         if (cls == WishList.class)
-            return initWishList((WishList) object);
+            return initWishList();
 
         return null;
     }
 
-    public static Admins initAdmin(Admins admin) {
-        admin = (Admins) manager.initialize(admin, "privilege");
-        return admin;
+    private static List<DataBaseObject> initAdmin() {
+        List<DataBaseObject> information = new ArrayList<>();
+        for (int i = 0; i < data.size(); i++) {
+            Admins admin = (Admins) data.get(i);
+            admin = (Admins) manager.initialize(admin, "privilege");
+            information.add(admin);
+        }
+        return information;
     }
 
-    public static Cart initCart(Cart cart) {
-        cart = (Cart) manager.initialize(cart, "item");
-        cart = (Cart) manager.initialize(cart, "user");
-        return cart;
+    private static List<DataBaseObject> initCart() {
+        List<DataBaseObject> information = new ArrayList<>();
+        for (int i = 0; i < data.size(); i++) {
+            Cart cart = (Cart) data.get(i);
+            cart = (Cart) manager.initialize(cart, "item");
+            cart = (Cart) manager.initialize(cart, "user");
+            information.add(cart);
+        }
+        return information;
     }
 
-    public static Guests initGuest(Guests guest) {
-        guest = (Guests) manager.initialize(guest, "itemsHits");
-        return guest;
+    private static List<DataBaseObject> initGuest() {
+        List<DataBaseObject> information = new ArrayList<>();
+        for (int i = 0; i < data.size(); i++) {
+            Guests guest = (Guests) data.get(i);
+            guest = (Guests) manager.initialize(guest, "itemsHits");
+            information.add(guest);
+        }
+        return information;
     }
 
-    public static ItemHits initItemHit(ItemHits itemHit) {
-        itemHit = (ItemHits) manager.initialize(itemHit, "item");
-        return itemHit;
+    private static List<DataBaseObject> initItemHit() {
+        List<DataBaseObject> information = new ArrayList<>();
+        for (int i = 0; i < data.size(); i++) {
+            ItemHits itemHit = (ItemHits) data.get(i);
+            itemHit = (ItemHits) manager.initialize(itemHit, "item");
+            information.add(itemHit);
+        }
+        return information;
     }
 
-    public static Items initItem(Items item) {
-        item = (Items) manager.initialize(item, "brand");
-        item = (Items) manager.initialize(item, "photos");
-        item = (Items) manager.initialize(item, "specifications");
-        return item;
+    private static List<DataBaseObject> initItem() {
+        List<DataBaseObject> information = new ArrayList<>();
+        for (int i = 0; i < data.size(); i++) {
+            Items item = (Items) data.get(i);
+            item = (Items) manager.initialize(item, "brand");
+            item = (Items) manager.initialize(item, "photos");
+            item = (Items) manager.initialize(item, "specifications");
+            information.add(item);
+        }
+        return information;
     }
 
-    public static Log initLog(Log log) {
-        log = (Log) manager.initialize(log, "order");
-        return log;
+    private static List<DataBaseObject> initLog() {
+        List<DataBaseObject> information = new ArrayList<>();
+        for (int i = 0; i < data.size(); i++) {
+            Log log = (Log) data.get(i);
+            log = (Log) manager.initialize(log, "order");
+            information.add(log);
+        }
+        return information;
     }
 
-    public static OrderItem initOrderItem(OrderItem orderItem) {
-        orderItem = (OrderItem) manager.initialize(orderItem, "item");
-        return orderItem;
+    private static List<DataBaseObject> initOrderItem() {
+        List<DataBaseObject> information = new ArrayList<>();
+        for (int i = 0; i < data.size(); i++) {
+            OrderItem orderItem = (OrderItem) data.get(i);
+            orderItem = (OrderItem) manager.initialize(orderItem, "item");
+            information.add(orderItem);
+        }
+        return information;
     }
 
-    public static Orders initOrder(Orders order) {
-        order = (Orders) manager.initialize(order, "user");
-        order = (Orders) manager.initialize(order, "orderItems");
-        return order;
+    private static List<DataBaseObject> initOrder() {
+        List<DataBaseObject> information = new ArrayList<>();
+        for (int i = 0; i < data.size(); i++) {
+            Orders order = (Orders) data.get(i);
+            order = (Orders) manager.initialize(order, "user");
+            order = (Orders) manager.initialize(order, "orderItems");
+        }
+        return information;
     }
 
-    public static Store initStore(Store store) {
-        store = (Store) manager.initialize(store, "addresses");
-        return store;
+    private static List<DataBaseObject> initStore() {
+        List<DataBaseObject> information = new ArrayList<>();
+        for (int i = 0; i < data.size(); i++) {
+            Store store = (Store) data.get(i);
+            store = (Store) manager.initialize(store, "addresses");
+            information.add(store);
+        }
+        return information;
     }
 
-    public static WishList initWishList(WishList wishList) {
-        wishList = (WishList) manager.initialize(wishList, "user");
-        wishList = (WishList) manager.initialize(wishList, "item");
-        return wishList;
+    private static List<DataBaseObject> initWishList() {
+        List<DataBaseObject> information = new ArrayList<>();
+        for (int i = 0; i < data.size(); i++) {
+            WishList wishList = (WishList) data.get(i);
+            wishList = (WishList) manager.initialize(wishList, "user");
+            wishList = (WishList) manager.initialize(wishList, "item");
+            information.add(wishList);
+        }
+        return information;
     }
 }

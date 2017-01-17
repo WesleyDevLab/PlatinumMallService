@@ -14,7 +14,7 @@ import java.util.Set;
  * Created by MontaserQasem on 11/12/16.
  */
 @Entity(name = "store")
-@JsonIgnoreProperties(value = {"categories","admins"})
+@JsonIgnoreProperties(value = {"categories","admins","handler", "hibernateLazyInitializer"})
 public class Store implements DataBaseObject {
     private int id;
     private String name;
