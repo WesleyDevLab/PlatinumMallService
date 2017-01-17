@@ -20,45 +20,36 @@ public class WishListAPI {
     DataBaseManager manager = DataBaseManager.getInstance();
 
     @GET
-    public List<WishList> getAllWishLists() {
+    public String getAllWishLists() {
         List<DataBaseObject> objects = manager.find(null, WishList.class);
-        List<WishList> result = new ArrayList<>();
-        if (objects != null && objects.size() > 0) {
-           // objects = EntityCleaner.clean(objects, WishList.class);
-            for (int i = 0; i < objects.size(); i++) {
-                WishList node = (WishList) objects.get(i);
-                result.add(node);
-            }
-        }
-        return result;
+        return JsonParser.parse(objects);
     }
 
     @GET
     @Path("/{userId}")
-    public List<WishList> getWishListByUserId(@PathParam("userId") int id) {
-        List<WishList> result = new ArrayList<>();
-        List<WishList> allWishLists = getAllWishLists();
-        for (int i = 0; i < allWishLists.size(); i++)
-            if(allWishLists.get(i).getUser().getId()==id)
-                result.add(allWishLists.get(i));
-        return result;
+    public String getWishListByUserId(@PathParam("userId") int userId) {
+        List<DataBaseObject> object = manager.find(new RuleObject("id", HibernateUtil.EQUAL, userId), Users.class);
+        if (object != null && object.size() > 0)
+            return JsonParser.parse(object);
+        return new ResponseMessage("There was a problem with the user id").getResponseMessage();
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public String addWishListRecord(WishList wishList) {
         manager.merge(wishList);
-        return "Added";
+        return new ResponseMessage("Added").getResponseMessage();
     }
 
     @DELETE
     @Path("/{wishListId}")
     public String deleteWishListById(@PathParam("wishListId") int id) {
-        RuleObject rule = new RuleObject("id", HibernateUtil.EQUAL, id);
-        List<DataBaseObject> objects = manager.find(rule, WishList.class);
-        if (objects == null || objects.size() == 0) return "There's a problem with the wishList id";
+        List<DataBaseObject> objects = manager.find(new RuleObject("id", HibernateUtil.EQUAL, id), WishList.class);
+        if (objects == null || objects.size() == 0)
+            return new ResponseMessage("There's a problem with the wishList id").getResponseMessage();
         WishList wishList = (WishList) objects.get(0);
         manager.delete(wishList);
-        return "WishList record deleted";
+
+        return new ResponseMessage("WishList record deleted").getResponseMessage();
     }
 }

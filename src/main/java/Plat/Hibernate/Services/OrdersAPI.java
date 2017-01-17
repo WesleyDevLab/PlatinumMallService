@@ -16,91 +16,62 @@ public class OrdersAPI {
     DataBaseManager manager = DataBaseManager.getInstance();
 
     @GET
-    public List<Orders> getAllOrders() {
+    public String getAllOrders() {
         List<DataBaseObject> objects = manager.find(null, Orders.class);
-        List<Orders> result = new ArrayList<>();
-        if (objects != null && objects.size() > 0) {
-           // objects = EntityCleaner.clean(objects, Orders.class);
-            for (int i = 0; i < objects.size(); i++) {
-                Orders order = (Orders) objects.get(i);
-                result.add(order);
-            }
-        }
-        return result;
+        return JsonParser.parse(objects);
     }
 
     @GET
     @Path("/{orderId}")
-    public Orders getOrderByOrderId(@PathParam("orderId") long id) {
+    public String getOrderByOrderId(@PathParam("orderId") long id) {
         RuleObject rule = new RuleObject("id", HibernateUtil.EQUAL, id);
         List<DataBaseObject> objects = manager.find(rule, Orders.class);
-        if (objects != null && objects.size() > 0) {
-          //  objects = EntityCleaner.clean(objects, Orders.class);
-            Orders order = (Orders) objects.get(0);
-            return order;
-        }
-        return null;
+        if (objects != null && objects.size() > 0)
+            return JsonParser.parse(objects);
+        return new ResponseMessage("There was a problem with the order id").getResponseMessage();
     }
 
     @GET
     @Path("/{operation}/{id}")
-    public List<Orders> getOrdersByOperation(@PathParam("operation") String operation, @PathParam("id") int id) {
-//        if (operation.equalsIgnoreCase("getordersbystoreid")) {//gets new requests
-//            List<Orders> orders = getAllOrders();
-//            List<Orders> result = new ArrayList<>();
-//            for (int i = 0; i < orders.size(); i++) {
-//            //    Set<OrderItem> orderItems = orders.get(i).getOrderItems();
-//                //Iterator it = orderItems.iterator();
-//                boolean flag = false;
-//                while (it.hasNext()) {
-//                    OrderItem orderitem = (OrderItem) it.next();
-//                    int itemId = orderitem.getItem().getId();
-//                    if (getItemsStoreId(itemId) == id) {// id here is equal to storeId
-//                        flag = true;
-//                        break;
-//                    }
-//                }
-//                if (flag && orders.get(i).getStatus() == 1)
-//                    result.add(orders.get(i));
-//            }
-//            Collections.sort(result, new Comparator<Orders>() {
-//                @Override
-//                public int compare(Orders o1, Orders o2) {
-//                    return (int) (o1.getId() - o2.getId());
-//                }
-//            });
-//            return result;
-//        }
+    public String getOrdersByOperation(@PathParam("operation") String operation, @PathParam("id") int storeId) {
+        if (operation.equalsIgnoreCase("getordersbystoreid")) {//gets new requests
+            List<Orders> result = (List<Orders>) (List<?>) manager.find(new RuleObject("status", HibernateUtil.EQUAL, 1), Orders.class);
+            List<Orders> target = new ArrayList<>();
+            for (int i = 0; i < result.size(); i++) {
+                Orders order = result.get(i);
+                for (OrderItem orderItem : order.getOrderItems()) {
+                    Items item = orderItem.getItem();
+                    if (ItemsService.checkItemInStore(item, storeId))
+                        target.add(order);
+                }
+
+            }
+            Collections.sort(result, new Comparator<Orders>() {
+                @Override
+                public int compare(Orders o1, Orders o2) {
+                    return (int) (o1.getId() - o2.getId());
+                }
+            });
+            List<DataBaseObject> parsed = (List<DataBaseObject>) (List<?>) target;
+            return JsonParser.parse(parsed);
+        }
 
         return null;
     }
 
-    public int getItemsStoreId(int itemId) {
-        RuleObject rule = new RuleObject("id", HibernateUtil.EQUAL, itemId);
-        List<DataBaseObject> object = manager.find(rule, Items.class);
-        if (object == null || object.size() == 0) return -1;
-        Items item = (Items) object.get(0);
-        int catId = item.getCategory().getId();
-        RuleObject rule2 = new RuleObject("id", HibernateUtil.EQUAL, catId);
-        List<DataBaseObject> object2 = manager.find(rule2, Categories.class);
-        if (object2 == null || object2.size() == 0) return -1;
-        Categories category = (Categories) object2.get(0);
-        return category.getStore().getId();
-    }
 
     @POST
     @Path("/{userId}")
-    public List<Orders> getOrdersByUserId(@PathParam("userId") int userId) {
-        List<Orders> result = new ArrayList<>();
-        List<Orders> objects = getAllOrders();
-        for (int i = 0; i < objects.size(); i++) {
-            Orders order = objects.get(i);
-            if (order.getUser() != null) {
-                if (order.getUser().getId() == userId)
-                    result.add(order);
-            }
+    public String getOrdersByUserId(@PathParam("userId") int userId) {
+        List<DataBaseObject> objects = manager.find(new RuleObject("id", HibernateUtil.EQUAL, userId), Users.class);
+        if (objects != null && objects.size() > 0) {
+            List<DataBaseObject> target = new ArrayList<>();
+            Users user = (Users) objects.get(0);
+            for (Orders order : user.getOrders())
+                target.add((DataBaseObject) order);
+            return JsonParser.parse(target);
         }
-        return result;
+        return new ResponseMessage("There is a problem with the user id or the user does not have any orders in his inventory").getResponseMessage();
     }
 
     @POST
@@ -108,44 +79,45 @@ public class OrdersAPI {
     @Consumes(MediaType.APPLICATION_JSON)
     public String addOrder(Orders order, @PathParam("email") String email, @PathParam("password") String password) {
         UsersAPI usersAPI = new UsersAPI();
-        if (usersAPI.loginUser(email, password) == "-1")
-            return "Passoword or Email is incorrect";
+        if (usersAPI.doLoginUser(email, password) == -1)
+            return new ResponseMessage("Password or Email is incorrect").getResponseMessage();
+
         manager.merge(order);
-        Iterator it = order.getOrderItems().iterator();
-        while (it.hasNext()) {
-            OrderItem orderItem = (OrderItem) it.next();
-            orderItem.setOrder(order);
+        for (OrderItem orderItem : order.getOrderItems())
             manager.merge(orderItem);
-        }
-        return "Your Request has been sent";
+
+        return new ResponseMessage("Your Request has been sent").getResponseMessage();
     }
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     public String updateOrder(Orders order) {
         manager.update(order);
-        return "updated";
+        return new ResponseMessage("updated").getResponseMessage();
     }
 
     @PUT
     @Path("{operation}/{orderId}/{adminId}")
     public String updateOrderState(@PathParam("operation") String operation, @PathParam("orderId") long id, @PathParam("adminId") int adminId) {
+
         RuleObject ruleObject = new RuleObject("id", HibernateUtil.EQUAL, id);
         List<DataBaseObject> object = manager.find(ruleObject, Orders.class);
-        if (object == null || object.size() == 0) return "There's a problem with the orderId";
+        if (object == null || object.size() == 0)
+            return new ResponseMessage("There's a problem with the orderId").getResponseMessage();
         Orders order = (Orders) object.get(0);
+
         if (operation.equalsIgnoreCase("accept")) {
             order.setStatus(3);
             order.setDeliveryDate(Calendar.getInstance().getTimeInMillis() + "");
             manager.update(order);
             migrateOrderToLog(order, adminId);
-            return "Request Accepted";
+            return new ResponseMessage("Request Accepted").getResponseMessage();
         }
         if (operation.equalsIgnoreCase("reject")) {
             order.setStatus(2);
             manager.update(order);
             migrateOrderToLog(order, adminId);
-            return "Request Rejected";
+            return new ResponseMessage("Request Rejected").getResponseMessage();
         }
         return null;
     }
@@ -156,7 +128,7 @@ public class OrdersAPI {
         RuleObject rule = new RuleObject("id", HibernateUtil.EQUAL, adminId);
         List<DataBaseObject> object = manager.find(rule, Admins.class);
         Admins admin = (Admins) object.get(0);
-        //log.setAdmin(admin);
+        log.setAdminName(admin.getUsername());
         manager.merge(log);
     }
 
@@ -165,10 +137,11 @@ public class OrdersAPI {
     public String deleteOrder(@PathParam("orderId") int id) {
         RuleObject rule = new RuleObject("id", HibernateUtil.EQUAL, id);
         List<DataBaseObject> object = manager.find(rule, Orders.class);
-        if (object == null || object.size() == 0) return "orderId not found";
+        if (object == null || object.size() == 0)
+            return new ResponseMessage("there was a problem with ther orderId").getResponseMessage();
         Orders order = (Orders) object.get(0);
         manager.delete(order);
-        return "Deleted";
+        return new ResponseMessage("Deleted").getResponseMessage();
     }
 
 }

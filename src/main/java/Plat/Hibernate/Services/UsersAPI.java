@@ -17,58 +17,43 @@ public class UsersAPI {
     DataBaseManager manager = DataBaseManager.getInstance();
 
     @GET
-    public List<Users> getAllUsers() {
+    public String getAllUsers() {
         List<DataBaseObject> objects = manager.find(null, Users.class);
-        List<Users> result = new ArrayList<>();
-        if (objects != null && objects.size() > 0) {
-           // objects = EntityCleaner.clean(objects, Users.class);
-            for (int i = 0; i < objects.size(); i++) {
-                Users user = (Users) objects.get(i);
-                result.add(user);
-            }
-        }
-        return result;
+        return JsonParser.parse(objects);
     }
 
     @GET
     @Path("/{userId}")
-    public Users getUserById(@PathParam("userId") int userId) {
-        RuleObject rule = new RuleObject("id", HibernateUtil.EQUAL, userId);
-        List<DataBaseObject> objects = manager.find(rule, Users.class);
-        if (objects != null && objects.size() > 0) {
-          //  objects = EntityCleaner.clean(objects, Users.class);
-            Users user = (Users) objects.get(0);
-            return user;
-        }
-        return null;
+    public String getUserById(@PathParam("userId") int userId) {
+        List<DataBaseObject> objects = manager.find(new RuleObject("id", HibernateUtil.EQUAL, userId), Users.class);
+        if (objects != null && objects.size() > 0)
+            return JsonParser.parse(objects);
+        return new ResponseMessage("There was a problem with the user id").getResponseMessage();
     }
 
     @GET
     @Path("/{email}/{userPassword}")
     public String loginUser(@PathParam("email") String email, @PathParam("userPassword") String password) {
+        return ResponseMessage.createSimpleObject("userid", "" + doLoginUser(email, password));
+    }
+
+    public int doLoginUser(String email, String password) {
         List<RuleObject> rules = new ArrayList<>();
         rules.add(new RuleObject("email", HibernateUtil.EQUAL, email));
         rules.add(new RuleObject("password", HibernateUtil.EQUAL, password));
         List<DataBaseObject> objects = manager.findAll(rules, Users.class);
-        if (objects == null || objects.size() == 0) return "-1";
+        if (objects == null || objects.size() == 0)
+            return -1;
+
         Users user = (Users) objects.get(0);
-        return user.getId() + "";
+        return user.getId();
     }
 
     @POST
     @Path("/{email}")
-    public List<Users> getUsersByEmail(@PathParam("email") String email) {
-        RuleObject rule = new RuleObject("email", HibernateUtil.LIKE, email);
-        List<DataBaseObject> objects = manager.find(rule, Users.class);
-        List<Users> result = new ArrayList<>();
-        if (objects != null && objects.size() > 0) {
-         //   objects = EntityCleaner.clean(objects, Users.class);
-            for (int i = 0; i < objects.size(); i++) {
-                Users node = (Users) objects.get(i);
-                result.add(node);
-            }
-        }
-        return result;
+    public String getUserByEmail(@PathParam("email") String email) {
+        List<DataBaseObject> objects = manager.find(new RuleObject("email", HibernateUtil.LIKE, email), Users.class);
+        return JsonParser.parse(objects);
     }
 
     @POST
@@ -76,25 +61,29 @@ public class UsersAPI {
     public String addUser(Users user) {
         RuleObject rule = new RuleObject("email", HibernateUtil.EQUAL, user.getEmail());
         List<DataBaseObject> object = manager.find(rule, Users.class);
-        if (object != null && object.size() > 0) return "this e-mail is used before";
+        if (object != null && object.size() > 0)
+            return new ResponseMessage("this e-mail is already registered").getResponseMessage();
         manager.merge(user);
-        return "User has been added successfully";
+        return new ResponseMessage("User has been added successfully").getResponseMessage();
     }
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     public String updateUser(Users user) {
         manager.update(user);
-        return "User has been updated ";
+        return new ResponseMessage("User has been updated").getResponseMessage();
     }
 
     @DELETE
     @Path("{userId}")
     public String deleteUser(@PathParam("userId") int userId) {
-        Users user = getUserById(userId);
-        if (user == null) return "There's a problem with the user id";
-        manager.delete(user);
-        return "user (" + user.getFirstName() + ") has been deleted";
+        List<DataBaseObject> objects = manager.find(new RuleObject("id", HibernateUtil.EQUAL, userId), Users.class);
+        if (objects != null && objects.size() > 0) {
+            Users user = (Users) objects.get(0);
+            manager.delete(user);
+            return new ResponseMessage("User deleted").getResponseMessage();
+        }
+        return new ResponseMessage("There was a problem with the user id").getResponseMessage();
     }
 
 }

@@ -2,89 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="30b21543-d130-4f4d-9791-dc50337eb504" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/Plat/WEB-INF/classes/Plat/Hibernate/Services/CategoriesAPI$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/Plat/WEB-INF/classes/Plat/Hibernate/Services/CategoriesAPI$2.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/Plat/WEB-INF/classes/Plat/Hibernate/Services/GuestAPI$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/Plat/WEB-INF/classes/Plat/Hibernate/Services/ItemsAPI$10.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/Plat/WEB-INF/classes/Plat/Hibernate/Services/ItemsAPI$11.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/Plat/WEB-INF/classes/Plat/Hibernate/Services/ItemsAPI$2.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/Plat/WEB-INF/classes/Plat/Hibernate/Services/ItemsAPI$3.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/Plat/WEB-INF/classes/Plat/Hibernate/Services/ItemsAPI$4.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/Plat/WEB-INF/classes/Plat/Hibernate/Services/ItemsAPI$5.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/Plat/WEB-INF/classes/Plat/Hibernate/Services/ItemsAPI$6.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/Plat/WEB-INF/classes/Plat/Hibernate/Services/ItemsAPI$7.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/Plat/WEB-INF/classes/Plat/Hibernate/Services/ItemsAPI$8.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/Plat/WEB-INF/classes/Plat/Hibernate/Services/ItemsAPI$9.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/Plat/Hibernate/Services/CategoriesAPI$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/Plat/Hibernate/Services/CategoriesAPI$2.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/Plat/Hibernate/Services/GuestAPI$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/Plat/Hibernate/Services/ItemsAPI$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/Plat/Hibernate/Services/ItemsAPI$10.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/Plat/Hibernate/Services/ItemsAPI$11.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/Plat/Hibernate/Services/ItemsAPI$2.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/Plat/Hibernate/Services/ItemsAPI$3.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/Plat/Hibernate/Services/ItemsAPI$4.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/Plat/Hibernate/Services/ItemsAPI$5.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/Plat/Hibernate/Services/ItemsAPI$6.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/Plat/Hibernate/Services/ItemsAPI$7.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/Plat/Hibernate/Services/ItemsAPI$8.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/Plat/Hibernate/Services/ItemsAPI$9.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/Plat/Hibernate/Services/ItemsAPI.class" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/Plat.war" afterPath="$PROJECT_DIR$/target/Plat.war" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/Plat/WEB-INF/classes/Plat/Hibernate/Entities/Admins.class" afterPath="$PROJECT_DIR$/target/Plat/WEB-INF/classes/Plat/Hibernate/Entities/Admins.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/Plat/WEB-INF/classes/Plat/Hibernate/Entities/Brand.class" afterPath="$PROJECT_DIR$/target/Plat/WEB-INF/classes/Plat/Hibernate/Entities/Brand.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/Plat/WEB-INF/classes/Plat/Hibernate/Entities/Cart.class" afterPath="$PROJECT_DIR$/target/Plat/WEB-INF/classes/Plat/Hibernate/Entities/Cart.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/Plat/WEB-INF/classes/Plat/Hibernate/Entities/Privileges.class" afterPath="$PROJECT_DIR$/target/Plat/WEB-INF/classes/Plat/Hibernate/Entities/Privileges.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/Plat/WEB-INF/classes/Plat/Hibernate/Services/AddressAPI.class" afterPath="$PROJECT_DIR$/target/Plat/WEB-INF/classes/Plat/Hibernate/Services/AddressAPI.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/Plat/WEB-INF/classes/Plat/Hibernate/Services/AdminsAPI.class" afterPath="$PROJECT_DIR$/target/Plat/WEB-INF/classes/Plat/Hibernate/Services/AdminsAPI.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/Plat/WEB-INF/classes/Plat/Hibernate/Services/BrandsAPI.class" afterPath="$PROJECT_DIR$/target/Plat/WEB-INF/classes/Plat/Hibernate/Services/BrandsAPI.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/Plat/WEB-INF/classes/Plat/Hibernate/Services/CartAPI.class" afterPath="$PROJECT_DIR$/target/Plat/WEB-INF/classes/Plat/Hibernate/Services/CartAPI.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/Plat/WEB-INF/classes/Plat/Hibernate/Services/StoreAPI.class" afterPath="$PROJECT_DIR$/target/Plat/WEB-INF/classes/Plat/Hibernate/Services/StoreAPI.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/Plat/WEB-INF/classes/Plat/Hibernate/Util/EntityInitializer.class" afterPath="$PROJECT_DIR$/target/Plat/WEB-INF/classes/Plat/Hibernate/Util/EntityInitializer.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/Plat/Hibernate/Entities/Admins.class" afterPath="$PROJECT_DIR$/target/classes/Plat/Hibernate/Entities/Admins.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/Plat/Hibernate/Entities/Brand.class" afterPath="$PROJECT_DIR$/target/classes/Plat/Hibernate/Entities/Brand.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/Plat/Hibernate/Entities/Cart.class" afterPath="$PROJECT_DIR$/target/classes/Plat/Hibernate/Entities/Cart.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/Plat/Hibernate/Entities/Privileges.class" afterPath="$PROJECT_DIR$/target/classes/Plat/Hibernate/Entities/Privileges.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/Plat/Hibernate/Services/AddressAPI.class" afterPath="$PROJECT_DIR$/target/classes/Plat/Hibernate/Services/AddressAPI.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/Plat/Hibernate/Services/AdminsAPI.class" afterPath="$PROJECT_DIR$/target/classes/Plat/Hibernate/Services/AdminsAPI.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/Plat/Hibernate/Services/BrandsAPI.class" afterPath="$PROJECT_DIR$/target/classes/Plat/Hibernate/Services/BrandsAPI.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/Plat/Hibernate/Services/CartAPI.class" afterPath="$PROJECT_DIR$/target/classes/Plat/Hibernate/Services/CartAPI.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/Plat/Hibernate/Services/StoreAPI.class" afterPath="$PROJECT_DIR$/target/classes/Plat/Hibernate/Services/StoreAPI.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/Plat/Hibernate/Util/EntityInitializer.class" afterPath="$PROJECT_DIR$/target/classes/Plat/Hibernate/Util/EntityInitializer.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/artifacts/PLatinumAPI_war_exploded.xml" afterPath="$PROJECT_DIR$/.idea/artifacts/PLatinumAPI_war_exploded.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/compiler.xml" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PLatinumAPI.iml" afterPath="$PROJECT_DIR$/PLatinumAPI.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Entities/Address.java" afterPath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Entities/Address.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Entities/Admins.java" afterPath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Entities/Admins.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Entities/Brand.java" afterPath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Entities/Brand.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Entities/Cart.java" afterPath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Entities/Cart.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Entities/Categories.java" afterPath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Entities/Categories.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Entities/Guests.java" afterPath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Entities/Guests.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Entities/ItemHits.java" afterPath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Entities/ItemHits.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Entities/Items.java" afterPath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Entities/Items.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Entities/Log.java" afterPath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Entities/Log.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Entities/OrderItem.java" afterPath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Entities/OrderItem.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Entities/Orders.java" afterPath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Entities/Orders.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Entities/Photos.java" afterPath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Entities/Photos.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Entities/Privileges.java" afterPath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Entities/Privileges.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Entities/Specifications.java" afterPath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Entities/Specifications.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Entities/Store.java" afterPath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Entities/Store.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Entities/Users.java" afterPath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Entities/Users.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Entities/WishList.java" afterPath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Entities/WishList.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/AddressAPI.java" afterPath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/AddressAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/AdminsAPI.java" afterPath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/AdminsAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/BrandsAPI.java" afterPath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/BrandsAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/CartAPI.java" afterPath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/CartAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/CategoriesAPI.java" afterPath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/CategoriesAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/GuestAPI.java" afterPath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/GuestAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/ItemHitsAPI.java" afterPath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/ItemHitsAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/ItemsAPI.java" afterPath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/ItemsAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/StoreAPI.java" afterPath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/StoreAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Util/EntityInitializer.java" afterPath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Util/EntityInitializer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/hibernate.cfg.xml" afterPath="$PROJECT_DIR$/src/main/resources/hibernate.cfg.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/hibernate.cfg.xml" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/classes/hibernate.cfg.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/LogAPI.java" afterPath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/LogAPI.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/OrderItemAPI.java" afterPath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/OrderItemAPI.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/OrdersAPI.java" afterPath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/OrdersAPI.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/PhotosAPI.java" afterPath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/PhotosAPI.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/PrivilegesAPI.java" afterPath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/PrivilegesAPI.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/SpecificationAPI.java" afterPath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/SpecificationAPI.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/UsersAPI.java" afterPath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/UsersAPI.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/WishListAPI.java" afterPath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/WishListAPI.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Util/DataBaseManager.java" afterPath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Util/DataBaseManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Util/ItemsService.java" afterPath="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Util/ItemsService.java" />
     </list>
     <ignored path="PLatinumAPI.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -107,46 +34,22 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="ItemsAPI.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/ItemsAPI.java">
+      <file leaf-file-name="SpecificationAPI.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/SpecificationAPI.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1196">
-              <caret line="300" column="56" selection-start-line="300" selection-start-column="56" selection-end-line="300" selection-end-column="56" />
-              <folding>
-                <element signature="method#getItemsByOperationAndStoreId#0;class#ItemsAPI#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DataBaseManager.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/Plat/Hibernate/Util/DataBaseManager.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="295">
-              <caret line="213" column="0" selection-start-line="213" selection-start-column="0" selection-end-line="213" selection-end-column="0" />
+            <state relative-caret-position="675">
+              <caret line="53" column="87" selection-start-line="53" selection-start-column="87" selection-end-line="53" selection-end-column="87" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Categories.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/Plat/Hibernate/Entities/Categories.java">
+      <file leaf-file-name="ItemsService.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/Plat/Hibernate/Util/ItemsService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="400">
-              <caret line="64" column="0" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
+            <state relative-caret-position="345">
+              <caret line="30" column="37" selection-start-line="29" selection-start-column="0" selection-end-line="30" selection-end-column="37" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Items.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/Plat/Hibernate/Entities/Items.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="401">
-              <caret line="32" column="35" selection-start-line="32" selection-start-column="27" selection-end-line="32" selection-end-column="35" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -177,15 +80,6 @@
         <option value="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/test/Parent.java" />
         <option value="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/test/Child.java" />
         <option value="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Util/EntityCleaner.java" />
-        <option value="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/LogAPI.java" />
-        <option value="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/OrderItemAPI.java" />
-        <option value="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/OrdersAPI.java" />
-        <option value="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/PhotosAPI.java" />
-        <option value="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/SpecificationAPI.java" />
-        <option value="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/UsersAPI.java" />
-        <option value="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/WishListAPI.java" />
-        <option value="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/PrivilegesAPI.java" />
-        <option value="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Util/DataBaseManager.java" />
         <option value="$PROJECT_DIR$/src/main/java/Plat/Hibernate/RestricationObjects/ItemsView.java" />
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" />
         <option value="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Main.java" />
@@ -221,8 +115,17 @@
         <option value="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Util/HibernateUtil.java" />
         <option value="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/GuestAPI.java" />
         <option value="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/ItemHitsAPI.java" />
-        <option value="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Util/ItemsService.java" />
         <option value="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/ItemsAPI.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/OrderItemAPI.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Util/ItemsService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/OrdersAPI.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/UsersAPI.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Util/DataBaseManager.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/PhotosAPI.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/WishListAPI.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/LogAPI.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/PrivilegesAPI.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/SpecificationAPI.java" />
       </list>
     </option>
   </component>
@@ -473,36 +376,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="Hibernate" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="PlatinumMallService" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="PlatinumMallService" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Hibernate" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Services" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1105,16 +978,16 @@
       <workItem from="1484159369687" duration="13000" />
       <workItem from="1484495173991" duration="11108000" />
       <workItem from="1484508707300" duration="18943000" />
-      <workItem from="1484583736571" duration="21562000" />
+      <workItem from="1484583736571" duration="28758000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="195719000" />
+    <option name="totallyTimeSpent" value="202915000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1280" y="23" width="1680" height="1027" extended-state="1" />
-    <editor active="true" />
+    <frame x="1280" y="23" width="1680" height="1027" extended-state="0" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -1137,7 +1010,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Persistence" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22649573" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22649573" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -1204,64 +1077,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/OrderItemAPI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-50">
-          <caret line="51" column="13" selection-start-line="51" selection-start-column="13" selection-end-line="51" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/OrdersAPI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="265">
-          <caret line="158" column="10" selection-start-line="158" selection-start-column="10" selection-end-line="158" selection-end-column="10" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/PhotosAPI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="250">
-          <caret line="118" column="10" selection-start-line="118" selection-start-column="10" selection-end-line="118" selection-end-column="10" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/SpecificationAPI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-215">
-          <caret line="42" column="11" selection-start-line="42" selection-start-column="11" selection-end-line="42" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/UsersAPI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="870">
-          <caret line="64" column="11" selection-start-line="64" selection-start-column="11" selection-end-line="64" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/WishListAPI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="26" column="13" selection-start-line="26" selection-start-column="13" selection-end-line="26" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Plat/Hibernate/MyResource.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="20" column="25" selection-start-line="20" selection-start-column="25" selection-end-line="20" selection-end-column="25" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Plat/Hibernate/RestricationObjects/ItemsView.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
@@ -1288,16 +1103,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="285">
           <caret line="87" column="50" selection-start-line="87" selection-start-column="50" selection-end-line="87" selection-end-column="50" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/StoreAPI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="325">
-          <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="false" />
           </folding>
@@ -1369,14 +1174,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/PrivilegesAPI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="37" column="11" selection-start-line="37" selection-start-column="11" selection-end-line="37" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="280">
@@ -1419,14 +1216,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Plat/Hibernate/Entities/Orders.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="12" column="74" selection-start-line="12" selection-start-column="74" selection-end-line="12" selection-end-column="74" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Plat/Hibernate/Entities/Store.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
@@ -1447,22 +1236,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="285">
           <caret line="31" column="0" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Plat/Hibernate/Entities/Log.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="12" column="68" selection-start-line="12" selection-start-column="68" selection-end-line="12" selection-end-column="68" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Plat/Hibernate/Entities/OrderItem.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="12" column="77" selection-start-line="12" selection-start-column="77" selection-end-line="12" selection-end-column="77" />
           <folding />
         </state>
       </provider>
@@ -1508,14 +1281,6 @@
           <folding>
             <element signature="imports" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/CartAPI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="535">
-          <caret line="86" column="104" selection-start-line="86" selection-start-column="104" selection-end-line="86" selection-end-column="104" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1615,11 +1380,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Plat/Hibernate/Util/DataBaseManager.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/ItemsAPI.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="295">
-          <caret line="213" column="0" selection-start-line="213" selection-start-column="0" selection-end-line="213" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="251">
+          <caret line="300" column="56" selection-start-line="300" selection-start-column="56" selection-end-line="300" selection-end-column="56" />
+          <folding>
+            <element signature="method#getItemsByOperationAndStoreId#0;class#ItemsAPI#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1641,23 +1408,125 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Plat/Hibernate/Entities/Log.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="12" column="68" selection-start-line="12" selection-start-column="68" selection-end-line="12" selection-end-column="68" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Plat/Hibernate/Entities/OrderItem.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="12" column="77" selection-start-line="12" selection-start-column="77" selection-end-line="12" selection-end-column="77" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/OrderItemAPI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="930">
+          <caret line="70" column="69" selection-start-line="70" selection-start-column="69" selection-end-line="70" selection-end-column="69" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/OrdersAPI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="42" column="53" selection-start-line="42" selection-start-column="53" selection-end-line="42" selection-end-column="53" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/CartAPI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1170">
+          <caret line="86" column="104" selection-start-line="86" selection-start-column="104" selection-end-line="86" selection-end-column="104" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/PhotosAPI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="235">
+          <caret line="87" column="41" selection-start-line="87" selection-start-column="41" selection-end-line="87" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/WishListAPI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="450">
+          <caret line="38" column="55" selection-start-line="38" selection-start-column="55" selection-end-line="38" selection-end-column="55" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/UsersAPI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="75" column="0" selection-start-line="75" selection-start-column="0" selection-end-line="75" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Plat/Hibernate/Util/DataBaseManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="109" column="39" selection-start-line="109" selection-start-column="39" selection-end-line="109" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/StoreAPI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Plat/Hibernate/Util/ItemsService.java">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="30" column="37" selection-start-line="29" selection-start-column="0" selection-end-line="30" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Plat/Hibernate/Entities/Orders.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="16" column="22" selection-start-line="16" selection-start-column="16" selection-end-line="16" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/PrivilegesAPI.java">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="480">
-          <caret line="36" column="26" selection-start-line="36" selection-start-column="26" selection-end-line="36" selection-end-column="26" />
+          <caret line="57" column="34" selection-start-line="57" selection-start-column="34" selection-end-line="57" selection-end-column="34" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/ItemsAPI.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/LogAPI.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1196">
-          <caret line="300" column="56" selection-start-line="300" selection-start-column="56" selection-end-line="300" selection-end-column="56" />
-          <folding>
-            <element signature="method#getItemsByOperationAndStoreId#0;class#ItemsAPI#0" expanded="false" />
-          </folding>
+        <state relative-caret-position="285">
+          <caret line="29" column="5" selection-start-line="29" selection-start-column="5" selection-end-line="29" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Plat/Hibernate/Services/SpecificationAPI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="675">
+          <caret line="53" column="87" selection-start-line="53" selection-start-column="87" selection-end-line="53" selection-end-column="87" />
+          <folding />
         </state>
       </provider>
     </entry>

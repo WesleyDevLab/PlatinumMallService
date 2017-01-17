@@ -20,60 +20,45 @@ public class SpecificationAPI {
     DataBaseManager manager = DataBaseManager.getInstance();
 
     @GET
-    public List<Specifications> getAllSpecifications() {
+    public String getAllSpecifications() {
         List<DataBaseObject> objects = manager.find(null, Specifications.class);
-        List<Specifications> result = new ArrayList<>();
-        if (objects != null && objects.size() > 0) {
-        //    objects = EntityCleaner.clean(objects, Specifications.class);
-            for (int i = 0; i < objects.size(); i++) {
-                Specifications node = (Specifications) objects.get(i);
-                result.add(node);
-            }
-        }
-        return result;
+        return JsonParser.parse(objects);
     }
 
     @GET
     @Path("/{itemId}")
-    public List<Specifications> getSpecificationsByItemId(@PathParam("itemId") int itemId) {
-        RuleObject rule = new RuleObject("id", HibernateUtil.EQUAL, itemId);
-        List<DataBaseObject> object = manager.find(rule, Items.class);
-        List<Specifications> result = new ArrayList<>();
+    public String getSpecificationsByItemId(@PathParam("itemId") int itemId) {
+        List<DataBaseObject> object = manager.find(new RuleObject("id", HibernateUtil.EQUAL, itemId), Items.class);
         if (object != null && object.size() > 0) {
-         //   object = EntityCleaner.clean(object, Items.class);
             Items item = (Items) object.get(0);
-            Iterator it = item.getSpecifications().iterator();
-            while (it.hasNext()) {
-                Specifications node = (Specifications) it.next();
-                result.add(node);
-            }
+            List<DataBaseObject> target = new ArrayList<>();
+            for (Specifications specification : item.getSpecifications())
+                target.add((DataBaseObject) specification);
+            return JsonParser.parse(target);
         }
-
-        return result;
+        return new ResponseMessage("There was a problem with the item id").getResponseMessage();
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public String addSpecification(Specifications specification) {
-        List<DataBaseObject> objects = null;
-        RuleObject rule = new RuleObject("id", HibernateUtil.EQUAL, specification.getItem().getId());
-        objects = manager.find(rule, Items.class);
-        if (objects == null || objects.size() == 0) return "There's a problem with the item id";
-        Iterator it = ((Items) objects.get(0)).getSpecifications().iterator();
-        while (it.hasNext()) {
-            Specifications node = (Specifications) it.next();
+        List<DataBaseObject> objects = manager.find(new RuleObject("id", HibernateUtil.EQUAL, specification.getItem().getId()), Items.class);
+        if (objects == null || objects.size() == 0)
+            return new ResponseMessage("There's a problem with the item id").getResponseMessage();
+        Items item = (Items) objects.get(0);
+        for (Specifications node : item.getSpecifications())
             if (node.getSpecificationKey().equalsIgnoreCase(specification.getSpecificationKey()))
-                return "This specificationKey already exist in this item";
-        }
+                return new ResponseMessage("This item already has this specification key").getResponseMessage();
+
         manager.merge(specification);
-        return "Specification has been added";
+        return new ResponseMessage("Specification has been added").getResponseMessage();
     }
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     public String updateSpecification(Specifications specification) {
         manager.update(specification);
-        return "Specification has been updated";
+        return new ResponseMessage("Specification has been updated").getResponseMessage();
     }
 
     @DELETE
@@ -81,10 +66,12 @@ public class SpecificationAPI {
     public String deleteSpecificationById(@PathParam("specificationId") int id) {
         RuleObject ruleObject = new RuleObject("id", HibernateUtil.EQUAL, id);
         List<DataBaseObject> object = manager.find(ruleObject, Specifications.class);
-        if (object == null || object.size() == 0) return "There's a problem with the specification id";
+        if (object == null || object.size() == 0)
+            return new ResponseMessage("There's a problem with the specification id").getResponseMessage();
         Specifications specification = (Specifications) object.get(0);
         manager.delete(specification);
-        return "Specification has been deleted";
+
+        return new ResponseMessage("Specification has been deleted").getResponseMessage();
     }
 
 }

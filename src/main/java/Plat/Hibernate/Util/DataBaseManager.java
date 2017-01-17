@@ -106,6 +106,25 @@ public class DataBaseManager {
         }
     }
 
+    public void mergeList(List<DataBaseObject> objects) {
+        Transaction transaction = null;
+        Session session = null;
+        try {
+            session = sessionFactory.openSession();
+            transaction = session.beginTransaction();
+            for (int i = 0; i < objects.size(); i++)
+                session.merge(objects.get(i));
+            transaction.commit();
+        } catch (HibernateException ex) {
+            ex.printStackTrace();
+            if (transaction != null)
+                transaction.rollback();
+        } finally {
+            if (session != null)
+                session.close();
+        }
+    }
+
     public List<DataBaseObject> findAll(List<RuleObject> rules, Class cls) {
         List<DataBaseObject> result = null;
         Transaction transaction = null;

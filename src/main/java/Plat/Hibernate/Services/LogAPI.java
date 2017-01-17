@@ -1,8 +1,9 @@
 package Plat.Hibernate.Services;
 
 import Plat.Hibernate.Entities.Log;
-import Plat.Hibernate.Util.DataBaseManager;
-import Plat.Hibernate.Util.DataBaseObject;
+import Plat.Hibernate.Entities.OrderItem;
+import Plat.Hibernate.Entities.Orders;
+import Plat.Hibernate.Util.*;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -16,40 +17,37 @@ public class LogAPI {
     DataBaseManager manager = DataBaseManager.getInstance();
 
     @GET
-    public List<Log> getAllLogs() {
-        List<DataBaseObject> objects = manager.find(null, Log.class);
-      //  objects = EntityCleaner.clean(objects, Log.class);
-        List<Log> result = new ArrayList<>();
-        for (int i = 0; i < objects.size(); i++)
-            result.add((Log) objects.get(i));
-        Set<Log> hs = new HashSet<>();
-        hs.addAll(result);
-        result.clear();
-        result.addAll(hs);
+    public String getAllLogs() {
+        List<Log> result = (List<Log>) (List<?>) manager.find(null, Log.class);
         Collections.sort(result, new Comparator<Log>() {
             @Override
             public int compare(Log o1, Log o2) {
                 return (int) (o2.getOrder().getId() - o1.getOrder().getId());
             }
         });
-        return result;
+        List<DataBaseObject> target = (List<DataBaseObject>) (List<?>) result;
+        return JsonParser.parse(target);
     }
 
     @GET
     @Path("{storeId}")
-    public List<Log> getLogsByStoreId(@PathParam("storeId") int storeId) {
-        List<Log> objects = getAllLogs();
-        List<Log> result = new ArrayList<>();
-        for (int i = 0; i < objects.size(); i++)
-           // if (objects.get(i).getAdmin().getStore().getId() == storeId)
-                result.add(objects.get(i));
-        return result;
+    public String getLogsByStoreId(@PathParam("storeId") int storeId) {
+        List<Log> result = (List<Log>) (List<?>) manager.find(null, Log.class);
+        List<DataBaseObject> target = new ArrayList<>();
+        for (int i = 0; i < result.size(); i++) {
+            Log log = result.get(i);
+            Orders order = log.getOrder();
+            OrderItem orderItem = order.getOrderItems().get(0);
+            if (ItemsService.checkItemInStore(orderItem.getItem(), storeId))
+                target.add((DataBaseObject) log);
+        }
+        return JsonParser.parse(target);
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public String addLogRecord(Log log) {
         manager.merge(log);
-        return "Added";
+        return new ResponseMessage("Added").getResponseMessage();
     }
 }

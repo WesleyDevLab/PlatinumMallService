@@ -19,59 +19,47 @@ public class OrderItemAPI {
     DataBaseManager manager = DataBaseManager.getInstance();
 
     @GET
-    public List<OrderItem> getAllOrderItems() {
+    public String getAllOrderItems() {
         List<DataBaseObject> objects = manager.find(null, OrderItem.class);
-        List<OrderItem> result = new ArrayList<>();
-        if (objects != null && objects.size() > 0) {
-        //    objects = EntityCleaner.clean(objects, OrderItem.class);
-            for (int i = 0; i < objects.size(); i++) {
-                OrderItem node = (OrderItem) objects.get(i);
-                result.add(node);
-            }
-        }
-        return result;
+        return JsonParser.parse(objects);
     }
 
     @GET
     @Path("/{orderItemId}")
-    public OrderItem getOrderItemById(@PathParam("orderItemId") int id) {
-        List<OrderItem> objects = getAllOrderItems();
-        for (int i = 0; i < objects.size(); i++) {
-            if (objects.get(i).getId() == id) return objects.get(i);
-        }
-        return null;
+    public String getOrderItemById(@PathParam("orderItemId") int id) {
+        List<DataBaseObject> objects = manager.find(new RuleObject("id", HibernateUtil.EQUAL, id), OrderItem.class);
+        if (objects != null && objects.size() > 0)
+            return JsonParser.parse(objects);
+        return new ResponseMessage("There was a problem in the order item id").getResponseMessage();
     }
 
     @POST
     @Path("/{orderId}")
-    public List<OrderItem> getOrderItemsByOrderId(@PathParam("orderId") int id) {
+    public String getOrderItemsByOrderId(@PathParam("orderId") long id) {
         RuleObject ruleObject = new RuleObject("id", HibernateUtil.EQUAL, id);
         List<DataBaseObject> objects = manager.find(ruleObject, Orders.class);
-        List<OrderItem> result = new ArrayList<>();
         if (objects != null && objects.size() > 0) {
-           // objects = EntityCleaner.clean(objects, Orders.class);
+            List<DataBaseObject> target = new ArrayList<>();
             Orders order = (Orders) objects.get(0);
-            Iterator it = order.getOrderItems().iterator();
-            while (it.hasNext()) {
-                OrderItem node = (OrderItem) it.next();
-                result.add(node);
-            }
+            for (OrderItem orderItem : order.getOrderItems())
+                target.add((DataBaseObject) orderItem);
+            return JsonParser.parse(target);
         }
-        return result;
+        return new ResponseMessage("There was a problem with the order id").getResponseMessage();
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public String addOrderItemRecord(OrderItem orderItem) {
         manager.merge(orderItem);
-        return "Added";
+        return new ResponseMessage("Added").getResponseMessage();
     }
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     public String updateOrderItemRecord(OrderItem orderItem) {
         manager.update(orderItem);
-        return "Updated";
+        return new ResponseMessage("Updated").getResponseMessage();
     }
 
     @DELETE
@@ -79,10 +67,11 @@ public class OrderItemAPI {
     public String deleteOrderItemRecord(@PathParam("orderItemId") int id) {
         RuleObject rule = new RuleObject("id", HibernateUtil.EQUAL, id);
         List<DataBaseObject> objects = manager.find(rule, OrderItem.class);
-        if (objects == null || objects.size() == 0) return "OrderItem id not found";
+        if (objects == null || objects.size() == 0)
+            return new ResponseMessage("There was a problem with the OrderItem id").getResponseMessage();
         OrderItem orderItem = (OrderItem) objects.get(0);
         manager.delete(orderItem);
-        return "Deleted";
+        return new ResponseMessage("Deleted").getResponseMessage();
     }
 
 }

@@ -36,4 +36,8 @@ public class ItemsService {
         });
         return storeItems;
     }
+
+    public static boolean checkItemInStore(Items item, int storeId) {
+        return item.getCategory().getStore().getId() == storeId ? true : false;
+    }
 }
