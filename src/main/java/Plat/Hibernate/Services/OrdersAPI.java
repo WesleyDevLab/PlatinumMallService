@@ -41,8 +41,10 @@ public class OrdersAPI {
                 Orders order = result.get(i);
                 for (OrderItem orderItem : order.getOrderItems()) {
                     Items item = orderItem.getItem();
-                    if (ItemsService.checkItemInStore(item, storeId))
+                    if (ItemsService.checkItemInStore(item, storeId)) {
                         target.add(order);
+                        break;
+                    }
                 }
 
             }

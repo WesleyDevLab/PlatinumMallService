@@ -13,7 +13,7 @@ import java.util.Set;
  * Created by MontaserQasem on 11/12/16.
  */
 @Entity(name = "categories")
-@JsonIgnoreProperties(value = {"brand", "items","store","handler", "hibernateLazyInitializer"})
+@JsonIgnoreProperties(value = {"brand", "items", "store", "handler", "hibernateLazyInitializer"})
 public class Categories implements DataBaseObject {
     private int id;
     private String name;
@@ -47,7 +47,7 @@ public class Categories implements DataBaseObject {
         this.name = name;
     }
 
-    @Column(name = "arabic_name",length = 200)
+    @Column(name = "arabic_name", length = 200)
     @Basic
     public String getArabicName() {
         return arabicName;
@@ -57,7 +57,7 @@ public class Categories implements DataBaseObject {
         this.arabicName = arabicName;
     }
 
-    @ManyToOne(cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "store_id")
     public Store getStore() {
         return store;
@@ -67,7 +67,7 @@ public class Categories implements DataBaseObject {
         this.store = store;
     }
 
-    @ManyToMany(mappedBy = "categories", cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "categories", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     public List<Brand> getBrands() {
         return brands;
     }
@@ -77,12 +77,40 @@ public class Categories implements DataBaseObject {
     }
 
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     public List<Items> getItems() {
         return items;
     }
 
     public void setItems(List<Items> items) {
         this.items = items;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Categories)) return false;
+
+        Categories that = (Categories) o;
+
+        if (getId() != that.getId()) return false;
+        if (getName() != null ? !getName().equals(that.getName()) : that.getName() != null) return false;
+        if (getArabicName() != null ? !getArabicName().equals(that.getArabicName()) : that.getArabicName() != null)
+            return false;
+        if (getStore() != null ? !getStore().equals(that.getStore()) : that.getStore() != null) return false;
+        if (getBrands() != null ? !getBrands().equals(that.getBrands()) : that.getBrands() != null) return false;
+        return getItems() != null ? getItems().equals(that.getItems()) : that.getItems() == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getId();
+        result = 31 * result + (getName() != null ? getName().hashCode() : 0);
+        result = 31 * result + (getArabicName() != null ? getArabicName().hashCode() : 0);
+        result = 31 * result + (getStore() != null ? getStore().hashCode() : 0);
+        result = 31 * result + (getBrands() != null ? getBrands().hashCode() : 0);
+        result = 31 * result + (getItems() != null ? getItems().hashCode() : 0);
+        return result;
     }
 }

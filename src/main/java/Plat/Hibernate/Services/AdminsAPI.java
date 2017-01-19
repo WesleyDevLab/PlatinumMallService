@@ -32,10 +32,13 @@ public class AdminsAPI {
     @Path("/{storeId}")
     public String getAdminsByStoreId(@PathParam("storeId") int storeId) {
         RuleObject ruleObject = new RuleObject("id", HibernateUtil.EQUAL, storeId);
-        List<DataBaseObject> objects = manager.find(ruleObject, Admins.class);
+        List<DataBaseObject> objects = manager.find(ruleObject, Store.class);
         if (objects != null && objects.size() > 0) {
-            objects = EntityInitializer.init(objects, Admins.class);
-            return JsonParser.parse(objects);
+            List<DataBaseObject> target = new ArrayList<>();
+            Store store = (Store) objects.get(0);
+            for (Admins admin : store.getAdmins())
+                target.add((DataBaseObject) admin);
+            return JsonParser.parse(target);
         }
         return new ResponseMessage("There was an error with the store id").getResponseMessage();
     }
@@ -70,9 +73,9 @@ public class AdminsAPI {
             store = (Store) manager.initialize(store, "admins");
             for (Admins admin : store.getAdmins())
                 if (admin.getUsername().equals(userName) && admin.getPassword().equals(password))
-                    return new ResponseMessage("Accepted").getResponseMessage();
+                    return ResponseMessage.createSimpleObject("adminId", admin.getId() + "");
 
-            return new ResponseMessage("Wrong password or username").getResponseMessage();
+            return ResponseMessage.createSimpleObject("adminId", "-1");
         }
         return new ResponseMessage("There was an error with the store id").getResponseMessage();
     }

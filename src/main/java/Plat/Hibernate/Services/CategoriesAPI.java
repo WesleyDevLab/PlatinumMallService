@@ -1,6 +1,8 @@
 package Plat.Hibernate.Services;
 
+import Plat.Hibernate.Entities.Brand;
 import Plat.Hibernate.Entities.Categories;
+import Plat.Hibernate.Entities.Items;
 import Plat.Hibernate.Entities.Store;
 import Plat.Hibernate.Util.*;
 
@@ -97,10 +99,6 @@ public class CategoriesAPI {
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     public String updateCategory(Categories category) {
-        List<DataBaseObject> objects = manager.find(new RuleObject("id", HibernateUtil.EQUAL, category.getId()), Categories.class);
-        Categories node = (Categories) objects.get(0);
-        node = (Categories) manager.initialize(node, "store");
-        category.setStore(node.getStore());
         manager.update(category);
         return new ResponseMessage("Category has been updated successfully").getResponseMessage();
     }

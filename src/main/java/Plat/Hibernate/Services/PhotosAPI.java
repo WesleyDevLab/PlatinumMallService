@@ -41,7 +41,7 @@ public class PhotosAPI {
     @POST
     public String getPhotoNextValue() {
         List<Photos> photos = (List<Photos>) (List<?>) manager.find(null, Photos.class);
-        int maxi = -1;
+        int maxi = 0;
         for (int i = 0; i < photos.size(); i++) {
             Photos photo = photos.get(i);
             String value = photo.getPath(), newValue = "";

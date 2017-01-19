@@ -80,7 +80,7 @@ public class Store implements DataBaseObject {
         this.categories = categories;
     }
 
-    @OneToMany(mappedBy = "store", cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "store",cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
     public List<Admins> getAdmins() {
         return admins;
     }

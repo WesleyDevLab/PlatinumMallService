@@ -213,8 +213,10 @@ public class DataBaseManager {
             if (transaction != null)
                 transaction.rollback();
         } finally {
-            if (session != null)
+            if (session != null) {
+                session.clear();
                 session.close();
+            }
         }
     }
 

@@ -80,21 +80,20 @@ public class ItemsAPI {
             List<Items> items = ItemsService.getItemsByStoreId(storeId);
             if (items == null)
                 return new ResponseMessage("There was a problem in the store id").getResponseMessage();
-            List<Items> orderedItems = new ArrayList<>();
-            for (int i = 0; i < items.size(); i++) {
-                Items item = items.get(i);
-                item = (Items) manager.initialize(item, "itemHits");
-                orderedItems.add(item);
-            }
-            Collections.sort(orderedItems, new Comparator<Items>() {
+            Collections.sort(items, new Comparator<Items>() {
                 @Override
                 public int compare(Items o1, Items o2) {
                     return o2.getItemHitses().size() - o1.getItemHitses().size();
                 }
             });
-
-            List<DataBaseObject> target = (List<DataBaseObject>) (List<?>) orderedItems;
-            return JsonParser.parse(target);
+            String response = "[";
+            for (int i = 0; i < items.size() && i < 10; i++) {
+                response += String.format("{\"name\":\"%s\" , \"value\":\"%d\"}", items.get(i).getName(), items.get(i).getItemHitses().size());
+                if (i + 1 < items.size() && i + 1 < 10)
+                    response += ",";
+            }
+            response += "]";
+            return response;
         }
 
         if (operation.equalsIgnoreCase("getmostwantedtenitemsinwishlistbystoreid")) {
