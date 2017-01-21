@@ -36,7 +36,7 @@ public class GuestAPI {
                     max = (guest.getId() > max) ? guest.getId() : max;
                 }
             }
-            return ResponseMessage.createSimpleObject("nextValue", max + "");
+            return ResponseMessage.createSimpleObject("nextValue", (max + 1) + "");
         }
         return null;
     }

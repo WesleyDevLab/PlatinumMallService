@@ -32,8 +32,8 @@ public class OrdersAPI {
     }
 
     @GET
-    @Path("/{operation}/{id}")
-    public String getOrdersByOperation(@PathParam("operation") String operation, @PathParam("id") int storeId) {
+    @Path("/{operation}/{storeId}")
+    public String getOrdersByOperation(@PathParam("operation") String operation, @PathParam("storeId") int storeId) {
         if (operation.equalsIgnoreCase("getordersbystoreid")) {//gets new requests
             List<Orders> result = (List<Orders>) (List<?>) manager.find(new RuleObject("status", HibernateUtil.EQUAL, 1), Orders.class);
             List<Orders> target = new ArrayList<>();

@@ -31,7 +31,7 @@ public class UsersAPI {
         return new ResponseMessage("There was a problem with the user id").getResponseMessage();
     }
 
-    @GET
+    @POST
     @Path("/{email}/{userPassword}")
     public String loginUser(@PathParam("email") String email, @PathParam("userPassword") String password) {
         return ResponseMessage.createSimpleObject("userid", "" + doLoginUser(email, password));
@@ -64,18 +64,18 @@ public class UsersAPI {
         if (object != null && object.size() > 0)
             return new ResponseMessage("this e-mail is already registered").getResponseMessage();
         manager.merge(user);
-        return new ResponseMessage("User has been added successfully").getResponseMessage();
+        return new ResponseMessage("Your Account has been registered successfully").getResponseMessage();
     }
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     public String updateUser(Users user) {
         manager.update(user);
-        return new ResponseMessage("User has been updated").getResponseMessage();
+        return new ResponseMessage("Your information has been updated").getResponseMessage();
     }
 
     @DELETE
-    @Path("{userId}")
+    @Path("/{userId}")
     public String deleteUser(@PathParam("userId") int userId) {
         List<DataBaseObject> objects = manager.find(new RuleObject("id", HibernateUtil.EQUAL, userId), Users.class);
         if (objects != null && objects.size() > 0) {

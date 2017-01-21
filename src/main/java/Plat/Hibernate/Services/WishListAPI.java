@@ -29,8 +29,10 @@ public class WishListAPI {
     @Path("/{userId}")
     public String getWishListByUserId(@PathParam("userId") int userId) {
         List<DataBaseObject> object = manager.find(new RuleObject("id", HibernateUtil.EQUAL, userId), Users.class);
-        if (object != null && object.size() > 0)
-            return JsonParser.parse(object);
+        if (object != null && object.size() > 0) {
+            List<DataBaseObject> targer = (List<DataBaseObject>) (List<?>) ((Users) (object.get(0))).getWishLists();
+            return JsonParser.parse(targer);
+        }
         return new ResponseMessage("There was a problem with the user id").getResponseMessage();
     }
 
@@ -50,6 +52,6 @@ public class WishListAPI {
         WishList wishList = (WishList) objects.get(0);
         manager.delete(wishList);
 
-        return new ResponseMessage("WishList record deleted").getResponseMessage();
+        return new ResponseMessage("item "+wishList.getItem().getName()+" has been deleted from your wishlist").getResponseMessage();
     }
 }

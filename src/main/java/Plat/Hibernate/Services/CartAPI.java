@@ -41,7 +41,7 @@ public class CartAPI {
         return new ResponseMessage("There was an error with the user id").getResponseMessage();
     }
 
-    @POST
+    @PUT
     @Path("/{cartId}/{quantity}")
     public String updateCartQuantity(@PathParam("cartId") int id, @PathParam("quantity") String quantity) {
         RuleObject rule = new RuleObject("id", HibernateUtil.EQUAL, id);
@@ -55,6 +55,12 @@ public class CartAPI {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public String addCartRecord(Cart cart) {
+        List<RuleObject> rules = new ArrayList<>();
+        rules.add(new RuleObject("user", HibernateUtil.EQUAL, cart.getUser()));
+        rules.add(new RuleObject("item", HibernateUtil.EQUAL, cart.getItem()));
+        List<DataBaseObject> objects = manager.findAll(rules, Cart.class);
+        if (objects != null && objects.size() > 0)
+            return new ResponseMessage("This item is already in your cart if you want to change the quantity go to your cart page").getResponseMessage();
         manager.merge(cart);
         return new ResponseMessage("This item has been added to your cart").getResponseMessage();
     }

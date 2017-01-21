@@ -88,7 +88,7 @@ public class ItemsAPI {
             });
             String response = "[";
             for (int i = 0; i < items.size() && i < 10; i++) {
-                response += String.format("{\"name\":\"%s\" , \"value\":\"%d\"}", items.get(i).getName(), items.get(i).getItemHitses().size());
+                response += String.format("{\"id\":%d , \"name\":\"%s\" , \"value\":\"%d\" }", items.get(i).getId(), items.get(i).getName(), items.get(i).getItemHitses().size());
                 if (i + 1 < items.size() && i + 1 < 10)
                     response += ",";
             }
@@ -148,7 +148,7 @@ public class ItemsAPI {
             return JsonParser.parse(target);
         }
 
-        if (operation.equalsIgnoreCase("getdiscountfromall")) {
+        if (operation.equalsIgnoreCase("getdiscountfromall")) {//from all the mall
             List<Items> items = (List<Items>) (List<?>) manager.find(null, Items.class);
             Collections.sort(items, new Comparator<Items>() {
                 @Override
@@ -165,7 +165,7 @@ public class ItemsAPI {
             return JsonParser.parse(target);
         }
 
-        if (operation.equalsIgnoreCase("getdiscountfromall")) {
+        if (operation.equalsIgnoreCase("getdiscountfromstore")) {
             List<Items> items = ItemsService.getItemsByStoreId(storeId);
             Collections.sort(items, new Comparator<Items>() {
                 @Override
@@ -216,8 +216,13 @@ public class ItemsAPI {
                     }
                 if (!brandFlag) continue;
             }
-            if (itemsView.isInStock() && objects.get(i).getQuantity() == 0) continue;
-            if (itemsView.isSpecialPrices() && objects.get(i).getDiscount() == 0) continue;
+
+            if (itemsView.isInStock() && objects.get(i).getQuantity() == 0)
+                continue;
+
+            if (itemsView.isSpecialPrices() && objects.get(i).getDiscount() == 0)
+                continue;
+
             if (itemsView.getMin() != -1 && itemsView.getMax() != -1)
                 if (objects.get(i).getPrice() < itemsView.getMin() || objects.get(i).getPrice() > itemsView.getMax())
                     continue;
