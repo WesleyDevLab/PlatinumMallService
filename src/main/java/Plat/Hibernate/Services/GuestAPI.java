@@ -5,6 +5,7 @@ import Plat.Hibernate.Util.*;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -19,7 +20,7 @@ public class GuestAPI {
     DataBaseManager manager = DataBaseManager.getInstance();
 
     @GET
-    public String getlAllGuests() {
+    public String getlAllGuests() throws IOException {
         List<DataBaseObject> objects = manager.find(null, Guests.class);
         return JsonParser.parse(EntityInitializer.init(objects, Guests.class));
     }

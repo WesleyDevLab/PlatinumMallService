@@ -8,6 +8,7 @@ import Plat.Hibernate.Util.*;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -19,7 +20,7 @@ public class CategoriesAPI {
     DataBaseManager manager = DataBaseManager.getInstance();
 
     @GET
-    public String getAllCategories() {
+    public String getAllCategories() throws IOException {
         List<DataBaseObject> objects = manager.find(null, Categories.class);
         return JsonParser.parse(EntityInitializer.init(objects, Categories.class));
     }
@@ -27,7 +28,7 @@ public class CategoriesAPI {
 
     @GET
     @Path("/{storeId}")
-    public String getCategoriesByStoreId(@PathParam("storeId") int storeId) {
+    public String getCategoriesByStoreId(@PathParam("storeId") int storeId) throws IOException {
         RuleObject rule = new RuleObject("id", HibernateUtil.EQUAL, storeId);
         List<DataBaseObject> objects = manager.find(rule, Store.class);
         if (objects != null && objects.size() > 0) {
@@ -43,16 +44,14 @@ public class CategoriesAPI {
 
     @GET
     @Path("/{storeId}/{categoryId}")
-    public String getCategoryByIdAndStoreId(@PathParam("storeId") int storeId, @PathParam("categoryId") int catId) {
+    public String getCategoryByIdAndStoreId(@PathParam("storeId") int storeId, @PathParam("categoryId") int catId) throws IOException {
         List<DataBaseObject> objects = manager.find(new RuleObject("id", HibernateUtil.EQUAL, catId), Categories.class);
         if (objects != null && objects.size() > 0) {
             Categories category = (Categories) objects.get(0);
             category = (Categories) manager.initialize(category, "store");
-            if (category.getStore().getId() == storeId) {
-                List<DataBaseObject> target = new ArrayList<>();
-                target.add((DataBaseObject) category);
-                return JsonParser.parse(target);
-            }
+            if (category.getStore().getId() == storeId)
+                return JsonParser.parse(category);
+
             return new ResponseMessage("There was an error with the store id").getResponseMessage();
         }
         return new ResponseMessage("There was an error with the category id").getResponseMessage();
@@ -60,7 +59,7 @@ public class CategoriesAPI {
 
     @POST
     @Path("/{catId}")
-    public String getCategoryById(@PathParam("catId") int catId) {
+    public String getCategoryById(@PathParam("catId") int catId) throws IOException {
         RuleObject rule = new RuleObject("id", HibernateUtil.EQUAL, catId);
         List<DataBaseObject> objects = manager.find(rule, Categories.class);
         if (objects == null || objects.size() == 0)
@@ -70,7 +69,7 @@ public class CategoriesAPI {
 
     @POST
     @Path("/{storeId}/{categoryName}")
-    public String getCategoryByStoreIdAndName(@PathParam("storeId") int storeId, @PathParam("categoryName") String cateName) {
+    public String getCategoryByStoreIdAndName(@PathParam("storeId") int storeId, @PathParam("categoryName") String cateName) throws IOException {
         List<DataBaseObject> objects = manager.find(new RuleObject("name", HibernateUtil.LIKE, cateName), Categories.class);
         return JsonParser.parse(objects);
     }

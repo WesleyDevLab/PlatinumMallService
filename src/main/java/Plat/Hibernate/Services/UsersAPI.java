@@ -5,6 +5,7 @@ import Plat.Hibernate.Util.*;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,17 +18,17 @@ public class UsersAPI {
     DataBaseManager manager = DataBaseManager.getInstance();
 
     @GET
-    public String getAllUsers() {
+    public String getAllUsers() throws IOException {
         List<DataBaseObject> objects = manager.find(null, Users.class);
         return JsonParser.parse(objects);
     }
 
     @GET
     @Path("/{userId}")
-    public String getUserById(@PathParam("userId") int userId) {
+    public String getUserById(@PathParam("userId") int userId) throws IOException {
         List<DataBaseObject> objects = manager.find(new RuleObject("id", HibernateUtil.EQUAL, userId), Users.class);
         if (objects != null && objects.size() > 0)
-            return JsonParser.parse(objects);
+            return JsonParser.parse(objects.get(0));
         return new ResponseMessage("There was a problem with the user id").getResponseMessage();
     }
 
@@ -51,9 +52,9 @@ public class UsersAPI {
 
     @POST
     @Path("/{email}")
-    public String getUserByEmail(@PathParam("email") String email) {
+    public String getUserByEmail(@PathParam("email") String email) throws IOException {
         List<DataBaseObject> objects = manager.find(new RuleObject("email", HibernateUtil.LIKE, email), Users.class);
-        return JsonParser.parse(objects);
+        return JsonParser.parse(objects.get(0));
     }
 
     @POST

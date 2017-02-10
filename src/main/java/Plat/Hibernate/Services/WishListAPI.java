@@ -7,6 +7,7 @@ import Plat.Hibernate.Util.*;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -20,14 +21,14 @@ public class WishListAPI {
     DataBaseManager manager = DataBaseManager.getInstance();
 
     @GET
-    public String getAllWishLists() {
+    public String getAllWishLists() throws IOException {
         List<DataBaseObject> objects = manager.find(null, WishList.class);
         return JsonParser.parse(objects);
     }
 
     @GET
     @Path("/{userId}")
-    public String getWishListByUserId(@PathParam("userId") int userId) {
+    public String getWishListByUserId(@PathParam("userId") int userId) throws IOException {
         List<DataBaseObject> object = manager.find(new RuleObject("id", HibernateUtil.EQUAL, userId), Users.class);
         if (object != null && object.size() > 0) {
             List<DataBaseObject> targer = (List<DataBaseObject>) (List<?>) ((Users) (object.get(0))).getWishLists();

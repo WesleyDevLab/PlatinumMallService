@@ -6,6 +6,7 @@ import Plat.Hibernate.Util.*;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -19,23 +20,23 @@ public class OrderItemAPI {
     DataBaseManager manager = DataBaseManager.getInstance();
 
     @GET
-    public String getAllOrderItems() {
+    public String getAllOrderItems() throws IOException {
         List<DataBaseObject> objects = manager.find(null, OrderItem.class);
         return JsonParser.parse(objects);
     }
 
     @GET
     @Path("/{orderItemId}")
-    public String getOrderItemById(@PathParam("orderItemId") int id) {
+    public String getOrderItemById(@PathParam("orderItemId") int id) throws IOException {
         List<DataBaseObject> objects = manager.find(new RuleObject("id", HibernateUtil.EQUAL, id), OrderItem.class);
         if (objects != null && objects.size() > 0)
-            return JsonParser.parse(objects);
+            return JsonParser.parse(objects.get(0));
         return new ResponseMessage("There was a problem in the order item id").getResponseMessage();
     }
 
     @POST
     @Path("/{orderId}")
-    public String getOrderItemsByOrderId(@PathParam("orderId") long id) {
+    public String getOrderItemsByOrderId(@PathParam("orderId") long id) throws IOException {
         RuleObject ruleObject = new RuleObject("id", HibernateUtil.EQUAL, id);
         List<DataBaseObject> objects = manager.find(ruleObject, Orders.class);
         if (objects != null && objects.size() > 0) {

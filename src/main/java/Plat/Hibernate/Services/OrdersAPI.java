@@ -5,6 +5,7 @@ import Plat.Hibernate.Util.*;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -16,24 +17,24 @@ public class OrdersAPI {
     DataBaseManager manager = DataBaseManager.getInstance();
 
     @GET
-    public String getAllOrders() {
+    public String getAllOrders() throws IOException {
         List<DataBaseObject> objects = manager.find(null, Orders.class);
         return JsonParser.parse(objects);
     }
 
     @GET
     @Path("/{orderId}")
-    public String getOrderByOrderId(@PathParam("orderId") long id) {
+    public String getOrderByOrderId(@PathParam("orderId") long id) throws IOException {
         RuleObject rule = new RuleObject("id", HibernateUtil.EQUAL, id);
         List<DataBaseObject> objects = manager.find(rule, Orders.class);
         if (objects != null && objects.size() > 0)
-            return JsonParser.parse(objects);
+            return JsonParser.parse(objects.get(0));
         return new ResponseMessage("There was a problem with the order id").getResponseMessage();
     }
 
     @GET
     @Path("/{operation}/{storeId}")
-    public String getOrdersByOperation(@PathParam("operation") String operation, @PathParam("storeId") int storeId) {
+    public String getOrdersByOperation(@PathParam("operation") String operation, @PathParam("storeId") int storeId) throws IOException {
         if (operation.equalsIgnoreCase("getordersbystoreid")) {//gets new requests
             List<Orders> result = (List<Orders>) (List<?>) manager.find(new RuleObject("status", HibernateUtil.EQUAL, 1), Orders.class);
             List<Orders> target = new ArrayList<>();
@@ -64,7 +65,7 @@ public class OrdersAPI {
 
     @POST
     @Path("/{userId}")
-    public String getOrdersByUserId(@PathParam("userId") int userId) {
+    public String getOrdersByUserId(@PathParam("userId") int userId) throws IOException {
         List<DataBaseObject> objects = manager.find(new RuleObject("id", HibernateUtil.EQUAL, userId), Users.class);
         if (objects != null && objects.size() > 0) {
             List<DataBaseObject> target = new ArrayList<>();

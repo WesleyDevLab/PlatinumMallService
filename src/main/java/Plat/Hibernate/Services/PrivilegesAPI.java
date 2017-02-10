@@ -6,6 +6,7 @@ import Plat.Hibernate.Util.*;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,16 +19,16 @@ public class PrivilegesAPI {
     DataBaseManager manager = DataBaseManager.getInstance();
 
     @GET
-    public String getAllPrivileges() {
+    public String getAllPrivileges() throws IOException {
         List<DataBaseObject> objects = manager.find(null, Privileges.class);
         return JsonParser.parse(objects);
     }
 
     @GET
     @Path("/{privilegeId}")
-    public String getPrivilegeById(@PathParam("privilegeId") int prvId) {
+    public String getPrivilegeById(@PathParam("privilegeId") int prvId) throws IOException {
         List<DataBaseObject> objects = manager.find(new RuleObject("id", HibernateUtil.EQUAL, prvId), Privileges.class);
-        return JsonParser.parse(objects);
+        return JsonParser.parse(objects.get(0));
     }
 
     @POST

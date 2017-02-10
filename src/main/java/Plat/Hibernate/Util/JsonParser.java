@@ -3,6 +3,7 @@ package Plat.Hibernate.Util;
 import Plat.Hibernate.Entities.Address;
 import org.codehaus.jackson.map.ObjectMapper;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -24,6 +25,19 @@ public class JsonParser {
             ex.printStackTrace();
         } finally {
             result += "]";
+            return result;
+        }
+    }
+
+    public static String parse(DataBaseObject object) {
+        if (object == null) return null;
+        String result = "";
+        try {
+            result += mapper.writeValueAsString(object);
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
             return result;
         }
     }

@@ -7,6 +7,7 @@ import Plat.Hibernate.Util.*;
 import javax.json.Json;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -18,7 +19,7 @@ public class ItemsAPI {
     DataBaseManager manager = DataBaseManager.getInstance();
 
     @GET
-    public String getAllItems() {
+    public String getAllItems() throws IOException {
         List<DataBaseObject> objects = manager.find(null, Items.class);
         List<Items> result = new ArrayList<>();
         for (int i = 0; i < objects.size(); i++)
@@ -35,17 +36,18 @@ public class ItemsAPI {
 
     @GET
     @Path("/{itemId}")
-    public String getItemById(@PathParam("itemId") int id) {
+    public String getItemById(@PathParam("itemId") int id) throws IOException {
         RuleObject rule = new RuleObject("id", HibernateUtil.EQUAL, id);
         List<DataBaseObject> objects = manager.find(rule, Items.class);
         if (objects != null && objects.size() > 0)
-            return JsonParser.parse(EntityInitializer.init(objects, Items.class));
+           return JsonParser.parse((EntityInitializer.init(objects, Items.class)).get(0));
+
         return new ResponseMessage("There was an error with the item id").getResponseMessage();
     }
 
     @GET
     @Path("/{storeId}/{itemName}")
-    public String getItemsByNameAndStoreId(@PathParam("storeId") int storeId, @PathParam("itemName") String name) {
+    public String getItemsByNameAndStoreId(@PathParam("storeId") int storeId, @PathParam("itemName") String name) throws IOException {
         List<DataBaseObject> objects = manager.find(new RuleObject("name", HibernateUtil.LIKE, name), Items.class);
         List<DataBaseObject> targer = new ArrayList<>();
         for (int i = 0; i < objects.size(); i++) {
@@ -60,14 +62,14 @@ public class ItemsAPI {
 
     @POST
     @Path("/{itemName}")
-    public String getItemsByName(@PathParam("itemName") String name) {
+    public String getItemsByName(@PathParam("itemName") String name) throws IOException {
         List<DataBaseObject> objects = manager.find(new RuleObject("name", HibernateUtil.LIKE, name), Items.class);
         return JsonParser.parse(objects);
     }
 
     @POST
     @Path("/{operation}/{storeId}")
-    public String getItemsByOperationAndStoreId(@PathParam("operation") String operation, @PathParam("storeId") int storeId) {
+    public String getItemsByOperationAndStoreId(@PathParam("operation") String operation, @PathParam("storeId") int storeId) throws IOException {
         if (operation.equalsIgnoreCase("getitemsbystoreid")) {
             List<Items> items = ItemsService.getItemsByStoreId(storeId);
             if (items == null)
@@ -189,7 +191,7 @@ public class ItemsAPI {
     @POST
     @Path("{storeId}/{sort}/{sortValue}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public String getItemsByObjectView(ItemsView itemsView, @PathParam("storeId") int storeId, @PathParam("sort") boolean sort, @PathParam("sortValue") String sortValue) {
+    public String getItemsByObjectView(ItemsView itemsView, @PathParam("storeId") int storeId, @PathParam("sort") boolean sort, @PathParam("sortValue") String sortValue) throws IOException {
         List<Items> objects = ItemsService.getItemsByStoreId(storeId);
         List<Items> result = new ArrayList<>();
 

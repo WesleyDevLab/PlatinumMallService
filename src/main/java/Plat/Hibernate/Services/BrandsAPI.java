@@ -8,6 +8,7 @@ import Plat.Hibernate.Util.*;
 import javax.json.Json;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -20,26 +21,26 @@ public class BrandsAPI {
     DataBaseManager manager = DataBaseManager.getInstance();
 
     @GET
-    public String getAllBrands() {
+    public String getAllBrands() throws IOException {
         List<DataBaseObject> objects = manager.find(null, Brand.class);
         return JsonParser.parse(EntityInitializer.init(objects, Brand.class));
     }
 
     @GET
     @Path("/{brandId}")
-    public String getBrandById(@PathParam("brandId") int brandId) {
+    public String getBrandById(@PathParam("brandId") int brandId) throws IOException {
         RuleObject ruleObject = new RuleObject("id", HibernateUtil.EQUAL, brandId);
         List<DataBaseObject> objects = manager.find(ruleObject, Brand.class);
         if (objects != null && objects.size() > 0) {
             objects = EntityInitializer.init(objects, Brand.class);
-            return JsonParser.parse(objects);
+            return JsonParser.parse(objects.get(0));
         }
         return new ResponseMessage("There was an error with the id").getResponseMessage();
     }
 
     @POST
     @Path("/{brandName}")
-    public String getBrandsByName(@PathParam("brandName") String brandName) {
+    public String getBrandsByName(@PathParam("brandName") String brandName) throws IOException {
         RuleObject ruleObject = new RuleObject("name", HibernateUtil.LIKE, brandName);
         List<DataBaseObject> objects = manager.find(ruleObject, Brand.class);
         if (objects != null && objects.size() > 0) {
@@ -51,7 +52,7 @@ public class BrandsAPI {
 
     @POST
     @Path("/{operation}/{storeId}")
-    public String getBrandsByOperation(@PathParam("operation") String operation, @PathParam("storeId") int storeId) {
+    public String getBrandsByOperation(@PathParam("operation") String operation, @PathParam("storeId") int storeId) throws IOException {
         if (operation.equalsIgnoreCase("getBrandsByStoreId")) {
             List<DataBaseObject> objects = manager.find(new RuleObject("id", HibernateUtil.EQUAL, storeId), Store.class);
             if (objects != null && objects.size() > 0) {

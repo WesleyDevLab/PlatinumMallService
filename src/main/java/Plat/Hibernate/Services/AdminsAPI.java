@@ -6,6 +6,7 @@ import Plat.Hibernate.Util.*;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class AdminsAPI {
     DataBaseManager manager = DataBaseManager.getInstance();
 
     @GET
-    public String getAllAdmins() {
+    public String getAllAdmins() throws IOException {
         List<DataBaseObject> objects = manager.find(null, Admins.class);
         if (objects != null && objects.size() > 0) {
             objects = EntityInitializer.init(objects, Admins.class);
@@ -30,7 +31,7 @@ public class AdminsAPI {
 
     @GET
     @Path("/{storeId}")
-    public String getAdminsByStoreId(@PathParam("storeId") int storeId) {
+    public String getAdminsByStoreId(@PathParam("storeId") int storeId) throws IOException {
         RuleObject ruleObject = new RuleObject("id", HibernateUtil.EQUAL, storeId);
         List<DataBaseObject> objects = manager.find(ruleObject, Store.class);
         if (objects != null && objects.size() > 0) {
@@ -45,7 +46,7 @@ public class AdminsAPI {
 
     @GET
     @Path("/{storeId}/{adminId}")
-    public String getAdminByAdminIdAndStoreId(@PathParam("storeId") int storeId, @PathParam("adminId") int adminId) {
+    public String getAdminByAdminIdAndStoreId(@PathParam("storeId") int storeId, @PathParam("adminId") int adminId) throws IOException {
         RuleObject ruleObject = new RuleObject("id", HibernateUtil.EQUAL, storeId);
         List<DataBaseObject> storeObject = manager.find(ruleObject, Store.class);
         if (storeObject != null && storeObject.size() > 0) {
@@ -57,7 +58,7 @@ public class AdminsAPI {
                     List<DataBaseObject> object = new ArrayList<>();
                     object.add(((DataBaseObject) admin));
                     object = EntityInitializer.init(object, Admins.class);
-                    return JsonParser.parse(object);
+                    return JsonParser.parse(object.get(0));
                 }
             }
         }

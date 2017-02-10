@@ -7,6 +7,7 @@ import Plat.Hibernate.Util.*;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -17,7 +18,7 @@ public class LogAPI {
     DataBaseManager manager = DataBaseManager.getInstance();
 
     @GET
-    public String getAllLogs() {
+    public String getAllLogs() throws IOException {
         List<Log> result = (List<Log>) (List<?>) manager.find(null, Log.class);
         Collections.sort(result, new Comparator<Log>() {
             @Override
@@ -31,7 +32,7 @@ public class LogAPI {
 
     @GET
     @Path("{storeId}")
-    public String getLogsByStoreId(@PathParam("storeId") int storeId) {
+    public String getLogsByStoreId(@PathParam("storeId") int storeId) throws IOException {
         List<Log> result = (List<Log>) (List<?>) manager.find(null, Log.class);
         List<DataBaseObject> target = new ArrayList<>();
         for (int i = 0; i < result.size(); i++) {

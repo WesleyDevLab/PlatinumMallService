@@ -6,6 +6,7 @@ import Plat.Hibernate.Util.*;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -19,7 +20,7 @@ public class CartAPI {
     DataBaseManager manager = DataBaseManager.getInstance();
 
     @GET
-    public String getAllCarts() {
+    public String getAllCarts() throws IOException {
         List<DataBaseObject> objects = manager.find(null, Cart.class);
         objects = EntityInitializer.init(objects, Cart.class);
         return JsonParser.parse(objects);
@@ -27,7 +28,7 @@ public class CartAPI {
 
     @GET
     @Path("/{userId}")
-    public String getCartsByUserId(@PathParam("userId") int userId) {
+    public String getCartsByUserId(@PathParam("userId") int userId) throws IOException {
         RuleObject ruleObject = new RuleObject("id", HibernateUtil.EQUAL, userId);
         List<DataBaseObject> objects = manager.find(ruleObject, Users.class);
         if (objects != null && objects.size() > 0) {

@@ -7,6 +7,7 @@ import Plat.Hibernate.Util.*;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -19,14 +20,14 @@ public class PhotosAPI {
     DataBaseManager manager = DataBaseManager.getInstance();
 
     @GET
-    public String getAllPhotos() {
+    public String getAllPhotos() throws IOException {
         List<DataBaseObject> objects = manager.find(null, Photos.class);
         return JsonParser.parse(objects);
     }
 
     @GET
     @Path("/{itemId}")
-    public String getPhotosByItemId(@PathParam("itemId") int itemId) {
+    public String getPhotosByItemId(@PathParam("itemId") int itemId) throws IOException {
         List<DataBaseObject> object = manager.find(new RuleObject("id", HibernateUtil.EQUAL, itemId), Items.class);
         if (object != null && object.size() > 0) {
             Items item = (Items) object.get(0);

@@ -6,6 +6,7 @@ import Plat.Hibernate.Util.*;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,14 +19,14 @@ public class AddressAPI {
     DataBaseManager manager = DataBaseManager.getInstance();
 
     @GET
-    public String getAllAddresses() {
+    public String getAllAddresses() throws IOException {
         List<DataBaseObject> objects = manager.find(null, Address.class);
         return JsonParser.parse(objects);
     }
 
     @GET
     @Path("/{storeId}")
-    public String getAddressesByStoreId(@PathParam("storeId") int storeId) {
+    public String getAddressesByStoreId(@PathParam("storeId") int storeId) throws IOException {
         RuleObject ruleObject = new RuleObject("id", HibernateUtil.EQUAL, storeId);
         List<DataBaseObject> objects = manager.find(ruleObject, Store.class);
         if (objects != null && objects.size() > 0) {

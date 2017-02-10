@@ -5,6 +5,7 @@ import Plat.Hibernate.Util.*;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,14 +18,14 @@ public class ItemHitsAPI {
     DataBaseManager manager = DataBaseManager.getInstance();
 
     @GET
-    public String getAllItemHits() {
+    public String getAllItemHits() throws IOException {
         List<DataBaseObject> objects = manager.find(null, ItemHits.class);
         return JsonParser.parse(EntityInitializer.init(objects, ItemHits.class));
     }
 
     @GET
     @Path("/{storeId}")
-    public String getItemHitsByStoreId(@PathParam("storeId") int storeId) {
+    public String getItemHitsByStoreId(@PathParam("storeId") int storeId) throws IOException {
         List<DataBaseObject> objects = manager.find(new RuleObject("id", HibernateUtil.EQUAL, storeId), Store.class);
         if (objects != null && objects.size() > 0) {
             List<DataBaseObject> target = new ArrayList<>();
